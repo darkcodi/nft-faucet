@@ -1,0 +1,17 @@
+@page "/step4"
+@inherits Step4Component
+
+@if (TransactionHash != null)
+{
+    <Result Status="success"
+            Title="Transaction for token minting was successfully created!"
+            SubTitle="@($"Transaction: {TransactionHash}. Please wait for 1-5 minutes till transaction is completed.")">
+        <Extra>
+            <Button Type="primary" OnClick="@Reset">Start again</Button>
+        </Extra>
+    </Result>
+}
+else
+{
+    <TextWithIcon Text="Minting is in progress... Please wait." Icon="loading-3-quarters" Color="blue" Level="4" />
+}

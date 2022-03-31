@@ -1,17 +1,26 @@
-@inherits LayoutComponentBase
+﻿@inherits MainLayoutComponent
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+<Layout Style="background-color: #FFFFFF; height: 100%;">
+    <Content Style="padding: 0 50px; display: flex; flex-direction: column;">
+        <PageHeader Title="NFT faucet" Subtitle="@Subtitle" Class="create-nft-header" />
+        <Steps Current="@(AppState.Navigation.CurrentStep - 1)" Type="navigation" Class="fix-alignment">
+            <Step Title="Specify token metadata"/>
+            <Step Title="Review metadata details"/>
+            <Step Title="Review mint details"/>
+            <Step Title="Wait for token minting"/>
+        </Steps>
+        <div style="flex-grow: 3;">
             @Body
-        </article>
-    </main>
-</div>
+        </div>
+        <Affix OffsetBottom="10">
+            <div style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; align-items: center;">
+                <Button Type="@ButtonType.Default" Size="large" Icon="arrow-left" Style="@BackButtonStyle" OnClick="@AppState.Navigation.GoBack">
+                    Back
+                </Button>
+                <Button Type="@ButtonType.Primary" Size="large" Icon="@ForwardButtonIcon" Style="@ForwardButtonStyle" OnClick="@AppState.Navigation.GoForward" Loading="@AppState.Storage.UploadIsInProgress">
+                    @ForwardButtonText
+                </Button>
+            </div>
+        </Affix>
+    </Content>
+</Layout>

@@ -1,0 +1,37 @@
+@inherits ComponentBase
+
+@code
+{
+    [Parameter] public string Icon { get; set; }
+    [Parameter] public string Text { get; set; }
+    [Parameter] public string Color { get; set; } = "black";
+    [Parameter] public int? Level { get; set; }
+    [Parameter] public string FontSize { get; set; } = "1em";
+
+    private string IconStyle => $"display: inline; font-size: {FontSize};";
+    private string TitleStyle => $"color: {Color};" + (Level.HasValue ? "margin-bottom: 0;" : $"font-size: {FontSize};");
+}
+
+<Space Align="center">
+    @if (!string.IsNullOrEmpty(Icon))
+    {
+        <SpaceItem>
+            <div class="space-item">
+                <Icon Type="@Icon" Style="@IconStyle"></Icon>
+            </div>
+        </SpaceItem>
+    }
+    @if (!string.IsNullOrEmpty(Text))
+    {
+        if (Level == null)
+        {
+            <SpaceItem>
+                <Text Style="@TitleStyle">@Text</Text>
+            </SpaceItem>
+        }
+        else
+        {
+            <Title Level="@Level.Value" Style="@TitleStyle">@Text</Title>
+        }
+    }
+</Space>

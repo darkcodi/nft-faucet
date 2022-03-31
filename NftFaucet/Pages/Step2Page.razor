@@ -1,0 +1,13 @@
+@page "/step2"
+@inherits Step2Component
+
+<Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+    <SpaceItem>
+        <Title Level="4" Style="margin-bottom: 0;">Token metadata:</Title>
+    </SpaceItem>
+    <SpaceItem Class="drk-full-width">
+        <div class="@EditorClass">
+            <MonacoEditor @ref="Editor" Id="metadata-monaco-editor" ConstructionOptions="EditorConstructionOptions"/>
+        </div>
+    </SpaceItem>
+</Space>
