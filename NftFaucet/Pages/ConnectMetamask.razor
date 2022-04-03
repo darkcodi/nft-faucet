@@ -2,6 +2,18 @@
 @layout EmptyLayout
 @inherits ConnectMetamaskComponent
 
-<h1>You should connect MetaMask first!</h1>
-
-<Button Type="@ButtonType.Primary" OnClick="Connect">Connect</Button>
+<Space Align="center" Direction="DirectionVHType.Horizontal" Class="drk-vertical-space-center">
+    <SpaceItem Class="drk-full-height">
+        <Space Align="center" Direction="DirectionVHType.Vertical" Class="drk-vertical-space-center" Style="align-items: center !important;">
+            <SpaceItem Style="height: 50%">
+                <img src="./images/metamask_fox.svg" alt="metamask" style="height: 100%"/>
+            </SpaceItem>
+            <SpaceItem>
+                <Title Level="1">@TitleText</Title>
+            </SpaceItem>
+            <SpaceItem>
+                <Button Type="@ButtonType.Primary" Size="@ButtonSize.Large" OnClick="Connect">@ButtonText</Button>
+            </SpaceItem>
+        </Space>
+    </SpaceItem>
+</Space>
