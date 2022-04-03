@@ -3,13 +3,24 @@
 
 @if (TransactionHash == null)
 {
-    <TextWithIcon Text="Minting is in progress... Please wait." Icon="loading-3-quarters" Color="blue" Level="4" />
+    <Space Align="center" Direction="DirectionVHType.Horizontal" Class="drk-vertical-space-center">
+        <SpaceItem Class="drk-full-height">
+            <Space Align="center" Direction="DirectionVHType.Vertical" Class="drk-vertical-space-center" Style="align-items: center !important;">
+                <SpaceItem>
+                    <Spin size="large" />
+                </SpaceItem>
+                <SpaceItem>
+                    <Title Level="3">MetaMask will show a transaction signing pop-up. Please approve.</Title>
+                </SpaceItem>
+            </Space>
+        </SpaceItem>
+    </Space>
 }
 else if (TransactionHash.Value.IsSuccess)
 {
     <Result Status="success"
             Title="Transaction was successfully created!"
-            SubTitle="@($"Transaction: {TransactionHash}. Please wait for 1-5 minutes till transaction is completed.")">
+            SubTitle="@($"Transaction: {TransactionHash.Value.Value}. Please wait for 1-5 minutes till transaction is completed.")">
         <Extra>
             <Button Type="primary" OnClick="@Reset">Start new mint</Button>
         </Extra>
