@@ -66,14 +66,16 @@ public class Step2Component : BasicComponent
 
     private string GetCurrentMetadataJson()
     {
-        var imageUrl = IpfsService.GetUrlToGateway(AppState.Storage.IpfsImageUrl, AppState.Storage.IpfsGatewayType);
+        var imageUrl = AppState?.Storage?.IpfsImageUrl != null
+            ? IpfsService.GetUrlToGateway(AppState.Storage.IpfsImageUrl, AppState.Storage.IpfsGatewayType)
+            : null;
 
         var metadata = new TokenMetadata
         {
-            Name = AppState.Storage.TokenName,
-            Description = AppState.Storage.TokenDescription,
-            Image = imageUrl.OriginalString,
-            ExternalUrl = "https://nft-faucet.darkcodi.xyz/",
+            Name = AppState?.Storage?.TokenName,
+            Description = AppState?.Storage?.TokenDescription,
+            Image = imageUrl?.OriginalString,
+            ExternalUrl = "https://darkcodi.github.io/nft-faucet/",
         };
 
         var metadataJson = JsonConvert.SerializeObject(metadata, Formatting.Indented);
