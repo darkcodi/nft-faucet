@@ -1,12 +1,12 @@
+using AntDesign;
 using NftFaucet.Components;
+using NftFaucet.Models.Enums;
 
 namespace NftFaucet.Shared;
 
 public class MainLayoutComponent : LayoutBasicComponent
 {
     private const int StepsCount = 4;
-
-    protected string Subtitle => $"Address: {AppState?.Metamask?.Address ?? "<null>"}; Chain: {AppState?.Metamask?.Network?.ToString() ?? "<unknown>"} ({AppState?.Metamask?.ChainId.ToString() ?? "<null>"})";
 
     protected bool IsFirstStep => AppState.Navigation.CurrentStep == 1;
     protected bool IsLastStep => AppState.Navigation.CurrentStep == StepsCount;
@@ -26,4 +26,17 @@ public class MainLayoutComponent : LayoutBasicComponent
         3 => "send",
         _ => "arrow-right",
     };
+
+    protected PresetColor ChainColor => AppState?.Metamask?.Network switch
+    {
+        EthereumNetwork.EthereumMainnet => PresetColor.Cyan,
+        EthereumNetwork.Ropsten => PresetColor.Volcano,
+        EthereumNetwork.Rinkeby => PresetColor.Gold,
+        EthereumNetwork.Goerli => PresetColor.GeekBlue,
+        EthereumNetwork.Kovan => PresetColor.Purple,
+        EthereumNetwork.PolygonMainnet => PresetColor.Green,
+        EthereumNetwork.PolygonMumbai => PresetColor.Pink,
+        _ => PresetColor.Yellow,
+    };
+
 }

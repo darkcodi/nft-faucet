@@ -2,7 +2,13 @@
 
 <Layout Style="background-color: #FFFFFF; height: 100%;">
     <Content Style="padding: 0 50px; display: flex; flex-direction: column;">
-        <PageHeader Title="NFT faucet" Subtitle="@Subtitle" Class="create-nft-header" />
+        <PageHeader Class="create-nft-header">
+            <PageHeaderTitle>NFT Faucet</PageHeaderTitle>
+            <PageHeaderTags>
+                <Tag PresetColor="@PresetColor.Blue">Address: @(AppState?.Metamask?.Address ?? "<null>")</Tag>
+                <Tag PresetColor="@ChainColor">@("Chain: " + (AppState?.Metamask?.Network?.ToString() ?? "<unknown>") + " (" + (AppState?.Metamask?.ChainId.ToString() ?? "<null>") + ")")</Tag>
+            </PageHeaderTags>
+        </PageHeader>
         <Steps Current="@(AppState.Navigation.CurrentStep - 1)" Type="navigation" Class="fix-alignment">
             <Step Title="Specify token metadata"/>
             <Step Title="Review metadata details"/>
