@@ -1,17 +1,27 @@
 @page "/step4"
 @inherits Step4Component
 
-@if (TransactionHash != null)
+@if (TransactionHash == null)
+{
+    <TextWithIcon Text="Minting is in progress... Please wait." Icon="loading-3-quarters" Color="blue" Level="4" />
+}
+else if (TransactionHash.Value.IsSuccess)
 {
     <Result Status="success"
-            Title="Transaction for token minting was successfully created!"
+            Title="Transaction was successfully created!"
             SubTitle="@($"Transaction: {TransactionHash}. Please wait for 1-5 minutes till transaction is completed.")">
         <Extra>
-            <Button Type="primary" OnClick="@Reset">Start again</Button>
+            <Button Type="primary" OnClick="@Reset">Start new mint</Button>
         </Extra>
     </Result>
 }
 else
 {
-    <TextWithIcon Text="Minting is in progress... Please wait." Icon="loading-3-quarters" Color="blue" Level="4" />
+    <Result Status="error"
+            Title="Failed to create transaction"
+            SubTitle="@("Please ensure that you approve created transactions in Metamask")">
+        <Extra>
+            <Button Type="primary" OnClick="@Retry">Try again</Button>
+        </Extra>
+    </Result>
 }
