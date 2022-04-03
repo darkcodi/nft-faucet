@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Components;
 using NftFaucet.Components;
+using NftFaucet.Extensions;
 using NftFaucet.Models.Enums;
 using NftFaucet.Services;
 
@@ -20,7 +21,7 @@ public class Step4Component : BasicComponent
     {
         if (!await AppState.Metamask.IsReady() || string.IsNullOrEmpty(AppState.Storage.DestinationAddress))
         {
-            UriHelper.NavigateTo("/");
+            UriHelper.NavigateToRelative("/");
         }
         else
         {
@@ -46,6 +47,6 @@ public class Step4Component : BasicComponent
     protected void Reset()
     {
         AppState.Reset();
-        UriHelper.NavigateTo("/");
+        UriHelper.NavigateToRelative("/");
     }
 }

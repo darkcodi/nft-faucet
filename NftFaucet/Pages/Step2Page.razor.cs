@@ -26,7 +26,7 @@ public class Step2Component : BasicComponent
     protected override async Task OnInitializedAsync()
     {
         if (!await AppState.Metamask.IsReady() || AppState.Storage.IpfsImageUrl == null)
-            UriHelper.NavigateTo("/");
+            UriHelper.NavigateToRelative("/");
 
         AppState.Navigation.SetForwardHandler(ForwardHandler);
 

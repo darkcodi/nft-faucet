@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using NftFaucet.Extensions;
 
 namespace NftFaucet.Models;
 
@@ -59,7 +60,7 @@ public class NavigationWrapper
         var previousStep = CurrentStep - 1;
         _beforeGoBack = null;
         _beforeGoForward = null;
-        _uriHelper.NavigateTo("/step" + previousStep);
+        _uriHelper.NavigateToRelative("/step" + previousStep);
     }
 
     public async Task GoForward()
@@ -74,6 +75,6 @@ public class NavigationWrapper
         var nextStep = CurrentStep + 1;
         _beforeGoBack = null;
         _beforeGoForward = null;
-        _uriHelper.NavigateTo("/step" + nextStep);
+        _uriHelper.NavigateToRelative("/step" + nextStep);
     }
 }

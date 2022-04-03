@@ -1,4 +1,5 @@
 using NftFaucet.Components;
+using NftFaucet.Extensions;
 using NftFaucet.Models;
 
 namespace NftFaucet.Pages;
@@ -13,7 +14,7 @@ public class Step3Component : BasicComponent
     protected override async Task OnInitializedAsync()
     {
         if (!await AppState.Metamask.IsReady() || string.IsNullOrEmpty(AppState.Storage.TokenUrl))
-            UriHelper.NavigateTo("/");
+            UriHelper.NavigateToRelative("/");
 
         AppState.Navigation.SetForwardHandler(ForwardHandler);
         AppState.Storage.DestinationAddress = AppState.Metamask.Address;

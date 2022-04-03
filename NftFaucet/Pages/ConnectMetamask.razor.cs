@@ -1,4 +1,5 @@
 using NftFaucet.Components;
+using NftFaucet.Extensions;
 
 namespace NftFaucet.Pages;
 
@@ -9,7 +10,7 @@ public class ConnectMetamaskComponent : BasicComponent
         if (await Metamask.IsConnected())
         {
             await Metamask.RefreshAddress();
-            UriHelper.NavigateTo("/");
+            UriHelper.NavigateToRelative("/");
         }
     }
 
@@ -18,7 +19,7 @@ public class ConnectMetamaskComponent : BasicComponent
         var isConnected = await Metamask.Connect();
         if (isConnected)
         {
-            UriHelper.NavigateTo("/");
+            UriHelper.NavigateToRelative("/");
         }
     }
 }

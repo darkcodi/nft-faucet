@@ -2,6 +2,7 @@ using AntDesign;
 using Microsoft.AspNetCore.Components;
 using NftFaucet.Components;
 using NftFaucet.Constants;
+using NftFaucet.Extensions;
 using NftFaucet.Models.Enums;
 
 namespace NftFaucet.Pages;
@@ -24,7 +25,7 @@ public class Step1Component : BasicComponent
     protected override async Task OnInitializedAsync()
     {
         if (!await AppState.Metamask.IsReady())
-            UriHelper.NavigateTo("/");
+            UriHelper.NavigateToRelative("/");
 
         AppState.Navigation.SetForwardHandler(ForwardHandler);
     }
