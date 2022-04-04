@@ -7,34 +7,36 @@
     <SpaceItem Class="drk-full-width">
         <Space Direction="DirectionVHType.Horizontal" Class="drk-vertical-space-center">
             <SpaceItem>
-                <Upload Name="file" Class="@ImageClass" ListType="picture-card"
-                        ShowUploadList="false" BeforeAllUploadAsync="BeforeUpload">
-                    @if (AppState?.Storage?.UploadIsInProgress ?? false)
-                    {
-                        <div>
-                            <Icon Spin="true" Type="loading"></Icon>
-                            <div className="ant-upload-text">Uploading...</div>
-                        </div>
-                    }
-                    else if (AppState?.Storage?.LocalImageUrl != null && AppState.Storage.CanPreviewTokenFile)
-                    {
-                        <img src="@AppState?.Storage?.LocalImageUrl" alt="avatar" style="width: 100%"/>
-                    }
-                    else if (AppState?.Storage?.LocalImageUrl != null)
-                    {
-                        <div>
-                            <Icon Type="eye-invisible" Theme="outline"/>
-                            <div className="ant-upload-text">Unable to preview</div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div>
-                            <Icon Type="plus"></Icon>
-                            <div className="ant-upload-text">Upload</div>
-                        </div>
-                    }
-                </Upload>
+                <FileDropZone class="drop-zone">
+                    <Upload Name="file" Class="@ImageClass" ListType="picture-card"
+                            ShowUploadList="false" BeforeAllUploadAsync="BeforeUpload">
+                        @if (AppState?.Storage?.UploadIsInProgress ?? false)
+                        {
+                            <div>
+                                <Icon Spin="true" Type="loading"></Icon>
+                                <div className="ant-upload-text">Uploading...</div>
+                            </div>
+                        }
+                        else if (AppState?.Storage?.LocalImageUrl != null && AppState.Storage.CanPreviewTokenFile)
+                        {
+                            <img src="@AppState?.Storage?.LocalImageUrl" alt="avatar" style="width: 100%"/>
+                        }
+                        else if (AppState?.Storage?.LocalImageUrl != null)
+                        {
+                            <div>
+                                <Icon Type="eye-invisible" Theme="outline"/>
+                                <div className="ant-upload-text">Unable to preview</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <Icon Type="plus"></Icon>
+                                <div className="ant-upload-text">Upload</div>
+                            </div>
+                        }
+                    </Upload>
+                </FileDropZone>
             </SpaceItem>
             <SpaceItem Class="drk-grow">
                 <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-vertical-space">
