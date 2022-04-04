@@ -1,6 +1,5 @@
 using AntDesign;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using NftFaucet.Components;
 using NftFaucet.Constants;
 using NftFaucet.Extensions;
@@ -10,9 +9,6 @@ namespace NftFaucet.Pages;
 
 public class Step1Component : BasicComponent
 {
-    [Inject]
-    protected IJSRuntime JsRuntime { get; set; }
-
     protected string NameErrorMessage { get; set; }
     protected string DescriptionErrorMessage { get; set; }
     protected string ImageErrorMessage { get; set; }
@@ -28,7 +24,7 @@ public class Step1Component : BasicComponent
 
     protected override async Task OnInitializedAsync()
     {
-        if (!await AppState.Metamask.IsReady())
+        if (!await AppState.Metamask.IsReady() || !AppState.IpfsContext.IsInitialized)
             UriHelper.NavigateToRelative("/");
 
         AppState.Navigation.SetForwardHandler(ForwardHandler);
@@ -94,7 +90,6 @@ public class Step1Component : BasicComponent
 
     protected async Task<bool> BeforeUpload(List<UploadFileItem> files)
     {
-        await AppState.Metamask.Service.SignAsync("Hello world");
         var file = files.FirstOrDefault();
         if (file == null)
         {

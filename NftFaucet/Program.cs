@@ -2,11 +2,9 @@ using MetaMask.Blazor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using NftFaucet;
-using NftFaucet.ApiClients.NftStorage;
 using NftFaucet.Models;
 using NftFaucet.Options;
 using NftFaucet.Services;
-using RestEase;
 using Serilog;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -30,7 +28,7 @@ builder.Services.AddScoped<ExtendedMetamaskService>();
 builder.Services.AddScoped<NavigationWrapper>();
 builder.Services.AddScoped<IEthereumTransactionService, EthereumTransactionService>();
 builder.Services.AddScoped<IIpfsService, IpfsService>();
-builder.Services.AddSingleton(_ => RestClient.For<INftStorageClient>());
+builder.Services.AddScoped<IpfsBlockchainContext>();
 
 builder.Services.AddAntDesign();
 builder.Services.AddMetaMaskBlazor();

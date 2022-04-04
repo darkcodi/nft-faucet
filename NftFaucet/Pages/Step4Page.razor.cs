@@ -24,7 +24,7 @@ public class Step4Component : BasicComponent
 
     protected override async Task OnInitializedAsync()
     {
-        if (!await AppState.Metamask.IsReady() || string.IsNullOrEmpty(AppState.Storage.DestinationAddress))
+        if (!await AppState.Metamask.IsReady() || !AppState.IpfsContext.IsInitialized || string.IsNullOrEmpty(AppState.Storage.DestinationAddress))
         {
             UriHelper.NavigateToRelative("/");
         }

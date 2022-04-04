@@ -6,4 +6,5 @@ public enum IpfsGatewayType : byte
     IpfsOfficial = 1,
     Infura = 2,
     NftStorage = 3,
+    Crust = 4,
 }

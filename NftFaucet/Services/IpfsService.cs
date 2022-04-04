@@ -1,20 +1,21 @@
-using Newtonsoft.Json;
-using NftFaucet.ApiClients.NftStorage;
+using System.Text;
+using NftFaucet.ApiClients;
+using NftFaucet.Models;
 using NftFaucet.Models.Enums;
 using NftFaucet.Options;
-using Serilog;
+using RestEase;
 
 namespace NftFaucet.Services;
 
 public class IpfsService : IIpfsService
 {
     private const string IpfsUrlPrefix = "ipfs://";
-    private readonly INftStorageClient _nftStorage;
+    private readonly IpfsBlockchainContext _blockchainContext;
     private readonly Settings _settings;
 
-    public IpfsService(INftStorageClient nftStorage, Settings settings)
+    public IpfsService(IpfsBlockchainContext blockchainContext, Settings settings)
     {
-        _nftStorage = nftStorage;
+        _blockchainContext = blockchainContext;
         _settings = settings;
     }
 
@@ -47,9 +48,10 @@ public class IpfsService : IIpfsService
     public async Task<Uri> Upload(string fileName, string fileType, byte[] fileBytes)
     {
         var fileUploadRequest = ToMultipartContent(fileName, fileType, fileBytes);
-        var response = await _nftStorage.UploadFile(fileUploadRequest);
-        Log.Information(JsonConvert.SerializeObject(response));
-        var uri = IpfsUrlPrefix + response.Value.Cid + "/" + response.Value.Files.First().Name;
+        var client = RestClient.For<ICrustApiClient>();
+        client.Auth = GenerateAuthHeader();
+        var response = await client.UploadFile(fileUploadRequest);
+        var uri = IpfsUrlPrefix + response.Hash;
         return new Uri(uri);
     }
 
@@ -62,5 +64,19 @@ public class IpfsService : IIpfsService
         content.Add(imageContent, "\"file\"", $"\"{fileName}\"");
 
         return content;
+    }
+
+    private string GenerateAuthHeader()
+    {
+        if (!_blockchainContext.IsInitialized)
+            throw new InvalidOperationException("Blockchain context is not filled");
+
+        var user = $"eth-{_blockchainContext.Address.ToLower()}";
+        var password = _blockchainContext.SignedMessage;
+        var basicAuth = $"{user}:{password}";
+        var base64BasicAuth = Convert.ToBase64String(Encoding.UTF8.GetBytes(basicAuth));
+        var authHeader = $"Basic {base64BasicAuth}";
+
+        return authHeader;
     }
 }

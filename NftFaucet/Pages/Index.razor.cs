@@ -7,6 +7,18 @@ public class IndexComponent : BasicComponent
 {
     protected override async Task OnInitializedAsync()
     {
-        UriHelper.NavigateToRelative(await Metamask.IsReady() ? "/step1" : "/connect-metamask");
+        if (!await Metamask.IsReady())
+        {
+            UriHelper.NavigateToRelative("/connect-metamask");
+            return;
+        }
+
+        if (!AppState.IpfsContext.IsInitialized)
+        {
+            UriHelper.NavigateToRelative("/connect-ipfs");
+            return;
+        }
+
+        UriHelper.NavigateToRelative("/step1");
     }
 }
