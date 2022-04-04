@@ -1,14 +1,24 @@
 using AntDesign;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Nethereum.Hex.HexConvertors.Extensions;
+using Nethereum.JsonRpc.Client;
+using Nethereum.JsonRpc.Client.RpcMessages;
+using Newtonsoft.Json;
 using NftFaucet.Components;
 using NftFaucet.Constants;
 using NftFaucet.Extensions;
 using NftFaucet.Models.Enums;
+using Serilog;
+using RpcError = Nethereum.JsonRpc.Client.RpcError;
 
 namespace NftFaucet.Pages;
 
 public class Step1Component : BasicComponent
 {
+    [Inject]
+    protected IJSRuntime JsRuntime { get; set; }
+
     protected string NameErrorMessage { get; set; }
     protected string DescriptionErrorMessage { get; set; }
     protected string ImageErrorMessage { get; set; }
@@ -121,5 +131,25 @@ public class Step1Component : BasicComponent
         RefreshMediator.NotifyStateHasChangedSafe();
 
         return false;
+    }
+
+    public async Task<string> SignAsync(string message)
+    {
+        var rpcJsonResponse = await JsRuntime.InvokeAsync<string>("NethereumMetamaskInterop.Sign", message.ToHexUTF8());
+        var response = JsonConvert.DeserializeObject<RpcResponseMessage>(rpcJsonResponse);
+        if (response.HasError)
+        {
+            var rpcError = new RpcError(response.Error.Code, response.Error.Message, response.Error.Data);
+            throw new RpcResponseException(rpcError);
+        }
+
+        try
+        {
+            return response.GetResult<string>();
+        }
+        catch (FormatException formatException)
+        {
+            throw new RpcResponseFormatException("Invalid format found in RPC response", formatException);
+        }
     }
 }
