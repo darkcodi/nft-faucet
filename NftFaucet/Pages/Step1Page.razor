@@ -13,8 +13,8 @@
                         @if (AppState?.Storage?.UploadIsInProgress ?? false)
                         {
                             <div>
-                                <Icon Spin="true" Type="loading"></Icon>
-                                <div className="ant-upload-text">Uploading...</div>
+                                <Icon Spin="true" Type="loading" Style="font-size: 2rem;"></Icon>
+                                <Title Level="4">Uploading...</Title>
                             </div>
                         }
                         else if (AppState?.Storage?.LocalImageUrl != null && AppState.Storage.CanPreviewTokenFile)
@@ -24,15 +24,15 @@
                         else if (AppState?.Storage?.LocalImageUrl != null)
                         {
                             <div>
-                                <Icon Type="eye-invisible" Theme="outline"/>
-                                <div className="ant-upload-text">Unable to preview</div>
+                                <Icon Type="eye-invisible" Style="font-size: 2rem;"></Icon>
+                                <Title Level="4">Unable to preview</Title>
                             </div>
                         }
                         else
                         {
                             <div>
-                                <Icon Type="plus"></Icon>
-                                <div className="ant-upload-text">Upload</div>
+                                <Icon Type="plus" Style="font-size: 2rem;"></Icon>
+                                <Title Level="4">Choose or drag & drop file</Title>
                             </div>
                         }
                     </Upload>
