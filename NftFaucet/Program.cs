@@ -26,6 +26,7 @@ builder.Services.AddScoped(_ => new HttpClient {BaseAddress = new Uri(builder.Ho
 builder.Services.AddScoped<ScopedAppState>();
 builder.Services.AddScoped<RefreshMediator>();
 builder.Services.AddScoped<MetamaskInfo>();
+builder.Services.AddScoped<ExtendedMetamaskService>();
 builder.Services.AddScoped<NavigationWrapper>();
 builder.Services.AddScoped<IEthereumTransactionService, EthereumTransactionService>();
 builder.Services.AddScoped<IIpfsService, IpfsService>();

@@ -1,6 +1,7 @@
 using MetaMask.Blazor;
 using MetaMask.Blazor.Enums;
 using NftFaucet.Models.Enums;
+using NftFaucet.Services;
 using NftFaucet.Utils;
 using Serilog;
 
@@ -10,13 +11,13 @@ public class MetamaskInfo
 {
     private readonly RefreshMediator _refreshMediator;
 
-    public MetamaskInfo(MetaMaskService service, RefreshMediator refreshMediator)
+    public MetamaskInfo(ExtendedMetamaskService service, RefreshMediator refreshMediator)
     {
         Service = service;
         _refreshMediator = refreshMediator;
     }
 
-    public MetaMaskService Service { get; }
+    public ExtendedMetamaskService Service { get; }
 
     public bool? HasMetaMask { get; private set; }
     public bool? IsMetaMaskConnected { get; private set; }
