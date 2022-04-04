@@ -22,7 +22,8 @@ else if (TransactionHash.Value.IsSuccess)
             Title="Transaction was successfully created!"
             SubTitle="@($"Transaction: {TransactionHash.Value.Value}. Please wait for 1-5 minutes till transaction is completed.")">
         <Extra>
-            <Button Type="primary" OnClick="@Reset">Start new mint</Button>
+            <Button OnClick="@ResetState">Start a new mint</Button>
+            <Button Type="@ButtonType.Primary" OnClick="@ViewOnExplorer">View on explorer</Button>
         </Extra>
     </Result>
 }
@@ -32,7 +33,7 @@ else
             Title="Failed to create transaction"
             SubTitle="@("Please ensure that you approve created transactions in Metamask")">
         <Extra>
-            <Button Type="primary" OnClick="@Retry">Try again</Button>
+            <Button Type="primary" OnClick="@RetryTransaction">Try again</Button>
         </Extra>
     </Result>
 }

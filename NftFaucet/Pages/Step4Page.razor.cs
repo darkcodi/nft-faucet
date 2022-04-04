@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using NftFaucet.Components;
 using NftFaucet.Extensions;
 using NftFaucet.Models.Enums;
@@ -15,6 +16,9 @@ public class Step4Component : BasicComponent
 
     [Inject]
     public IEthereumTransactionService TransactionService { get; set; }
+
+    [Inject]
+    protected IJSRuntime JsRuntime { get; set; }
 
     protected Result<string>? TransactionHash { get; set; }
 
@@ -49,13 +53,34 @@ public class Step4Component : BasicComponent
         RefreshMediator.NotifyStateHasChangedSafe();
     }
 
-    protected void Reset()
+    protected void ResetState()
     {
         AppState.Reset();
         UriHelper.NavigateToRelative("/");
     }
 
-    protected async Task Retry()
+    protected async Task ViewOnExplorer()
+    {
+        var baseUrl = AppState.Metamask.Network switch
+        {
+            EthereumNetwork.EthereumMainnet => "https://etherscan.io/tx/",
+            EthereumNetwork.Ropsten => "https://ropsten.etherscan.io/tx/",
+            EthereumNetwork.Rinkeby => "https://rinkeby.etherscan.io/tx/",
+            EthereumNetwork.Goerli => "https://goerli.etherscan.io/tx/",
+            EthereumNetwork.Kovan => "https://kovan.etherscan.io/tx/",
+            EthereumNetwork.PolygonMainnet => "https://polygonscan.com/tx/",
+            EthereumNetwork.PolygonMumbai => "https://mumbai.polygonscan.com/tx/",
+            _ => null,
+        };
+        if (baseUrl == null)
+            return;
+
+        var txHash = TransactionHash!.Value!.Value;
+        var txUrl = baseUrl + txHash;
+        await JsRuntime.InvokeAsync<object>("open", txUrl, "_blank");
+    }
+
+    protected async Task RetryTransaction()
     {
         TransactionHash = null;
         RefreshMediator.NotifyStateHasChangedSafe();
