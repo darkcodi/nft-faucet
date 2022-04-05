@@ -6,7 +6,7 @@ public class StateStorage
 {
     public string TokenName { get; set; }
     public string TokenDescription { get; set; }
-    public IpfsGatewayType IpfsGatewayType { get; set; } = IpfsGatewayType.Crust;
+    public IpfsGatewayType IpfsGatewayType { get; set; } = IpfsGatewayType.Infura;
     public TokenType TokenType { get; set; } = TokenType.ERC721;
     public double TokenAmount { get; set; } = 1;
     public Uri LocalImageUrl { get; set; }

@@ -1,5 +1,6 @@
 using System.Text;
 using NftFaucet.ApiClients;
+using NftFaucet.ApiClients.Models;
 using NftFaucet.Models;
 using NftFaucet.Models.Enums;
 using NftFaucet.Options;
@@ -48,9 +49,18 @@ public class IpfsService : IIpfsService
     public async Task<Uri> Upload(string fileName, string fileType, byte[] fileBytes)
     {
         var fileUploadRequest = ToMultipartContent(fileName, fileType, fileBytes);
-        var client = RestClient.For<ICrustApiClient>();
-        client.Auth = GenerateAuthHeader();
-        var response = await client.UploadFile(fileUploadRequest);
+        var uploadClient = RestClient.For<IInfuraIpfsApiClient>();
+        var response = await uploadClient.UploadFile(fileUploadRequest);
+
+        var pinningClient = RestClient.For<ICrustApiClient>();
+        pinningClient.Auth = GenerateAuthHeader();
+        var pinRequest = new PinRequest
+        {
+            cid = response.Hash,
+            name = fileName,
+        };
+        await pinningClient.PinFile(pinRequest);
+
         var uri = IpfsUrlPrefix + response.Hash;
         return new Uri(uri);
     }

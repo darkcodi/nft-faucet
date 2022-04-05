@@ -3,12 +3,12 @@ using RestEase;
 
 namespace NftFaucet.ApiClients;
 
-[BaseAddress("https://gw.crustapps.net")]
+[BaseAddress("https://pin.crustcode.com")]
 public interface ICrustApiClient
 {
     [Header("Authorization")]
     public string Auth { get; set; }
 
-    [Post("api/v0/add")]
-    Task<UploadResponse> UploadFile([Body] MultipartContent content, [Query("pin")] bool pin = true);
+    [Post("psa/pins")]
+    Task PinFile([Body] PinRequest request);
 }
