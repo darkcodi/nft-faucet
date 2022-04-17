@@ -7,6 +7,8 @@ public enum EthereumNetwork : long
     Rinkeby = 4,
     Goerli = 5,
     Kovan = 42,
+    OptimismMainnet = 10,
+    OptimismKovan = 69,
     PolygonMainnet = 137,
     PolygonMumbai = 80001,
 }

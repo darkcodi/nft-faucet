@@ -68,6 +68,8 @@ public class Step4Component : BasicComponent
             EthereumNetwork.Rinkeby => "https://rinkeby.etherscan.io/tx/",
             EthereumNetwork.Goerli => "https://goerli.etherscan.io/tx/",
             EthereumNetwork.Kovan => "https://kovan.etherscan.io/tx/",
+            EthereumNetwork.OptimismMainnet => "https://optimistic.etherscan.io/tx/",
+            EthereumNetwork.OptimismKovan => "https://kovan-optimistic.etherscan.io/tx/",
             EthereumNetwork.PolygonMainnet => "https://polygonscan.com/tx/",
             EthereumNetwork.PolygonMumbai => "https://mumbai.polygonscan.com/tx/",
             _ => null,
