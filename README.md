@@ -6,7 +6,7 @@ It's a WASM web-application that allows you to mint ERC-721 and ERC-1155 tokens 
 ## Demo
 Go to https://darkcodi.github.io/nft-faucet/  
   
-[Demo](demo.gif)
+[![demo](demo.gif)]()
   
 ## Requirements
 - installed [Metamask](https://metamask.io/download/) extension
