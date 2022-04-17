@@ -18,8 +18,8 @@ Used [contracts](NftFaucet/Contracts) are based on [OpenZeppilin contracts](http
 
 |                | ERC-721   | ERC-1155   |
 |----------------|-----------|------------|
-| Ropsten        | [0x71902F99902339d7ce1F994C12155f4350BCD226](https://ropsten.etherscan.io/token/0x71902F99902339d7ce1F994C12155f4350BCD226) | [0x6c0449f3B8135f896637afd29c7aeA496ED6f4F3](https://ropsten.etherscan.io/token/0x6c0449f3B8135f896637afd29c7aeA496ED6f4F3) |
-| Polygon Mumbai | [0xeE8272220A0988279627714144Ff6981E204fbE4](https://mumbai.polygonscan.com/token/0xeE8272220A0988279627714144Ff6981E204fbE4) | [0x2E6C3fa7B2Ed656e695A29276a22c8C33d118a1B](https://mumbai.polygonscan.com/token/0x2E6C3fa7B2Ed656e695A29276a22c8C33d118a1B) |
+| Ropsten        | [0x71902F99902339d7ce1F994C12155f4350BCD226](https://ropsten.etherscan.io/token/0x71902F99902339d7ce1F994C12155f4350BCD226) | [0x80b45421881c0452A6e70148Fc928fA33107cEb3](https://ropsten.etherscan.io/token/0x80b45421881c0452A6e70148Fc928fA33107cEb3) |
+| Polygon Mumbai | [0xeE8272220A0988279627714144Ff6981E204fbE4](https://mumbai.polygonscan.com/token/0xeE8272220A0988279627714144Ff6981E204fbE4) | [0x23147CdbD963A3D0fec0F25E4604844f477F65d2](https://mumbai.polygonscan.com/token/0x23147CdbD963A3D0fec0F25E4604844f477F65d2) |
   
 ## Technology stack
 

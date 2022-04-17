@@ -2,11 +2,11 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts@4.5.0/access/AccessControlEnumerable.sol";
-import "@openzeppelin/contracts@4.5.0/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts@4.5.0/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts@4.5.0/utils/Context.sol";
 import "@openzeppelin/contracts@4.5.0/utils/Counters.sol";
 
-contract Erc1155Faucet is Context, AccessControlEnumerable, ERC1155 {
+contract Erc1155Faucet is Context, AccessControlEnumerable, ERC1155Supply {
     string internal nftName;
     string internal nftSymbol;
 
@@ -68,5 +68,21 @@ contract Erc1155Faucet is Context, AccessControlEnumerable, ERC1155 {
         returns (bool)
     {
         return ERC1155.supportsInterface(interfaceId) || AccessControlEnumerable.supportsInterface(interfaceId);
+    }
+
+    function totalSupply()
+        public
+        view
+        returns (uint256)
+    {
+        uint256 result = 0;
+        uint256 maxId = _tokenIdCounter.current();
+
+        for(uint256 i = 0; i < maxId; i++)
+        {
+            result = result + totalSupply(i);
+        }
+
+        return result;
     }
 }
