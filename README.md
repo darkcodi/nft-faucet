@@ -3,16 +3,16 @@
   
 It's a WASM web-application that allows you to mint ERC-721 and ERC-1155 tokens to any specified ethereum address.
   
-## Demo
-Go to https://darkcodi.github.io/nft-faucet/  
-  
-[![demo](demo.gif)]()
-  
 ## Requirements
 - installed [Metamask](https://metamask.io/download/) extension
 - some test ETH (or MATIC) to pay for a blockchain transaction fee  
 (faucets: [Ropsten](https://faucet.egorfine.com/), [Mumbai](https://mumbaifaucet.com/), etc.)
   
+## Demo
+Go to https://darkcodi.github.io/nft-faucet/  
+  
+[![demo](demo.gif)]()  
+
 ## Deployed contracts
 Used [contracts](NftFaucet/Contracts) are based on [OpenZeppilin contracts](https://github.com/OpenZeppelin/openzeppelin-contracts), but with one unusual feature - `mint` method can be called by anyone, not just by an owner.    
 
