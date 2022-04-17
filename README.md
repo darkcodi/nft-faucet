@@ -19,6 +19,8 @@ Used [contracts](NftFaucet/Contracts) are based on [OpenZeppilin contracts](http
 |                | ERC-721   | ERC-1155   |
 |----------------|-----------|------------|
 | Ropsten        | [0x71902F99902339d7ce1F994C12155f4350BCD226](https://ropsten.etherscan.io/token/0x71902F99902339d7ce1F994C12155f4350BCD226) | [0x80b45421881c0452A6e70148Fc928fA33107cEb3](https://ropsten.etherscan.io/token/0x80b45421881c0452A6e70148Fc928fA33107cEb3) |
+| Rinkeby        | [0x9F64932Be34D5D897C4253D17707b50921f372B6](https://rinkeby.etherscan.io/token/0x9F64932Be34D5D897C4253D17707b50921f372B6) | [0xf67C575502fc1cE399a3e1895dDf41847185D7bD](https://rinkeby.etherscan.io/token/0xf67C575502fc1cE399a3e1895dDf41847185D7bD) |
+| Goerli         | [0xC3E4214dd442136079dF06bb2529Bae276d37564](https://goerli.etherscan.io/token/0xC3E4214dd442136079dF06bb2529Bae276d37564) | [0x5807d7be82153F6a302d92199221090E3b78A3C3](https://goerli.etherscan.io/token/0x5807d7be82153F6a302d92199221090E3b78A3C3) |
 | Polygon Mumbai | [0xeE8272220A0988279627714144Ff6981E204fbE4](https://mumbai.polygonscan.com/token/0xeE8272220A0988279627714144Ff6981E204fbE4) | [0x23147CdbD963A3D0fec0F25E4604844f477F65d2](https://mumbai.polygonscan.com/token/0x23147CdbD963A3D0fec0F25E4604844f477F65d2) |
   
 ## Technology stack
