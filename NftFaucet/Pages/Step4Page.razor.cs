@@ -75,6 +75,8 @@ public class Step4Component : BasicComponent
             EthereumNetwork.ArbitrumMainnetBeta => "https://explorer.arbitrum.io/tx/",
             EthereumNetwork.ArbitrumRinkeby => "https://testnet.arbiscan.io/tx/",
             EthereumNetwork.ArbitrumGoerli => "https://nitro-devnet-explorer.arbitrum.io/tx/",
+            EthereumNetwork.AvalancheMainnet => "https://snowtrace.io/tx/",
+            EthereumNetwork.AvalancheFuji => "https://testnet.snowtrace.io/tx/",
             _ => null,
         };
         if (baseUrl == null)

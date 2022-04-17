@@ -41,6 +41,8 @@ public class MainLayoutComponent : LayoutBasicComponent
         EthereumNetwork.ArbitrumMainnetBeta => PresetColor.Cyan,
         EthereumNetwork.ArbitrumRinkeby => PresetColor.Gold,
         EthereumNetwork.ArbitrumGoerli => PresetColor.GeekBlue,
+        EthereumNetwork.AvalancheMainnet => PresetColor.Cyan,
+        EthereumNetwork.AvalancheFuji => PresetColor.Pink,
         _ => PresetColor.Yellow,
     };
 

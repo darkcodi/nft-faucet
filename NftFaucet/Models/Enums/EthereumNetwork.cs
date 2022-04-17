@@ -14,4 +14,6 @@ public enum EthereumNetwork : long
     ArbitrumMainnetBeta = 42161,
     ArbitrumRinkeby = 421611,
     ArbitrumGoerli = 421612,
+    AvalancheMainnet = 43114,
+    AvalancheFuji = 43113,
 }

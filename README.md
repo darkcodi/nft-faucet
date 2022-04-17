@@ -25,7 +25,8 @@ Used [contracts](NftFaucet/Contracts) are based on [OpenZeppilin contracts](http
 | OptimismKovan   | [0xee52f32f4bbcedc2a1ed1c195936132937f2d371](https://kovan-optimistic.etherscan.io/token/0xee52f32f4bbcedc2a1ed1c195936132937f2d371) | [0xCc0040129f197F63D37ebd77E62a6F96dDcd4e0A](https://kovan-optimistic.etherscan.io/token/0xCc0040129f197F63D37ebd77E62a6F96dDcd4e0A) |
 | PolygonMumbai   | [0xeE8272220A0988279627714144Ff6981E204fbE4](https://mumbai.polygonscan.com/token/0xeE8272220A0988279627714144Ff6981E204fbE4) | [0x23147CdbD963A3D0fec0F25E4604844f477F65d2](https://mumbai.polygonscan.com/token/0x23147CdbD963A3D0fec0F25E4604844f477F65d2) |
 | ArbitrumRinkeby | [0x9F64932Be34D5D897C4253D17707b50921f372B6](https://testnet.arbiscan.io/token/0x9F64932Be34D5D897C4253D17707b50921f372B6) | [0xf67C575502fc1cE399a3e1895dDf41847185D7bD](https://testnet.arbiscan.io/token/0xf67C575502fc1cE399a3e1895dDf41847185D7bD) |
-| ArbitrumGoerli  | [0x9F64932Be34D5D897C4253D17707b50921f372B6](https://nitro-devnet-explorer.arbitrum.io/token/0x9F64932Be34D5D897C4253D17707b50921f372B6) | [0xf67C575502fc1cE399a3e1895dDf41847185D7bD](https://nitro-devnet-explorer.arbitrum.io/token/0xf67C575502fc1cE399a3e1895dDf41847185D7bD) |
+| ArbitrumGoerli  | [0x9F64932Be34D5D897C4253D17707b50921f372B6](https://nitro-devnet-explorer.arbitrum.io/address/0x9F64932Be34D5D897C4253D17707b50921f372B6) | [0xf67C575502fc1cE399a3e1895dDf41847185D7bD](https://nitro-devnet-explorer.arbitrum.io/address/0xf67C575502fc1cE399a3e1895dDf41847185D7bD) |
+| AvalancheFuji   | [0x9F64932Be34D5D897C4253D17707b50921f372B6](https://testnet.snowtrace.io/token/0x9F64932Be34D5D897C4253D17707b50921f372B6) | [0xf67C575502fc1cE399a3e1895dDf41847185D7bD](https://testnet.snowtrace.io/token/0xf67C575502fc1cE399a3e1895dDf41847185D7bD) |
   
 ## Technology stack
 
