@@ -2,12 +2,18 @@
 @inherits Step3Component
 
 <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+    @if (!IsSupportedNetwork)
+    {
+        <SpaceItem>
+            <Title Level="2" Strong="true" Style="color: red;">Selected network is not supported. Please change network in Metamask!</Title>
+        </SpaceItem>
+    }
     <SpaceItem>
         <Title Level="4" Style="margin-bottom: 0;">Token URI:</Title>
     </SpaceItem>
     <SpaceItem Class="drk-full-width">
         <div class="@TokenUrlClass">
-            <Input Size="medium" @bind-Value="@AppState.Storage.TokenUrl" OnInput="@OnTokenUrlInputChange" />
+            <Input Size="medium" @bind-Value="@AppState.Storage.TokenUrl" OnInput="@OnTokenUrlInputChange"/>
         </div>
     </SpaceItem>
     <SpaceItem>
@@ -15,7 +21,7 @@
     </SpaceItem>
     <SpaceItem Class="drk-full-width">
         <div class="@DestinationAddressClass">
-            <Input Size="medium" @bind-Value="@AppState.Storage.DestinationAddress" OnInput="@OnDestinationAddressInputChange" />
+            <Input Size="medium" @bind-Value="@AppState.Storage.DestinationAddress" OnInput="@OnDestinationAddressInputChange"/>
         </div>
     </SpaceItem>
 </Space>

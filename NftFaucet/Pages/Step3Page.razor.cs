@@ -10,6 +10,7 @@ public class Step3Component : BasicComponent
     protected string DestinationAddressErrorMessage { get; set; }
     protected string TokenUrlClass => string.IsNullOrWhiteSpace(TokenUrlErrorMessage) ? null : "invalid-input";
     protected string DestinationAddressClass => string.IsNullOrWhiteSpace(DestinationAddressErrorMessage) ? null : "invalid-input";
+    protected bool IsSupportedNetwork => AppState?.Metamask?.Network != null && Settings?.GetEthereumNetworkOptions(AppState.Metamask.Network!.Value) != null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -47,6 +48,6 @@ public class Step3Component : BasicComponent
 
         RefreshMediator.NotifyStateHasChangedSafe();
 
-        return Task.FromResult(isValidTokenUri && isValidDestinationAddress);
+        return Task.FromResult(isValidTokenUri && isValidDestinationAddress && IsSupportedNetwork);
     }
 }

@@ -1,6 +1,7 @@
 using AntDesign;
 using Microsoft.AspNetCore.Components;
 using NftFaucet.Models;
+using NftFaucet.Options;
 using NftFaucet.Services;
 
 namespace NftFaucet.Components;
@@ -17,10 +18,13 @@ public abstract class BasicComponent : ComponentBase
     protected RefreshMediator RefreshMediator { get; set; }
 
     [Inject]
-    public MessageService MessageService { get; set; }
+    protected Settings Settings { get; set; }
 
     [Inject]
-    public IIpfsService IpfsService { get; set; }
+    protected MessageService MessageService { get; set; }
+
+    [Inject]
+    protected IIpfsService IpfsService { get; set; }
 
     protected MetamaskInfo Metamask => AppState?.Metamask;
 
