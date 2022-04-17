@@ -35,9 +35,12 @@ public class MainLayoutComponent : LayoutBasicComponent
         EthereumNetwork.Goerli => PresetColor.GeekBlue,
         EthereumNetwork.Kovan => PresetColor.Purple,
         EthereumNetwork.OptimismMainnet => PresetColor.Cyan,
-        EthereumNetwork.OptimismKovan => PresetColor.Red,
+        EthereumNetwork.OptimismKovan => PresetColor.Purple,
         EthereumNetwork.PolygonMainnet => PresetColor.Cyan,
         EthereumNetwork.PolygonMumbai => PresetColor.Pink,
+        EthereumNetwork.ArbitrumMainnetBeta => PresetColor.Cyan,
+        EthereumNetwork.ArbitrumRinkeby => PresetColor.Gold,
+        EthereumNetwork.ArbitrumGoerli => PresetColor.GeekBlue,
         _ => PresetColor.Yellow,
     };
 

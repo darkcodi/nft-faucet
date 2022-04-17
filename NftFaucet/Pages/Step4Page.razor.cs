@@ -72,6 +72,9 @@ public class Step4Component : BasicComponent
             EthereumNetwork.OptimismKovan => "https://kovan-optimistic.etherscan.io/tx/",
             EthereumNetwork.PolygonMainnet => "https://polygonscan.com/tx/",
             EthereumNetwork.PolygonMumbai => "https://mumbai.polygonscan.com/tx/",
+            EthereumNetwork.ArbitrumMainnetBeta => "https://explorer.arbitrum.io/tx/",
+            EthereumNetwork.ArbitrumRinkeby => "https://testnet.arbiscan.io/tx/",
+            EthereumNetwork.ArbitrumGoerli => "https://nitro-devnet-explorer.arbitrum.io/tx/",
             _ => null,
         };
         if (baseUrl == null)
