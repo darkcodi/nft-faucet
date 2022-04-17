@@ -11,6 +11,8 @@ public enum EthereumNetwork : long
     OptimismKovan = 69,
     PolygonMainnet = 137,
     PolygonMumbai = 80001,
+    MoonbeamMainnet = 1284,
+    MoonbaseAlpha = 1287,
     ArbitrumMainnetBeta = 42161,
     ArbitrumRinkeby = 421611,
     ArbitrumGoerli = 421612,
