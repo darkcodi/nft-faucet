@@ -14,7 +14,12 @@ using Solnet.Wallet.Bip39;
 namespace NftFaucet.Services;
 public class SolanaTransactionService : ISolanaTransactionService
 {
-    public async Task<string> MintNft(EthereumNetwork chain, string destinationAddress, string tokenUri, string name, double amount)
+    public async Task<string> MintNft(EthereumNetwork chain,
+        string destinationAddress,
+        string tokenUri,
+        string name,
+        string symbol,
+        double amount)
     {
         var cluster = chain switch
         {
@@ -27,11 +32,17 @@ public class SolanaTransactionService : ISolanaTransactionService
         var client = ClientFactory.GetClient(cluster);
 
         var wallet = CreateNewWallet();
-        var derIndex = 1;
         ulong tokenPrice = 20000000; // 1 SOL
 
         var airdropSig = await client.RequestAirdropAsync(wallet.Account.PublicKey, 50000000);
-        await client.GetConfirmedTransactionAsync(airdropSig.Result, Commitment.Finalized);
+
+        var airDropCompleted = false;
+        do
+        {
+            var transaction = await client.GetTransactionAsync(airdropSig.Result);
+
+            airDropCompleted = transaction.WasRequestSuccessfullyHandled && transaction.ErrorData == null;
+        } while (!airDropCompleted);
 
         var walletAddress = wallet.Account.PublicKey;
         var balanceRes = await client.GetBalanceAsync(walletAddress);
@@ -41,7 +52,7 @@ public class SolanaTransactionService : ISolanaTransactionService
             Solnet.Rpc.Types.Commitment.Confirmed
         );
 
-        var mint = wallet.GetAccount(derIndex);
+        var mint = wallet.GetAccount(1);
         var mintAddress = mint.PublicKey;
         var metadataAddress = GetMetadataAddress(mint.PublicKey);
         var masterEditionAddress = GetMasterEditionAddress(mint.PublicKey);
