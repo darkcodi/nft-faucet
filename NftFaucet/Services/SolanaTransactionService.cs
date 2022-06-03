@@ -25,63 +25,25 @@ public class SolanaTransactionService : ISolanaTransactionService
 
         var client = ClientFactory.GetClient(cluster);
 
-        // Generate a new mnemonic
-        var newMnemonic = new Mnemonic(WordList.English, WordCount.Twelve);
-
-        var wallet = new Wallet(newMnemonic);
+        var wallet = CreateNewWallet();
         var derIndex = 1;
         ulong tokenPrice = 20000000; // 1 SOL
 
-        var sig = await client.RequestAirdropAsync(wallet.Account.PublicKey, 50000000);
-
-        await client.GetConfirmedTransactionAsync(sig.Result);
+        var airdropSig = await client.RequestAirdropAsync(wallet.Account.PublicKey, 50000000);
+        await client.GetTransactionAsync(airdropSig.Result);
 
         var walletAddress = wallet.Account.PublicKey;
-        Console.WriteLine($"Using account public key : {walletAddress}");
-
         var balanceRes = await client.GetBalanceAsync(walletAddress);
-        if (balanceRes.WasSuccessful)
-            Console.WriteLine($"Account balance: {balanceRes.Result.Value}");
 
         var rentExemption = await client.GetMinimumBalanceForRentExemptionAsync(
             TokenProgram.MintAccountDataSize,
             Solnet.Rpc.Types.Commitment.Confirmed
         );
-        if (rentExemption.WasSuccessful)
-            Console.WriteLine($"Rent exemption: {rentExemption.Result}");
 
         var mint = wallet.GetAccount(derIndex);
         var mintAddress = mint.PublicKey;
-        Console.WriteLine($"Mint: {mintAddress}");
-
-        // PDA METADATA
-        AddressExtensions.TryFindProgramAddress(
-            new List<byte[]>() {
-        Encoding.UTF8.GetBytes("metadata"),
-        MetadataProgram.ProgramIdKey,
-        mint.PublicKey
-            },
-            MetadataProgram.ProgramIdKey,
-            out var metadataAddressBytes,
-            out _
-        );
-        var metadataAddress = new PublicKey(metadataAddressBytes);
-        Console.WriteLine($"PDA METADATA: {metadataAddress}");
-
-        // PDA MASTER EDITION
-        AddressExtensions.TryFindProgramAddress(
-            new List<byte[]>() {
-        Encoding.UTF8.GetBytes("metadata"),
-        MetadataProgram.ProgramIdKey,
-        mint.PublicKey,
-        Encoding.UTF8.GetBytes("edition")
-            },
-            MetadataProgram.ProgramIdKey,
-            out var masterEditionAddressBytes,
-            out _
-        );
-        var masterEditionAddress = new PublicKey(masterEditionAddressBytes);
-        Console.WriteLine($"PDA MASTER EDITION: {masterEditionAddress}");
+        var metadataAddress = GetMetadataAddress(mint.PublicKey);
+        var masterEditionAddress = GetMasterEditionAddress(mint.PublicKey);
 
         // TOKEN METADATA
         var data = new MetadataParameters()
@@ -111,18 +73,17 @@ public class SolanaTransactionService : ISolanaTransactionService
             walletAddress,
             walletAddress
         ));
-
+        var destinationPublicKey = new PublicKey(destinationAddress);
         // Step #3 - Associated Token Program: Create
         instructions.Add(AssociatedTokenAccountProgram.CreateAssociatedTokenAccount(
             walletAddress,
-            walletAddress,
+            destinationPublicKey,
             mintAddress
         ));
 
         // Step #4 - Token Program: Mint To
         // Wallet address = dest
-        var destinationPublicKey = new PublicKey(destinationAddress);
-        var tokenBalanceAddress = AssociatedTokenAccountProgram.DeriveAssociatedTokenAccount(walletAddress, mintAddress);
+        var tokenBalanceAddress = AssociatedTokenAccountProgram.DeriveAssociatedTokenAccount(destinationPublicKey, mintAddress);
         instructions.Add(TokenProgram.MintTo(
             mintAddress,
             tokenBalanceAddress,
@@ -173,20 +134,58 @@ public class SolanaTransactionService : ISolanaTransactionService
 
         var tx = txBuilder.Build(new List<Account> { wallet.Account, mint });
         var simulationResult = await client.SimulateTransactionAsync(tx);
-        var isSimulationSuccessful = simulationResult.ErrorData == null;
+        var isSimulationSuccessful = simulationResult.WasSuccessful;
+
         if (!isSimulationSuccessful)
         {
-            Console.WriteLine("========== ERROR ==========");
-            Console.WriteLine(simulationResult.RawRpcResponse);
-            Console.WriteLine("========== ERROR ==========");
             return string.Empty;
         }
 
         var txResult = await client.SendTransactionAsync(tx);
-        Console.WriteLine("========== SUCCESS ==========");
-        Console.WriteLine(txResult.RawRpcResponse);
-        Console.WriteLine("========== SUCCESS ==========");
 
         return txResult.Result;
+    }
+
+    private Wallet CreateNewWallet()
+    {
+        var newMnemonic = new Mnemonic(WordList.English, WordCount.Twelve);
+        return new Wallet(newMnemonic);
+    }
+
+    private PublicKey GetMetadataAddress(PublicKey mintAddress)
+    {
+        // PDA METADATA
+        AddressExtensions.TryFindProgramAddress(
+            new List<byte[]>() {
+                Encoding.UTF8.GetBytes("metadata"),
+                MetadataProgram.ProgramIdKey,
+                mintAddress
+            },
+            MetadataProgram.ProgramIdKey,
+            out var metadataAddressBytes,
+            out _
+        );
+        var metadataAddress = new PublicKey(metadataAddressBytes);
+
+        return metadataAddress;
+    }
+
+    private PublicKey GetMasterEditionAddress(PublicKey mintAddress)
+    {
+        // PDA MASTER EDITION
+        AddressExtensions.TryFindProgramAddress(
+            new List<byte[]>() {
+                Encoding.UTF8.GetBytes("metadata"),
+                MetadataProgram.ProgramIdKey,
+                mintAddress,
+                Encoding.UTF8.GetBytes("edition")
+            },
+            MetadataProgram.ProgramIdKey,
+            out var masterEditionAddressBytes,
+            out _
+        );
+        var masterEditionAddress = new PublicKey(masterEditionAddressBytes);
+
+        return masterEditionAddress;
     }
 }
