@@ -1,146 +1,56 @@
-using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using NftFaucet.Components;
 using NftFaucet.Extensions;
+using NftFaucet.Models;
 using NftFaucet.Models.Enums;
-using NftFaucet.Services;
-using NftFaucet.Utils;
 
 namespace NftFaucet.Pages;
 
 public class Step4Component : BasicComponent
 {
-    [Inject]
-    public IIpfsService IpfsService { get; set; }
-
-    [Inject]
-    public IEthereumTransactionService TransactionService { get; set; }
-
-    [Inject]
-    public ISolanaTransactionService SolanaTransactionService { get; set; }
-
-
-    [Inject]
-    protected IJSRuntime JsRuntime { get; set; }
-
-    protected Result<string>? TransactionHash { get; set; }
+    protected string TokenUrlErrorMessage { get; set; }
+    protected string DestinationAddressErrorMessage { get; set; }
+    protected string TokenUrlClass => string.IsNullOrWhiteSpace(TokenUrlErrorMessage) ? null : "invalid-input";
+    protected string DestinationAddressClass => string.IsNullOrWhiteSpace(DestinationAddressErrorMessage) ? null : "invalid-input";
+    protected bool IsSupportedNetwork => AppState?.Metamask?.Network != null && Settings?.GetEthereumNetworkOptions(AppState.Metamask.Network!.Value) != null;
 
     protected override async Task OnInitializedAsync()
     {
-        if (!await AppState.Metamask.IsReady() || !AppState.IpfsContext.IsInitialized || string.IsNullOrEmpty(AppState.Storage.DestinationAddress))
-        {
+        if (!await AppState.Metamask.IsReady() || !AppState.IpfsContext.IsInitialized || string.IsNullOrEmpty(AppState.Storage.TokenUrl))
             UriHelper.NavigateToRelative("/");
-        }
-        else
-        {
-            Task.Run(Mint);
-        }
+
+        AppState.Navigation.SetForwardHandler(ForwardHandler);
+        AppState.Storage.DestinationAddress = AppState.Metamask.Address;
     }
 
-    public async Task Mint()
+    protected void OnTokenUrlInputChange()
     {
-        var network = AppState.Metamask.Network!.Value;
-        var address = AppState.Storage.DestinationAddress;
-        var uri = AppState.Storage.TokenUrl;
+        TokenUrlErrorMessage = string.Empty;
+    }
 
-        if (AppState.Storage.TokenType == TokenType.ERC721)
+    protected void OnDestinationAddressInputChange()
+    {
+        DestinationAddressErrorMessage = string.Empty;
+    }
+
+    protected Task<bool> ForwardHandler()
+    {
+        var isValidTokenUri = !string.IsNullOrWhiteSpace(AppState.Storage.TokenUrl);
+        var isValidDestinationAddress = AppState.Storage.NetworkType == NetworkType.Ethereum 
+            ? Address.Create(AppState.Storage.DestinationAddress).IsSuccess 
+            : SolanaAddress.Create(AppState.Storage.DestinationAddress).IsSuccess;
+
+        if (!isValidTokenUri)
         {
-            TransactionHash = await ResultWrapper.Wrap(TransactionService.MintErc721Token(network, address, uri));
+            TokenUrlErrorMessage = "Invalid token URI";
         }
-        else if (AppState.Storage.TokenType == TokenType.ERC1155)
+
+        if (!isValidDestinationAddress)
         {
-            var amount = (int) AppState.Storage.TokenAmount;
-            TransactionHash = await ResultWrapper.Wrap(TransactionService.MintErc1155Token(network, address, amount, uri));
-        }
-        else if (AppState.Storage.TokenType == TokenType.SolanaDevnet)
-        {
-            TransactionHash =
-                await ResultWrapper.Wrap(SolanaTransactionService.MintNft(EthereumNetwork.SolanaDevnet,
-                    address, 
-                    uri, 
-                    AppState.Storage.TokenName, 
-                    AppState.Storage.TokenAmount));
-        }
-        else if (AppState.Storage.TokenType == TokenType.SolanaTestnet)
-        {
-            TransactionHash =
-                await ResultWrapper.Wrap(SolanaTransactionService.MintNft(EthereumNetwork.SolanaTestnet, 
-                    address,
-                    uri, 
-                    AppState.Storage.TokenName, 
-                    AppState.Storage.TokenAmount));
+            DestinationAddressErrorMessage = "Invalid destination address";
         }
 
         RefreshMediator.NotifyStateHasChangedSafe();
-    }
 
-    protected void ResetState()
-    {
-        AppState.Reset();
-        UriHelper.NavigateToRelative("/");
-    }
-
-    protected async Task ViewOnExplorer()
-    {
-        var network = AppState.Metamask.Network;
-
-        if (AppState.Storage.TokenType == TokenType.SolanaDevnet)
-        {
-            network = EthereumNetwork.SolanaDevnet;
-        }
-
-        if (AppState.Storage.TokenType == TokenType.SolanaTestnet)
-        {
-            network = EthereumNetwork.SolanaTestnet;
-        }
-
-        var baseUrl = network switch
-        {
-            EthereumNetwork.EthereumMainnet => "https://etherscan.io/tx/",
-            EthereumNetwork.Ropsten => "https://ropsten.etherscan.io/tx/",
-            EthereumNetwork.Rinkeby => "https://rinkeby.etherscan.io/tx/",
-            EthereumNetwork.Goerli => "https://goerli.etherscan.io/tx/",
-            EthereumNetwork.Kovan => "https://kovan.etherscan.io/tx/",
-            EthereumNetwork.OptimismMainnet => "https://optimistic.etherscan.io/tx/",
-            EthereumNetwork.OptimismKovan => "https://kovan-optimistic.etherscan.io/tx/",
-            EthereumNetwork.PolygonMainnet => "https://polygonscan.com/tx/",
-            EthereumNetwork.PolygonMumbai => "https://mumbai.polygonscan.com/tx/",
-            EthereumNetwork.MoonbeamMainnet => "https://blockscout.moonbeam.network/tx/",
-            EthereumNetwork.MoonbaseAlpha => "https://moonbase.moonscan.io/tx/",
-            EthereumNetwork.ArbitrumMainnetBeta => "https://explorer.arbitrum.io/tx/",
-            EthereumNetwork.ArbitrumRinkeby => "https://testnet.arbiscan.io/tx/",
-            EthereumNetwork.ArbitrumGoerli => "https://nitro-devnet-explorer.arbitrum.io/tx/",
-            EthereumNetwork.AvalancheMainnet => "https://snowtrace.io/tx/",
-            EthereumNetwork.AvalancheFuji => "https://testnet.snowtrace.io/tx/",
-            EthereumNetwork.SolanaDevnet => "https://explorer.solana.com/tx/",
-            EthereumNetwork.SolanaTestnet => "https://explorer.solana.com/tx/",
-            EthereumNetwork.SolanaMainnet => "https://explorer.solana.com/tx/",
-            _ => null,
-        };
-        if (baseUrl == null && !network.HasValue)
-            return;
-
-        var txHash = TransactionHash!.Value!.Value;
-        var txUrl = BuildTxUrl(network.Value, baseUrl, txHash);
-        await JsRuntime.InvokeAsync<object>("open", txUrl, "_blank");
-    }
-
-    protected async Task RetryTransaction()
-    {
-        TransactionHash = null;
-        RefreshMediator.NotifyStateHasChangedSafe();
-        Mint();
-    }
-
-    private string BuildTxUrl(EthereumNetwork chain, string baseUrl, string txHash)
-    {
-        return chain switch
-        {
-            EthereumNetwork.SolanaDevnet => baseUrl + txHash + "?cluster=devnet",
-            EthereumNetwork.SolanaTestnet => baseUrl + txHash + "?cluster=testnet",
-            EthereumNetwork.SolanaMainnet => baseUrl + txHash,
-            _ => baseUrl + txHash,
-        };
+        return Task.FromResult(isValidTokenUri && isValidDestinationAddress && IsSupportedNetwork);
     }
 }

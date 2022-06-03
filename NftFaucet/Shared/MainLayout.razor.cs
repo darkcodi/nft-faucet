@@ -6,7 +6,7 @@ namespace NftFaucet.Shared;
 
 public class MainLayoutComponent : LayoutBasicComponent
 {
-    private const int StepsCount = 4;
+    private const int StepsCount = 5;
 
     protected bool IsFirstStep => AppState.Navigation.CurrentStep == 1;
     protected bool IsLastStep => AppState.Navigation.CurrentStep == StepsCount;
@@ -15,15 +15,16 @@ public class MainLayoutComponent : LayoutBasicComponent
 
     protected string ForwardButtonText => AppState.Navigation.CurrentStep switch
     {
-        1 => "Review NFT",
-        2 => "Review mint",
-        3 => "Send me this NFT!",
+        1 => "Confirm network selection",
+        2 => "Review NFT",
+        3 => "Review mint",
+        4 => "Send me this NFT!",
         _ => "Next"
     };
 
     protected string ForwardButtonIcon => AppState.Navigation.CurrentStep switch
     {
-        3 => "send",
+        4 => "send",
         _ => "arrow-right",
     };
 

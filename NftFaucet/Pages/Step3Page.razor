@@ -2,26 +2,12 @@
 @inherits Step3Component
 
 <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
-    @if (!IsSupportedNetwork)
-    {
-        <SpaceItem>
-            <Title Level="2" Strong="true" Style="color: red;">Selected network is not supported. Please change network in Metamask!</Title>
-        </SpaceItem>
-    }
     <SpaceItem>
-        <Title Level="4" Style="margin-bottom: 0;">Token URI:</Title>
+        <Title Level="4" Style="margin-bottom: 0;">Token metadata:</Title>
     </SpaceItem>
     <SpaceItem Class="drk-full-width">
-        <div class="@TokenUrlClass">
-            <Input Size="medium" @bind-Value="@AppState.Storage.TokenUrl" OnInput="@OnTokenUrlInputChange"/>
-        </div>
-    </SpaceItem>
-    <SpaceItem>
-        <Title Level="4" Style="margin-bottom: 0;">Destination address:</Title>
-    </SpaceItem>
-    <SpaceItem Class="drk-full-width">
-        <div class="@DestinationAddressClass">
-            <Input Size="medium" @bind-Value="@AppState.Storage.DestinationAddress" OnInput="@OnDestinationAddressInputChange"/>
+        <div class="@EditorClass">
+            <MonacoEditor @ref="Editor" Id="metadata-monaco-editor" ConstructionOptions="EditorConstructionOptions"/>
         </div>
     </SpaceItem>
 </Space>

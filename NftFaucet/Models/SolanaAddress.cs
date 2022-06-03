@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.RegularExpressions;
+using CSharpFunctionalExtensions;
 using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.Util;
 
@@ -16,9 +17,16 @@ public class SolanaAddress : ValueObject<SolanaAddress>
     public static implicit operator string(SolanaAddress address) => address.Value;
     public static explicit operator SolanaAddress(string address) => Create(address).Value;
 
-    public static Result<SolanaAddress> Create(string address)
+    public static Result<SolanaAddress> Create(string value)
     {
-        return new SolanaAddress(address);
+        var regex = "[1-9A-HJ-NP-Za-km-z]";
+
+        if (!Regex.IsMatch(value, regex))
+        {
+            return Result.Failure<SolanaAddress>("Invalid base58 string");
+        }
+
+        return new SolanaAddress(value);
     }
 
     public override string ToString() => Value;

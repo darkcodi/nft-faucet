@@ -22,7 +22,7 @@ public class SolanaTransactionInstructionsPipeline
         Add(SystemProgram.Transfer(from, from, tokenPrice));
     }
 
-    public void AddMetadata(PublicKey from, PublicKey mint, PublicKey metadataAddress, MetadataParameters data)
+    public void AddMetadata(PublicKey from, PublicKey mint, PublicKey metadataAddress, MetadataParameters data, bool isMutable = true)
     {
         Add(MetadataProgram.CreateMetadataAccount(
             metadataAddress,
@@ -32,7 +32,7 @@ public class SolanaTransactionInstructionsPipeline
             from,
             data,
             true,
-            true
+            isMutable
         ));
     }
 

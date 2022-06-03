@@ -19,7 +19,9 @@ public class SolanaTransactionService : ISolanaTransactionService
         string tokenUri,
         string name,
         string symbol,
-        double amount)
+        bool isTokenMutable,
+        uint sellerFeeBasisPoints,
+        ulong amount)
     {
         var cluster = chain switch
         {
@@ -61,10 +63,10 @@ public class SolanaTransactionService : ISolanaTransactionService
         var data = new MetadataParameters()
         {
             name = name,
-            symbol = "DNFT",
+            symbol = symbol,
             uri = tokenUri,
             creators = new List<Creator> { new Creator(walletAddress, 100, true) },
-            sellerFeeBasisPoints = 88,
+            sellerFeeBasisPoints = sellerFeeBasisPoints,
         };
 
         var destinationPublicKey = new PublicKey(destinationAddress);
@@ -72,7 +74,7 @@ public class SolanaTransactionService : ISolanaTransactionService
         var pipeline = new SolanaTransactionInstructionsPipeline();
 
         pipeline.InitializeForMint(walletAddress, destinationPublicKey, mintAddress, rentExemption.Result, (ulong)amount, tokenPrice);
-        pipeline.AddMetadata(walletAddress, mintAddress, metadataAddress, data);
+        pipeline.AddMetadata(walletAddress, mintAddress, metadataAddress, data, isTokenMutable);
         pipeline.AddMasterEdition(walletAddress, mintAddress, masterEditionAddress, metadataAddress, data);
 
         var blockHash = (await client.GetRecentBlockHashAsync()).Result.Value.Blockhash;
