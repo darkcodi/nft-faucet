@@ -18,6 +18,10 @@ public class Step4Component : BasicComponent
     public IEthereumTransactionService TransactionService { get; set; }
 
     [Inject]
+    public ISolanaTransactionService SolanaTransactionService { get; set; }
+
+
+    [Inject]
     protected IJSRuntime JsRuntime { get; set; }
 
     protected Result<string>? TransactionHash { get; set; }
@@ -44,10 +48,28 @@ public class Step4Component : BasicComponent
         {
             TransactionHash = await ResultWrapper.Wrap(TransactionService.MintErc721Token(network, address, uri));
         }
-        else
+        else if (AppState.Storage.TokenType == TokenType.ERC1155)
         {
             var amount = (int) AppState.Storage.TokenAmount;
             TransactionHash = await ResultWrapper.Wrap(TransactionService.MintErc1155Token(network, address, amount, uri));
+        }
+        else if (AppState.Storage.TokenType == TokenType.SolanaDevnet)
+        {
+            TransactionHash =
+                await ResultWrapper.Wrap(SolanaTransactionService.MintNft(EthereumNetwork.SolanaDevnet,
+                    address, 
+                    uri, 
+                    AppState.Storage.TokenName, 
+                    AppState.Storage.TokenAmount));
+        }
+        else if (AppState.Storage.TokenType == TokenType.SolanaTestnet)
+        {
+            TransactionHash =
+                await ResultWrapper.Wrap(SolanaTransactionService.MintNft(EthereumNetwork.SolanaTestnet, 
+                    address,
+                    uri, 
+                    AppState.Storage.TokenName, 
+                    AppState.Storage.TokenAmount));
         }
 
         RefreshMediator.NotifyStateHasChangedSafe();
@@ -61,7 +83,19 @@ public class Step4Component : BasicComponent
 
     protected async Task ViewOnExplorer()
     {
-        var baseUrl = AppState.Metamask.Network switch
+        var network = AppState.Metamask.Network;
+
+        if (AppState.Storage.TokenType == TokenType.SolanaDevnet)
+        {
+            network = EthereumNetwork.SolanaDevnet;
+        }
+
+        if (AppState.Storage.TokenType == TokenType.SolanaTestnet)
+        {
+            network = EthereumNetwork.SolanaTestnet;
+        }
+
+        var baseUrl = network switch
         {
             EthereumNetwork.EthereumMainnet => "https://etherscan.io/tx/",
             EthereumNetwork.Ropsten => "https://ropsten.etherscan.io/tx/",
@@ -79,13 +113,16 @@ public class Step4Component : BasicComponent
             EthereumNetwork.ArbitrumGoerli => "https://nitro-devnet-explorer.arbitrum.io/tx/",
             EthereumNetwork.AvalancheMainnet => "https://snowtrace.io/tx/",
             EthereumNetwork.AvalancheFuji => "https://testnet.snowtrace.io/tx/",
+            EthereumNetwork.SolanaDevnet => "https://explorer.solana.com/tx/",
+            EthereumNetwork.SolanaTestnet => "https://explorer.solana.com/tx/",
+            EthereumNetwork.SolanaMainnet => "https://explorer.solana.com/tx/",
             _ => null,
         };
-        if (baseUrl == null)
+        if (baseUrl == null && !network.HasValue)
             return;
 
         var txHash = TransactionHash!.Value!.Value;
-        var txUrl = baseUrl + txHash;
+        var txUrl = BuildTxUrl(network.Value, baseUrl, txHash);
         await JsRuntime.InvokeAsync<object>("open", txUrl, "_blank");
     }
 
@@ -94,5 +131,16 @@ public class Step4Component : BasicComponent
         TransactionHash = null;
         RefreshMediator.NotifyStateHasChangedSafe();
         Mint();
+    }
+
+    private string BuildTxUrl(EthereumNetwork chain, string baseUrl, string txHash)
+    {
+        return chain switch
+        {
+            EthereumNetwork.SolanaDevnet => baseUrl + txHash + "?cluster=devnet",
+            EthereumNetwork.SolanaTestnet => baseUrl + txHash + "?cluster=testnet",
+            EthereumNetwork.SolanaMainnet => baseUrl + txHash,
+            _ => baseUrl + txHash,
+        };
     }
 }

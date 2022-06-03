@@ -18,4 +18,9 @@ public enum EthereumNetwork : long
     ArbitrumGoerli = 421612,
     AvalancheMainnet = 43114,
     AvalancheFuji = 43113,
+
+    // solana
+    SolanaMainnet = 11100,
+    SolanaDevnet = 11101,
+    SolanaTestnet = 11110,
 }

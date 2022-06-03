@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.Util;
+using NftFaucet.Models.Enums;
 
 namespace NftFaucet.Models;
 

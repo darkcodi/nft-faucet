@@ -34,7 +34,7 @@ public class Step3Component : BasicComponent
     protected Task<bool> ForwardHandler()
     {
         var isValidTokenUri = !string.IsNullOrWhiteSpace(AppState.Storage.TokenUrl);
-        var isValidDestinationAddress = Address.Create(AppState.Storage.DestinationAddress).IsSuccess;
+        var isValidDestinationAddress = Address.Create(AppState.Storage.DestinationAddress).IsSuccess || SolanaAddress.Create(AppState.Storage.DestinationAddress).IsSuccess;
 
         if (!isValidTokenUri)
         {
