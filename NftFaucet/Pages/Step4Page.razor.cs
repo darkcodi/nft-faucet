@@ -20,7 +20,9 @@ public class Step4Component : BasicComponent
             UriHelper.NavigateToRelative("/");
 
         AppState.Navigation.SetForwardHandler(ForwardHandler);
-        AppState.Storage.DestinationAddress = AppState.Metamask.Address;
+        AppState.Storage.DestinationAddress = AppState.Storage.NetworkType == NetworkType.Solana
+                ? "51CNhAWJ94HrvXLNJrbXzhzgSixpwvwYvXTA9U6itENE"
+                : AppState.Metamask.Address;
     }
 
     protected void OnTokenUrlInputChange()
