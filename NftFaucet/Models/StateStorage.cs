@@ -16,4 +16,10 @@ public class StateStorage
     public string TokenMetadata { get; set; }
     public string TokenUrl { get; set; }
     public string DestinationAddress { get; set; }
+    public NetworkType NetworkType { get; set; }
+    public EthereumNetwork Network { get; set; }
+    public string TokenSymbol { get; set; } = "DFNT";
+    public bool IsTokenMutable { get; set; } = true;
+    public double SellerFeeBasisPoints { get; set; } = 88;
+    public bool IncludeMasterEdition { get; set; } = true;
 }

@@ -1,4 +1,4 @@
-@page "/step1"
+﻿@page "/step1"
 @using NftFaucet.Models.Enums
 @using Microsoft.AspNetCore.Components
 @inherits Step1Component
@@ -7,107 +7,28 @@
     <SpaceItem Class="drk-full-width">
         <Space Direction="DirectionVHType.Horizontal" Class="drk-vertical-space-center">
             <SpaceItem>
-                <FileDropZone class="drop-zone">
-                    <Upload Name="file" Class="@ImageClass" ListType="picture-card"
-                            ShowUploadList="false" BeforeAllUploadAsync="BeforeUpload">
-                        @if (AppState?.Storage?.UploadIsInProgress ?? false)
-                        {
-                            <div>
-                                <Icon Spin="true" Type="loading" Style="font-size: 2rem;"></Icon>
-                                <Title Level="4">Uploading...</Title>
-                            </div>
-                        }
-                        else if (AppState?.Storage?.LocalImageUrl != null && AppState.Storage.CanPreviewTokenFile)
-                        {
-                            <img src="@AppState?.Storage?.LocalImageUrl" alt="avatar" style="width: 100%"/>
-                        }
-                        else if (AppState?.Storage?.LocalImageUrl != null)
-                        {
-                            <div>
-                                <Icon Type="eye-invisible" Style="font-size: 2rem;"></Icon>
-                                <Title Level="4">Unable to preview</Title>
-                            </div>
-                        }
-                        else
-                        {
-                            <div>
-                                <Icon Type="plus" Style="font-size: 2rem;"></Icon>
-                                <Title Level="4">Choose or drag & drop file</Title>
-                            </div>
-                        }
-                    </Upload>
-                </FileDropZone>
+                <Button Type="@ButtonType.Primary" Style="width: 150px; height: 100px" Size="large" OnClick="OnEthereumSelected">
+                    <div>Ethereum</div>
+                </Button>
+                <Button Type="@ButtonType.Primary" Style="width: 150px; height: 100px" Color="Color.Red5" Size="large" OnClick="OnSolanaSelected">
+                    <div>Solana</div>
+                </Button>
             </SpaceItem>
-            <SpaceItem Class="drk-grow">
-                <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-vertical-space">
-                    <SpaceItem Class="drk-full-width">
-                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
-                            <SpaceItem>
-                                <Title Level="4" Style="margin-bottom: 0;">Name:</Title>
-                            </SpaceItem>
-                            <SpaceItem Class="drk-full-width">
-                                <div class="@NameClass">
-                                    <Input Size="medium" @bind-Value="@AppState.Storage.TokenName" OnInput="@OnNameInputChange" />
-                                </div>
-                            </SpaceItem>
-                        </Space>
-                    </SpaceItem>
-                    <SpaceItem Class="drk-full-width">
-                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
-                            <SpaceItem>
-                                <Title Level="4" Style="margin-bottom: 0;">Description:</Title>
-                            </SpaceItem>
-                            <SpaceItem Class="drk-full-width">
-                                <div class="@DescriptionClass">
-                                    <TextArea ShowCount MaxLength="255" MinRows="3" MaxRows="5" OnInput="@OnDescriptionInputChange" @bind-Value="@AppState.Storage.TokenDescription" />
-                                </div>
-                            </SpaceItem>
-                        </Space>
-                    </SpaceItem>
-                    <SpaceItem Class="drk-full-width">
-                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
-                            <SpaceItem>
-                                <Title Level="4" Style="margin-bottom: 0;">IPFS Gateway:</Title>
-                            </SpaceItem>
-                            <SpaceItem>
-                                <Select DataSource="@IpfsGateways"
-                                        DefaultValue="@(nameof(IpfsGatewayType.Infura))"
-                                        ValueName="@nameof(EnumWrapper<IpfsGatewayType>.ValueString)"
-                                        LabelName="@nameof(EnumWrapper<IpfsGatewayType>.Description)"
-                                        OnSelectedItemChanged="OnIpfsGatewayChange">
-                                </Select>
-                            </SpaceItem>
-                        </Space>
-                    </SpaceItem>
-                    <SpaceItem Class="drk-full-width">
-                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
-                            <SpaceItem>
-                                <Title Level="4" Style="margin-bottom: 0;">Token type:</Title>
-                            </SpaceItem>
-                            <SpaceItem>
-                                <Select DataSource="@TokenTypes"
-                                        DefaultValue="@(nameof(TokenType.ERC721))"
-                                        ValueName="@nameof(EnumWrapper<TokenType>.ValueString)"
-                                        LabelName="@nameof(EnumWrapper<TokenType>.Description)"
-                                        OnSelectedItemChanged="OnTokenTypeChange">
-                                </Select>
-                            </SpaceItem>
-                        </Space>
-                    </SpaceItem>
-                    <SpaceItem Class="drk-full-width">
-                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
-                            <SpaceItem>
-                                <Title Level="4" Style="margin-bottom: 0;">Amount:</Title>
-                            </SpaceItem>
-                            <SpaceItem>
-                                <div>
-                                    <AntDesign.InputNumber @bind-Value="@AppState.Storage.TokenAmount" Disabled="@(AppState.Storage.TokenType == TokenType.ERC721)" Min="1" Max="1000" DefaultValue="1"></AntDesign.InputNumber>
-                                </div>
-                            </SpaceItem>
-                        </Space>
-                    </SpaceItem>
-                </Space>
+        </Space>
+        <Space Direction="DirectionVHType.Horizontal" Class="drk-vertical-space-center">
+            <SpaceItem>
+                @if (AppState.Storage.NetworkType == NetworkType.Solana)
+                {
+                    <Select DataSource="@ChainTypes"
+                            DefaultValue="@(nameof(EthereumNetwork.SolanaDevnet))"
+                            ValueName="@nameof(EnumWrapper<EthereumNetwork>.ValueString)"
+                            LabelName="@nameof(EnumWrapper<EthereumNetwork>.Description)"
+                            OnSelectedItemChanged="OnNetworkChange">
+                    </Select>
+                }
             </SpaceItem>
         </Space>
     </SpaceItem>
 </Space>
+
+

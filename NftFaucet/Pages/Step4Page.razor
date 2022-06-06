@@ -1,39 +1,27 @@
 @page "/step4"
 @inherits Step4Component
 
-@if (TransactionHash == null)
-{
-    <Space Align="center" Direction="DirectionVHType.Horizontal" Class="drk-vertical-space-center">
-        <SpaceItem Class="drk-full-height">
-            <Space Align="center" Direction="DirectionVHType.Vertical" Class="drk-vertical-space-center" Style="align-items: center !important;">
-                <SpaceItem>
-                    <Spin size="large" />
-                </SpaceItem>
-                <SpaceItem>
-                    <Title Level="3">MetaMask will show a transaction signing pop-up. Please approve.</Title>
-                </SpaceItem>
-            </Space>
+<Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+    @if (!IsSupportedNetwork)
+    {
+        <SpaceItem>
+            <Title Level="2" Strong="true" Style="color: red;">Selected network is not supported. Please change network in Metamask!</Title>
         </SpaceItem>
-    </Space>
-}
-else if (TransactionHash.Value.IsSuccess)
-{
-    <Result Status="success"
-            Title="Transaction was successfully created!"
-            SubTitle="@($"Transaction: {TransactionHash.Value.Value}. Please wait for 1-5 minutes till transaction is completed.")">
-        <Extra>
-            <Button OnClick="@ResetState">Start a new mint</Button>
-            <Button Type="@ButtonType.Primary" OnClick="@ViewOnExplorer">View on explorer</Button>
-        </Extra>
-    </Result>
-}
-else
-{
-    <Result Status="error"
-            Title="Failed to create transaction"
-            SubTitle="@("Please ensure that you approve created transactions in Metamask")">
-        <Extra>
-            <Button Type="primary" OnClick="@RetryTransaction">Try again</Button>
-        </Extra>
-    </Result>
-}
+    }
+    <SpaceItem>
+        <Title Level="4" Style="margin-bottom: 0;">Token URI:</Title>
+    </SpaceItem>
+    <SpaceItem Class="drk-full-width">
+        <div class="@TokenUrlClass">
+            <Input Size="medium" @bind-Value="@AppState.Storage.TokenUrl" OnInput="@OnTokenUrlInputChange"/>
+        </div>
+    </SpaceItem>
+    <SpaceItem>
+        <Title Level="4" Style="margin-bottom: 0;">Destination address:</Title>
+    </SpaceItem>
+    <SpaceItem Class="drk-full-width">
+        <div class="@DestinationAddressClass">
+            <Input Size="medium" @bind-Value="@AppState.Storage.DestinationAddress" OnInput="@OnDestinationAddressInputChange"/>
+        </div>
+    </SpaceItem>
+</Space>

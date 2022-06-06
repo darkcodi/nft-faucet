@@ -1,13 +1,176 @@
 @page "/step2"
+@using NftFaucet.Models.Enums
+@using Microsoft.AspNetCore.Components
 @inherits Step2Component
 
-<Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
-    <SpaceItem>
-        <Title Level="4" Style="margin-bottom: 0;">Token metadata:</Title>
-    </SpaceItem>
+<Space Align="center" Direction="DirectionVHType.Vertical" Class="drk-vertical-space-center">
     <SpaceItem Class="drk-full-width">
-        <div class="@EditorClass">
-            <MonacoEditor @ref="Editor" Id="metadata-monaco-editor" ConstructionOptions="EditorConstructionOptions"/>
-        </div>
+        <Space Direction="DirectionVHType.Horizontal" Class="drk-vertical-space-center">
+            <SpaceItem>
+                <FileDropZone class="drop-zone">
+                    <Upload Name="file" Class="@ImageClass" ListType="picture-card"
+                            ShowUploadList="false" BeforeAllUploadAsync="BeforeUpload">
+                        @if (AppState?.Storage?.UploadIsInProgress ?? false)
+                        {
+                            <div>
+                                <Icon Spin="true" Type="loading" Style="font-size: 2rem;"></Icon>
+                                <Title Level="4">Uploading...</Title>
+                            </div>
+                        }
+                        else if (AppState?.Storage?.LocalImageUrl != null && AppState.Storage.CanPreviewTokenFile)
+                        {
+                            <img src="@AppState?.Storage?.LocalImageUrl" alt="avatar" style="width: 100%"/>
+                        }
+                        else if (AppState?.Storage?.LocalImageUrl != null)
+                        {
+                            <div>
+                                <Icon Type="eye-invisible" Style="font-size: 2rem;"></Icon>
+                                <Title Level="4">Unable to preview</Title>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <Icon Type="plus" Style="font-size: 2rem;"></Icon>
+                                <Title Level="4">Choose or drag & drop file</Title>
+                            </div>
+                        }
+                    </Upload>
+                </FileDropZone>
+            </SpaceItem>
+            <SpaceItem Class="drk-grow">
+                <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-vertical-space">
+                    <SpaceItem Class="drk-full-width">
+                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                            <SpaceItem>
+                                <Title Level="4" Style="margin-bottom: 0;">Name:</Title>
+                            </SpaceItem>
+                            <SpaceItem Class="drk-full-width">
+                                <div class="@NameClass">
+                                    <Input Size="medium" @bind-Value="@AppState.Storage.TokenName" OnInput="@OnNameInputChange" />
+                                </div>
+                            </SpaceItem>
+                        </Space>
+                    </SpaceItem>
+                    @if (AppState.Storage.NetworkType == NetworkType.Ethereum)
+                    {
+                        <SpaceItem Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                                <SpaceItem>
+                                    <Title Level="4" Style="margin-bottom: 0;">Description:</Title>
+                                </SpaceItem>
+                                <SpaceItem Class="drk-full-width">
+                                    <div class="@DescriptionClass">
+                                        <TextArea ShowCount MaxLength="255" MinRows="3" MaxRows="5" OnInput="@OnDescriptionInputChange" @bind-Value="@AppState.Storage.TokenDescription" />
+                                    </div>
+                                </SpaceItem>
+                            </Space>
+                        </SpaceItem>
+                    }
+                    @if (AppState.Storage.NetworkType == NetworkType.Solana)
+                    {
+                        <SpaceItem Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                                <SpaceItem>
+                                    <Title Level="4" Style="margin-bottom: 0;">Token symbol:</Title>
+                                </SpaceItem>
+                                <SpaceItem Class="drk-full-width">
+                                    <div class="@SymbolClass">
+                                        <Input Size="medium" @bind-Value="@AppState.Storage.TokenSymbol" OnInput="@OnSymbolInputChange" />
+                                    </div>
+                                </SpaceItem>
+                            </Space>
+                        </SpaceItem>
+                    }
+                    <SpaceItem Class="drk-full-width">
+                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                            <SpaceItem>
+                                <Title Level="4" Style="margin-bottom: 0;">IPFS Gateway:</Title>
+                            </SpaceItem>
+                            <SpaceItem>
+                                <Select DataSource="@IpfsGateways"
+                                        DefaultValue="@(nameof(IpfsGatewayType.Infura))"
+                                        ValueName="@nameof(EnumWrapper<IpfsGatewayType>.ValueString)"
+                                        LabelName="@nameof(EnumWrapper<IpfsGatewayType>.Description)"
+                                        OnSelectedItemChanged="OnIpfsGatewayChange">
+                                </Select>
+                            </SpaceItem>
+                        </Space>
+                    </SpaceItem>
+                    @if (AppState.Storage.NetworkType == NetworkType.Ethereum)
+                    {
+                        <SpaceItem Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                                <SpaceItem>
+                                    <Title Level="4" Style="margin-bottom: 0;">Token type:</Title>
+                                </SpaceItem>
+                                <SpaceItem>
+                                    <Select DataSource="@TokenTypes"
+                                            DefaultValue="@(nameof(TokenType.ERC721))"
+                                            ValueName="@nameof(EnumWrapper<TokenType>.ValueString)"
+                                            LabelName="@nameof(EnumWrapper<TokenType>.Description)"
+                                            OnSelectedItemChanged="OnTokenTypeChange">
+                                    </Select>
+                                </SpaceItem>
+                            </Space>
+                        </SpaceItem>
+                    }
+                    @if (AppState.Storage.NetworkType == NetworkType.Solana)
+                    {
+                        <SpaceItem Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Horizontal" Class="drk-full-width">
+                                <SpaceItem>
+                                    <Title Level="4" Style="margin-bottom: 0;">Include master edition:</Title>
+                                </SpaceItem>
+                                <SpaceItem>
+                                    <Checkbox Style="margin-top: auto; margin-bottom: auto" @bind-Value="AppState.Storage.IncludeMasterEdition"/>
+                                </SpaceItem>
+                            </Space>
+                        </SpaceItem>
+                    }
+                    @if (AppState.Storage.NetworkType == NetworkType.Solana)
+                    {
+                        <SpaceItem Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Horizontal" Class="drk-full-width">
+                                <SpaceItem>
+                                    <Title Level="4" Style="margin-bottom: 0;">Is token mutable:</Title>
+                                </SpaceItem>
+                                <SpaceItem>
+                                    <Checkbox Style="margin-top: auto; margin-bottom: auto" @bind-Value="AppState.Storage.IsTokenMutable"/>
+                                </SpaceItem>
+                            </Space>
+                        </SpaceItem>
+                    }
+                    @if (AppState.Storage.NetworkType == NetworkType.Solana)
+                    {
+                        <SpaceItem Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                                <SpaceItem>
+                                    <Title Level="4" Style="margin-bottom: 0;">Seller fee basis points:</Title>
+                                </SpaceItem>
+                                <SpaceItem>
+                                    <div>
+                                        <AntDesign.InputNumber @bind-Value="@AppState.Storage.SellerFeeBasisPoints" Min="1" Max="10000" DefaultValue="88"></AntDesign.InputNumber>
+                                    </div>
+                                </SpaceItem>
+                            </Space>
+                        </SpaceItem>
+                    }
+                    <SpaceItem Class="drk-full-width">
+                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                            <SpaceItem>
+                                <Title Level="4" Style="margin-bottom: 0;">Amount:</Title>
+                            </SpaceItem>
+                            <SpaceItem>
+                                <div>
+                                    <AntDesign.InputNumber @bind-Value="@AppState.Storage.TokenAmount" Disabled="@(AppState.Storage.NetworkType == NetworkType.Ethereum 
+                                                                                                                   && AppState.Storage.TokenType == TokenType.ERC721)" Min="1" Max="1000" DefaultValue="1"></AntDesign.InputNumber>
+                                </div>
+                            </SpaceItem>
+                        </Space>
+                    </SpaceItem>
+                </Space>
+            </SpaceItem>
+        </Space>
     </SpaceItem>
 </Space>

@@ -15,6 +15,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
         <PackageReference Include="RestEase" Version="1.5.5" />
         <PackageReference Include="Serilog.Sinks.BrowserConsole" Version="1.0.0" />
+        <PackageReference Include="Solana.Metaplex" Version="1.2.0" />
         <PackageReference Include="Toolbelt.Blazor.FileDropZone" Version="1.0.1" />
     </ItemGroup>
 
