@@ -38,18 +38,24 @@ public class SolanaTransactionService : ISolanaTransactionService
         ulong tokenPrice = 20000000; // 0.02 SOL
 
         var airdropSig = await client.RequestAirdropAsync(wallet.Account.PublicKey, 50000000);
+        Console.WriteLine(airdropSig.Result);
 
-        var airDropCompleted = false;
-        do
+        await RepeatAsync(async () =>
         {
             var transaction = await client.GetTransactionAsync(airdropSig.Result);
 
-            airDropCompleted = transaction.WasRequestSuccessfullyHandled && transaction.ErrorData == null;
-            await Task.Delay(1000);
-        } while (!airDropCompleted);
+            return transaction.WasRequestSuccessfullyHandled && transaction.ErrorData == null;
+        }, TimeSpan.FromSeconds(1), 100);
 
         var walletAddress = wallet.Account.PublicKey;
-        var balanceRes = await client.GetBalanceAsync(walletAddress);
+
+        await RepeatAsync(async () =>
+        {
+            var balanceRes = await client.GetBalanceAsync(walletAddress);
+
+            return balanceRes.Result.Value > 0;
+        }, TimeSpan.FromSeconds(1), 5);
+
 
         var rentExemption = await client.GetMinimumBalanceForRentExemptionAsync(
             TokenProgram.MintAccountDataSize,
@@ -97,7 +103,7 @@ public class SolanaTransactionService : ISolanaTransactionService
 
         if (!isSimulationSuccessful)
         {
-            return string.Empty;
+            throw new Exception("Transaction simulation failed. Try again.");
         }
 
         var txResult = await client.SendTransactionAsync(tx);
@@ -109,6 +115,26 @@ public class SolanaTransactionService : ISolanaTransactionService
     {
         var newMnemonic = new Mnemonic(WordList.English, WordCount.Twelve);
         return new Wallet(newMnemonic);
+    }
+
+    public async Task RepeatAsync(Func<Task<bool>> work, TimeSpan retryInterval, int maxExecutionCount = 3)
+    {
+        for (var i = 0; i < maxExecutionCount; ++i)
+        {
+            try
+            {
+                var result = await work();
+                if (result)
+                {
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            await Task.Delay(retryInterval);
+        }
     }
 
     private PublicKey GetMetadataAddress(PublicKey mintAddress)

@@ -22,6 +22,7 @@ public class Step1Component : BasicComponent
     protected void OnSolanaSelected()
     {
         AppState.Storage.NetworkType = NetworkType.Solana;
+        AppState.Storage.Network = EthereumNetwork.SolanaDevnet;
     }
 
     protected void OnNetworkChange(EnumWrapper<EthereumNetwork> network)
