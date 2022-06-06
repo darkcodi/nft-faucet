@@ -118,12 +118,12 @@
                     @if (AppState.Storage.NetworkType == NetworkType.Solana)
                     {
                         <SpaceItem Class="drk-full-width">
-                            <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Horizontal" Class="drk-full-width">
                                 <SpaceItem>
                                     <Title Level="4" Style="margin-bottom: 0;">Include master edition:</Title>
                                 </SpaceItem>
                                 <SpaceItem>
-                                    <Checkbox @bind-Value="AppState.Storage.IncludeMasterEdition"/>
+                                    <Checkbox Style="margin-top: auto; margin-bottom: auto" @bind-Value="AppState.Storage.IncludeMasterEdition"/>
                                 </SpaceItem>
                             </Space>
                         </SpaceItem>
@@ -131,12 +131,12 @@
                     @if (AppState.Storage.NetworkType == NetworkType.Solana)
                     {
                         <SpaceItem Class="drk-full-width">
-                            <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Horizontal" Class="drk-full-width">
                                 <SpaceItem>
                                     <Title Level="4" Style="margin-bottom: 0;">Is token mutable:</Title>
                                 </SpaceItem>
                                 <SpaceItem>
-                                    <Checkbox @bind-Value="AppState.Storage.IsTokenMutable"/>
+                                    <Checkbox Style="margin-top: auto; margin-bottom: auto" @bind-Value="AppState.Storage.IsTokenMutable"/>
                                 </SpaceItem>
                             </Space>
                         </SpaceItem>

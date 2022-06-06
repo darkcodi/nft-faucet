@@ -45,7 +45,7 @@ public class SolanaTransactionService : ISolanaTransactionService
             var transaction = await client.GetTransactionAsync(airdropSig.Result);
 
             airDropCompleted = transaction.WasRequestSuccessfullyHandled && transaction.ErrorData == null;
-            await Task.Delay(2500);
+            await Task.Delay(1000);
         } while (!airDropCompleted);
 
         var walletAddress = wallet.Account.PublicKey;
