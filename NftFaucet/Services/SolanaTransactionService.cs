@@ -35,7 +35,7 @@ public class SolanaTransactionService : ISolanaTransactionService
         var client = ClientFactory.GetClient(cluster);
 
         var wallet = CreateNewWallet();
-        ulong tokenPrice = 20000000; // 1 SOL
+        ulong tokenPrice = 20000000; // 0.02 SOL
 
         var airdropSig = await client.RequestAirdropAsync(wallet.Account.PublicKey, 50000000);
 
