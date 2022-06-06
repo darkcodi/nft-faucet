@@ -72,7 +72,7 @@
                         <SpaceItem Class="drk-full-width">
                             <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
                                 <SpaceItem>
-                                    <Title Level="4" Style="margin-bottom: 0;">Description:</Title>
+                                    <Title Level="4" Style="margin-bottom: 0;">Token symbol:</Title>
                                 </SpaceItem>
                                 <SpaceItem Class="drk-full-width">
                                     <div class="@SymbolClass">
@@ -120,6 +120,19 @@
                         <SpaceItem Class="drk-full-width">
                             <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
                                 <SpaceItem>
+                                    <Title Level="4" Style="margin-bottom: 0;">Include master edition:</Title>
+                                </SpaceItem>
+                                <SpaceItem>
+                                    <Checkbox @bind-Value="AppState.Storage.IncludeMasterEdition"/>
+                                </SpaceItem>
+                            </Space>
+                        </SpaceItem>
+                    }
+                    @if (AppState.Storage.NetworkType == NetworkType.Solana)
+                    {
+                        <SpaceItem Class="drk-full-width">
+                            <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                                <SpaceItem>
                                     <Title Level="4" Style="margin-bottom: 0;">Is token mutable:</Title>
                                 </SpaceItem>
                                 <SpaceItem>
@@ -150,7 +163,8 @@
                             </SpaceItem>
                             <SpaceItem>
                                 <div>
-                                    <AntDesign.InputNumber @bind-Value="@AppState.Storage.TokenAmount" Disabled="@(AppState.Storage.TokenType == TokenType.ERC721)" Min="1" Max="1000" DefaultValue="1"></AntDesign.InputNumber>
+                                    <AntDesign.InputNumber @bind-Value="@AppState.Storage.TokenAmount" Disabled="@(AppState.Storage.NetworkType == NetworkType.Ethereum 
+                                                                                                                   && AppState.Storage.TokenType == TokenType.ERC721)" Min="1" Max="1000" DefaultValue="1"></AntDesign.InputNumber>
                                 </div>
                             </SpaceItem>
                         </Space>

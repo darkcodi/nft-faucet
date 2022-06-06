@@ -19,7 +19,7 @@ public class SolanaAddress : ValueObject<SolanaAddress>
 
     public static Result<SolanaAddress> Create(string value)
     {
-        var regex = "[1-9A-HJ-NP-Za-km-z]";
+        var regex = "^[1-9A-HJ-NP-Za-km-z]{32,44}$";
 
         if (!Regex.IsMatch(value, regex))
         {

@@ -62,6 +62,7 @@ public class Step5Component : BasicComponent
                     AppState.Storage.TokenName, 
                     AppState.Storage.TokenSymbol,
                     AppState.Storage.IsTokenMutable,
+                    AppState.Storage.IncludeMasterEdition,
                     (uint)AppState.Storage.SellerFeeBasisPoints,
                     (ulong)AppState.Storage.TokenAmount));
         }

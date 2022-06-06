@@ -21,4 +21,5 @@ public class StateStorage
     public string TokenSymbol { get; set; } = "DFNT";
     public bool IsTokenMutable { get; set; } = true;
     public double SellerFeeBasisPoints { get; set; } = 88;
+    public bool IncludeMasterEdition { get; set; } = true;
 }

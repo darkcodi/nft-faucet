@@ -2,6 +2,7 @@ using NftFaucet.Components;
 using NftFaucet.Extensions;
 using NftFaucet.Models;
 using NftFaucet.Models.Enums;
+using Solnet.Wallet;
 
 namespace NftFaucet.Pages;
 
@@ -35,8 +36,8 @@ public class Step4Component : BasicComponent
     protected Task<bool> ForwardHandler()
     {
         var isValidTokenUri = !string.IsNullOrWhiteSpace(AppState.Storage.TokenUrl);
-        var isValidDestinationAddress = AppState.Storage.NetworkType == NetworkType.Ethereum 
-            ? Address.Create(AppState.Storage.DestinationAddress).IsSuccess 
+        var isValidDestinationAddress = AppState.Storage.NetworkType == NetworkType.Ethereum
+            ? Address.Create(AppState.Storage.DestinationAddress).IsSuccess
             : SolanaAddress.Create(AppState.Storage.DestinationAddress).IsSuccess;
 
         if (!isValidTokenUri)

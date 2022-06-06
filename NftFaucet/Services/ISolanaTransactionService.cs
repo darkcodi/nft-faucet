@@ -10,6 +10,7 @@ public interface ISolanaTransactionService
         string name,
         string symbol,
         bool isTokenMutable,
+        bool includeMasterEdition,
         uint sellerFeeBasisPoints,
         ulong amount);
 }

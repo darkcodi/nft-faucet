@@ -20,6 +20,7 @@ public class SolanaTransactionService : ISolanaTransactionService
         string name,
         string symbol,
         bool isTokenMutable,
+        bool includeMasterEdition,
         uint sellerFeeBasisPoints,
         ulong amount)
     {
@@ -44,6 +45,7 @@ public class SolanaTransactionService : ISolanaTransactionService
             var transaction = await client.GetTransactionAsync(airdropSig.Result);
 
             airDropCompleted = transaction.WasRequestSuccessfullyHandled && transaction.ErrorData == null;
+            await Task.Delay(2500);
         } while (!airDropCompleted);
 
         var walletAddress = wallet.Account.PublicKey;
@@ -75,7 +77,11 @@ public class SolanaTransactionService : ISolanaTransactionService
 
         pipeline.InitializeForMint(walletAddress, destinationPublicKey, mintAddress, rentExemption.Result, (ulong)amount, tokenPrice);
         pipeline.AddMetadata(walletAddress, mintAddress, metadataAddress, data, isTokenMutable);
-        pipeline.AddMasterEdition(walletAddress, mintAddress, masterEditionAddress, metadataAddress, data);
+
+        if (includeMasterEdition)
+        {
+            pipeline.AddMasterEdition(walletAddress, mintAddress, masterEditionAddress, metadataAddress, data);
+        }
 
         var blockHash = (await client.GetRecentBlockHashAsync()).Result.Value.Blockhash;
 
