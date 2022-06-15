@@ -83,6 +83,14 @@ public class Step2Component : BasicComponent
         DescriptionErrorMessage = string.Empty;
     }
 
+    protected void OnMasterEditionCheck(bool value)
+    {
+        if (value)
+        {
+            AppState.Storage.TokenAmount = 1;
+        }
+    }
+
     protected void OnIpfsGatewayChange(EnumWrapper<IpfsGatewayType> ipfsGatewayItem)
     {
         AppState.Storage.IpfsGatewayType = ipfsGatewayItem.Value;
