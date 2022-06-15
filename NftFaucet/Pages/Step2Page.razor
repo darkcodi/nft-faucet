@@ -123,7 +123,9 @@
                                     <Title Level="4" Style="margin-bottom: 0;">Include master edition:</Title>
                                 </SpaceItem>
                                 <SpaceItem>
-                                    <Checkbox Style="margin-top: auto; margin-bottom: auto" @bind-Value="AppState.Storage.IncludeMasterEdition"/>
+                                    <Popover Title="Warning" Content="Notice that for master edition token amount should always be 1">
+                                        <Checkbox Style="margin-top: auto; margin-bottom: auto" @bind-Value="AppState.Storage.IncludeMasterEdition" OnChange="OnMasterEditionCheck"/>
+                                        </Popover>
                                 </SpaceItem>
                             </Space>
                         </SpaceItem>
@@ -163,8 +165,10 @@
                             </SpaceItem>
                             <SpaceItem>
                                 <div>
-                                    <AntDesign.InputNumber @bind-Value="@AppState.Storage.TokenAmount" Disabled="@(AppState.Storage.NetworkType == NetworkType.Ethereum 
-                                                                                                                   && AppState.Storage.TokenType == TokenType.ERC721)" Min="1" Max="1000" DefaultValue="1"></AntDesign.InputNumber>
+                                    <AntDesign.InputNumber @bind-Value="@AppState.Storage.TokenAmount" Disabled="@((AppState.Storage.NetworkType == NetworkType.Ethereum 
+                                                                                                                   && AppState.Storage.TokenType == TokenType.ERC721) ||
+                                                                                                                   (AppState.Storage.NetworkType == NetworkType.Solana &&
+                                                                                                                    AppState.Storage.IncludeMasterEdition))" Min="1" Max="1000" DefaultValue="1"></AntDesign.InputNumber>
                                 </div>
                             </SpaceItem>
                         </Space>
