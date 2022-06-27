@@ -35,10 +35,8 @@ public class Step2Component : BasicComponent
     protected Task<bool> ForwardHandler()
     {
         var isValidName = !string.IsNullOrWhiteSpace(AppState.Storage.TokenName);
-        var isValidDescription = AppState.Storage.NetworkType == NetworkType.Ethereum
-            ? !string.IsNullOrWhiteSpace(AppState.Storage.TokenDescription)
-            : !string.IsNullOrEmpty(AppState.Storage.TokenSymbol);
-
+        var isValidDescription = !string.IsNullOrWhiteSpace(AppState.Storage.TokenDescription);
+        var isValidTokenSymbol = AppState.Storage.NetworkType != NetworkType.Solana || !string.IsNullOrEmpty(AppState.Storage.TokenSymbol);
         var isValidFile = AppState.Storage.IpfsImageUrl != null;
         var isNotUploading = !AppState.Storage.UploadIsInProgress;
 
@@ -47,7 +45,7 @@ public class Step2Component : BasicComponent
             NameErrorMessage = "Invalid name";
         }
 
-        if (!isValidDescription)
+        if (!isValidDescription || !isValidTokenSymbol)
         {
             DescriptionErrorMessage = "Invalid description";
         }
@@ -64,7 +62,7 @@ public class Step2Component : BasicComponent
 
         RefreshMediator.NotifyStateHasChangedSafe();
 
-        var canProceed = isValidName && isValidDescription && isValidFile && isNotUploading;
+        var canProceed = isValidName && isValidDescription && isValidTokenSymbol && isValidFile && isNotUploading;
         return Task.FromResult(canProceed);
     }
 

@@ -52,21 +52,18 @@
                             </SpaceItem>
                         </Space>
                     </SpaceItem>
-                    @if (AppState.Storage.NetworkType == NetworkType.Ethereum)
-                    {
-                        <SpaceItem Class="drk-full-width">
-                            <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
-                                <SpaceItem>
-                                    <Title Level="4" Style="margin-bottom: 0;">Description:</Title>
-                                </SpaceItem>
-                                <SpaceItem Class="drk-full-width">
-                                    <div class="@DescriptionClass">
-                                        <TextArea ShowCount MaxLength="255" MinRows="3" MaxRows="5" OnInput="@OnDescriptionInputChange" @bind-Value="@AppState.Storage.TokenDescription" />
-                                    </div>
-                                </SpaceItem>
-                            </Space>
-                        </SpaceItem>
-                    }
+                    <SpaceItem Class="drk-full-width">
+                        <Space Align="start" Direction="DirectionVHType.Vertical" Class="drk-full-width">
+                            <SpaceItem>
+                                <Title Level="4" Style="margin-bottom: 0;">Description:</Title>
+                            </SpaceItem>
+                            <SpaceItem Class="drk-full-width">
+                                <div class="@DescriptionClass">
+                                    <TextArea ShowCount MaxLength="255" MinRows="3" MaxRows="5" OnInput="@OnDescriptionInputChange" @bind-Value="@AppState.Storage.TokenDescription" />
+                                </div>
+                            </SpaceItem>
+                        </Space>
+                    </SpaceItem>
                     @if (AppState.Storage.NetworkType == NetworkType.Solana)
                     {
                         <SpaceItem Class="drk-full-width">
