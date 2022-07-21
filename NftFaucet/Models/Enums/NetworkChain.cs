@@ -1,6 +1,6 @@
 namespace NftFaucet.Models.Enums;
 
-public enum EthereumNetwork : long
+public enum NetworkChain : long
 {
     EthereumMainnet = 1,
     Ropsten = 3,
@@ -18,6 +18,10 @@ public enum EthereumNetwork : long
     ArbitrumGoerli = 421612,
     AvalancheMainnet = 43114,
     AvalancheFuji = 43113,
+    
+    // BNB Smart Chain
+    BnbChainMainnet = 56,
+    BnbChainTestnet = 97,
 
     // solana
     SolanaMainnet = 11100,

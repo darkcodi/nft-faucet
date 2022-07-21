@@ -14,7 +14,7 @@ using Solnet.Wallet.Bip39;
 namespace NftFaucet.Services;
 public class SolanaTransactionService : ISolanaTransactionService
 {
-    public async Task<string> MintNft(EthereumNetwork chain,
+    public async Task<string> MintNft(NetworkChain chain,
         string destinationAddress,
         string tokenUri,
         string name,
@@ -26,9 +26,9 @@ public class SolanaTransactionService : ISolanaTransactionService
     {
         var cluster = chain switch
         {
-            EthereumNetwork.SolanaMainnet => Cluster.MainNet,
-            EthereumNetwork.SolanaDevnet => Cluster.DevNet,
-            EthereumNetwork.SolanaTestnet => Cluster.TestNet,
+            NetworkChain.SolanaMainnet => Cluster.MainNet,
+            NetworkChain.SolanaDevnet => Cluster.DevNet,
+            NetworkChain.SolanaTestnet => Cluster.TestNet,
             _ => throw new ArgumentOutOfRangeException(nameof(chain), chain, null)
         };
 

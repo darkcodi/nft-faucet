@@ -7,7 +7,7 @@
             <PageHeaderTitle>NFT Faucet</PageHeaderTitle>
             <PageHeaderTags>
                 <Tag PresetColor="@PresetColor.Blue">Address: @(AppState.Storage.NetworkType == NetworkType.Ethereum ? AppState?.Metamask?.Address ?? "<null>" : "<null>")</Tag>
-                <Tag PresetColor="@ChainColor">@("Chain: " + (AppState.Storage.NetworkType == NetworkType.Ethereum ? AppState?.Metamask?.Network?.ToString() ?? "<unknown>" : AppState.Storage.Network.ToString()) + " (" + (AppState.Storage.NetworkType == NetworkType.Ethereum ? AppState?.Metamask?.ChainId.ToString() ?? "<null>" : "<null>") + ")")</Tag>
+                <Tag PresetColor="@ChainColor">@("Chain: " + (AppState.Storage.NetworkType == NetworkType.Ethereum ? AppState?.Metamask?.Network?.ToString() ?? "<unknown>" : AppState.Storage.NetworkChain.ToString()) + " (" + (AppState.Storage.NetworkType == NetworkType.Ethereum ? AppState?.Metamask?.ChainId.ToString() ?? "<null>" : "<null>") + ")")</Tag>
             </PageHeaderTags>
         </PageHeader>
         <Steps Current="@(AppState.Navigation.CurrentStep - 1)" Type="navigation" Class="fix-alignment">
