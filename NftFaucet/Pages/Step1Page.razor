@@ -20,9 +20,9 @@
                 @if (AppState.Storage.NetworkType == NetworkType.Solana)
                 {
                     <Select DataSource="@ChainTypes"
-                            DefaultValue="@(nameof(EthereumNetwork.SolanaDevnet))"
-                            ValueName="@nameof(EnumWrapper<EthereumNetwork>.ValueString)"
-                            LabelName="@nameof(EnumWrapper<EthereumNetwork>.Description)"
+                            DefaultValue="@(nameof(NetworkChain.SolanaDevnet))"
+                            ValueName="@nameof(EnumWrapper<NetworkChain>.ValueString)"
+                            LabelName="@nameof(EnumWrapper<NetworkChain>.Description)"
                             OnSelectedItemChanged="OnNetworkChange">
                     </Select>
                 }

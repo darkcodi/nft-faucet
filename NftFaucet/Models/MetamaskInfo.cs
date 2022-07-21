@@ -24,7 +24,7 @@ public class MetamaskInfo
 
     public string Address { get; private set; }
     public long ChainId { get; private set; }
-    public EthereumNetwork? Network { get; private set; }
+    public NetworkChain? Network { get; private set; }
 
     public async Task<bool> IsConnected()
     {
@@ -69,7 +69,7 @@ public class MetamaskInfo
     {
         Address = await Service.GetSelectedAddress();
         ChainId = (await Service.GetSelectedChain()).chainId;
-        Network = Enum.IsDefined(typeof(EthereumNetwork), ChainId) ? (EthereumNetwork) ChainId : null;
+        Network = Enum.IsDefined(typeof(NetworkChain), ChainId) ? (NetworkChain) ChainId : null;
         _refreshMediator.NotifyStateHasChangedSafe();
     }
 
@@ -90,7 +90,7 @@ public class MetamaskInfo
     private Task OnChainChangedEvent((long ChainId, Chain Chain) arg)
     {
         ChainId = arg.ChainId;
-        Network = Enum.IsDefined(typeof(EthereumNetwork), ChainId) ? (EthereumNetwork) ChainId : null;
+        Network = Enum.IsDefined(typeof(NetworkChain), ChainId) ? (NetworkChain) ChainId : null;
         _refreshMediator.NotifyStateHasChangedSafe();
         return Task.CompletedTask;
     }

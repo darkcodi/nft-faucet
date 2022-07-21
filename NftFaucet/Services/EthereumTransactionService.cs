@@ -17,7 +17,7 @@ public class EthereumTransactionService : IEthereumTransactionService
         _metamaskInfo = metamaskInfo;
     }
 
-    public async Task<string> MintErc721Token(EthereumNetwork network, string destinationAddress, string tokenUri)
+    public async Task<string> MintErc721Token(NetworkChain network, string destinationAddress, string tokenUri)
     {
         var options = _settings.GetEthereumNetworkOptions(network);
         var transfer = new Erc721MintFunction
@@ -30,7 +30,7 @@ public class EthereumTransactionService : IEthereumTransactionService
         return transactionHash;
     }
 
-    public async Task<string> MintErc1155Token(EthereumNetwork network, string destinationAddress, BigInteger amount, string tokenUri)
+    public async Task<string> MintErc1155Token(NetworkChain network, string destinationAddress, BigInteger amount, string tokenUri)
     {
         var options = _settings.GetEthereumNetworkOptions(network);
         var transfer = new Erc1155MintFunction

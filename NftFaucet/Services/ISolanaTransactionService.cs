@@ -4,7 +4,7 @@ namespace NftFaucet.Services;
 
 public interface ISolanaTransactionService
 {
-    Task<string> MintNft(EthereumNetwork chain,
+    Task<string> MintNft(NetworkChain chain,
         string destinationAddress,
         string tokenUri,
         string name,

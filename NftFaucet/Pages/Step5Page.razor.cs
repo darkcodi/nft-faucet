@@ -56,7 +56,7 @@ public class Step5Component : BasicComponent
         else if (AppState.Storage.NetworkType == NetworkType.Solana)
         {
             TransactionHash =
-                await ResultWrapper.Wrap(SolanaTransactionService.MintNft(AppState.Storage.Network,
+                await ResultWrapper.Wrap(SolanaTransactionService.MintNft(AppState.Storage.NetworkChain,
                     address, 
                     uri, 
                     AppState.Storage.TokenName, 
@@ -83,30 +83,32 @@ public class Step5Component : BasicComponent
 
         if (AppState.Storage.NetworkType == NetworkType.Solana)
         {
-            network = AppState.Storage.Network;
+            network = AppState.Storage.NetworkChain;
         }
 
         var baseUrl = network switch
         {
-            EthereumNetwork.EthereumMainnet => "https://etherscan.io/tx/",
-            EthereumNetwork.Ropsten => "https://ropsten.etherscan.io/tx/",
-            EthereumNetwork.Rinkeby => "https://rinkeby.etherscan.io/tx/",
-            EthereumNetwork.Goerli => "https://goerli.etherscan.io/tx/",
-            EthereumNetwork.Kovan => "https://kovan.etherscan.io/tx/",
-            EthereumNetwork.OptimismMainnet => "https://optimistic.etherscan.io/tx/",
-            EthereumNetwork.OptimismKovan => "https://kovan-optimistic.etherscan.io/tx/",
-            EthereumNetwork.PolygonMainnet => "https://polygonscan.com/tx/",
-            EthereumNetwork.PolygonMumbai => "https://mumbai.polygonscan.com/tx/",
-            EthereumNetwork.MoonbeamMainnet => "https://blockscout.moonbeam.network/tx/",
-            EthereumNetwork.MoonbaseAlpha => "https://moonbase.moonscan.io/tx/",
-            EthereumNetwork.ArbitrumMainnetBeta => "https://explorer.arbitrum.io/tx/",
-            EthereumNetwork.ArbitrumRinkeby => "https://testnet.arbiscan.io/tx/",
-            EthereumNetwork.ArbitrumGoerli => "https://nitro-devnet-explorer.arbitrum.io/tx/",
-            EthereumNetwork.AvalancheMainnet => "https://snowtrace.io/tx/",
-            EthereumNetwork.AvalancheFuji => "https://testnet.snowtrace.io/tx/",
-            EthereumNetwork.SolanaDevnet => "https://explorer.solana.com/tx/",
-            EthereumNetwork.SolanaTestnet => "https://explorer.solana.com/tx/",
-            EthereumNetwork.SolanaMainnet => "https://explorer.solana.com/tx/",
+            NetworkChain.EthereumMainnet => "https://etherscan.io/tx/",
+            NetworkChain.Ropsten => "https://ropsten.etherscan.io/tx/",
+            NetworkChain.Rinkeby => "https://rinkeby.etherscan.io/tx/",
+            NetworkChain.Goerli => "https://goerli.etherscan.io/tx/",
+            NetworkChain.Kovan => "https://kovan.etherscan.io/tx/",
+            NetworkChain.OptimismMainnet => "https://optimistic.etherscan.io/tx/",
+            NetworkChain.OptimismKovan => "https://kovan-optimistic.etherscan.io/tx/",
+            NetworkChain.PolygonMainnet => "https://polygonscan.com/tx/",
+            NetworkChain.PolygonMumbai => "https://mumbai.polygonscan.com/tx/",
+            NetworkChain.MoonbeamMainnet => "https://blockscout.moonbeam.network/tx/",
+            NetworkChain.MoonbaseAlpha => "https://moonbase.moonscan.io/tx/",
+            NetworkChain.ArbitrumMainnetBeta => "https://explorer.arbitrum.io/tx/",
+            NetworkChain.ArbitrumRinkeby => "https://testnet.arbiscan.io/tx/",
+            NetworkChain.ArbitrumGoerli => "https://nitro-devnet-explorer.arbitrum.io/tx/",
+            NetworkChain.AvalancheMainnet => "https://snowtrace.io/tx/",
+            NetworkChain.AvalancheFuji => "https://testnet.snowtrace.io/tx/",
+            NetworkChain.SolanaDevnet => "https://explorer.solana.com/tx/",
+            NetworkChain.SolanaTestnet => "https://explorer.solana.com/tx/",
+            NetworkChain.SolanaMainnet => "https://explorer.solana.com/tx/",
+            NetworkChain.BnbChainMainnet => "https://bscscan.com/tx/",
+            NetworkChain.BnbChainTestnet => "https://testnet.bscscan.com/tx/",
             _ => null,
         };
         if (baseUrl == null && !network.HasValue)
@@ -124,13 +126,13 @@ public class Step5Component : BasicComponent
         Mint();
     }
 
-    private string BuildTxUrl(EthereumNetwork chain, string baseUrl, string txHash)
+    private string BuildTxUrl(NetworkChain chain, string baseUrl, string txHash)
     {
         return chain switch
         {
-            EthereumNetwork.SolanaDevnet => baseUrl + txHash + "?cluster=devnet",
-            EthereumNetwork.SolanaTestnet => baseUrl + txHash + "?cluster=testnet",
-            EthereumNetwork.SolanaMainnet => baseUrl + txHash,
+            NetworkChain.SolanaDevnet => baseUrl + txHash + "?cluster=devnet",
+            NetworkChain.SolanaTestnet => baseUrl + txHash + "?cluster=testnet",
+            NetworkChain.SolanaMainnet => baseUrl + txHash,
             _ => baseUrl + txHash,
         };
     }

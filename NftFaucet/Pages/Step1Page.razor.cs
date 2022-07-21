@@ -8,8 +8,8 @@ public class Step1Component : BasicComponent
     protected EnumWrapper<NetworkType>[] NetworkTypes { get; } = Enum.GetValues<NetworkType>()
         .Select(x => new EnumWrapper<NetworkType>(x, x.ToString())).ToArray();
 
-    protected EnumWrapper<EthereumNetwork>[] ChainTypes { get; } = new List<EthereumNetwork>() {EthereumNetwork.SolanaTestnet, EthereumNetwork.SolanaDevnet, EthereumNetwork.SolanaMainnet}
-        .Select(x => new EnumWrapper<EthereumNetwork>(x, x.ToString())).ToArray();
+    protected EnumWrapper<NetworkChain>[] ChainTypes { get; } = new List<NetworkChain>() {NetworkChain.SolanaTestnet, NetworkChain.SolanaDevnet, NetworkChain.SolanaMainnet}
+        .Select(x => new EnumWrapper<NetworkChain>(x, x.ToString())).ToArray();
 
 
     protected void OnEthereumSelected()
@@ -22,12 +22,12 @@ public class Step1Component : BasicComponent
     protected void OnSolanaSelected()
     {
         AppState.Storage.NetworkType = NetworkType.Solana;
-        AppState.Storage.Network = EthereumNetwork.SolanaDevnet;
+        AppState.Storage.NetworkChain = NetworkChain.SolanaDevnet;
     }
 
-    protected void OnNetworkChange(EnumWrapper<EthereumNetwork> network)
+    protected void OnNetworkChange(EnumWrapper<NetworkChain> network)
     {
-        AppState.Storage.Network = network.Value;
+        AppState.Storage.NetworkChain = network.Value;
         RefreshMediator.NotifyStateHasChangedSafe();
 
         AppState.Navigation.GoForward();

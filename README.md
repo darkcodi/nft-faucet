@@ -1,20 +1,20 @@
 # NFT Faucet
-[![Deploy to GitHub Pages](https://github.com/darkcodi/nft-faucet/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/darkcodi/nft-faucet/actions/workflows/main.yml)  
-  
-It's a WASM web-application that allows you to mint ERC-721 and ERC-1155 tokens to any specified ethereum address.
-  
+[![Deploy to GitHub Pages](https://github.com/darkcodi/nft-faucet/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/darkcodi/nft-faucet/actions/workflows/main.yml)
+
+It's a WASM web-application that allows you to mint ERC-721 and ERC-1155 tokens to any specified address from supported networks.
+
 ## Requirements
 - installed [Metamask](https://metamask.io/download/) extension
-- some test ETH (or MATIC) to pay for a blockchain transaction fee  
-(faucets: [Ropsten](https://faucet.egorfine.com/), [Mumbai](https://mumbaifaucet.com/), etc.)
-  
+- some test ETH (or MATIC or other network's base asset) to pay for a blockchain transaction fee  
+  (faucets: [Ropsten](https://faucet.egorfine.com/), [Mumbai](https://mumbaifaucet.com/), etc.)
+
 ## Demo
-Go to https://darkcodi.github.io/nft-faucet/  
-  
-[![demo](demo.gif)]()  
+Go to https://darkcodi.github.io/nft-faucet/
+
+[![demo](demo.gif)]()
 
 ## Deployed contracts
-Used [contracts](NftFaucet/Contracts) are based on [OpenZeppilin contracts](https://github.com/OpenZeppelin/openzeppelin-contracts), but with one unusual feature - `mint` method can be called by anyone, not just by an owner.    
+Used [contracts](NftFaucet/Contracts) are based on [OpenZeppilin contracts](https://github.com/OpenZeppelin/openzeppelin-contracts), but with one unusual feature - `mint` method can be called by anyone, not just by an owner.
 
 |                 | ERC-721   | ERC-1155   |
 |-----------------|-----------|------------|
@@ -28,17 +28,18 @@ Used [contracts](NftFaucet/Contracts) are based on [OpenZeppilin contracts](http
 | ArbitrumRinkeby | [0x9F64932Be34D5D897C4253D17707b50921f372B6](https://testnet.arbiscan.io/token/0x9F64932Be34D5D897C4253D17707b50921f372B6) | [0xf67C575502fc1cE399a3e1895dDf41847185D7bD](https://testnet.arbiscan.io/token/0xf67C575502fc1cE399a3e1895dDf41847185D7bD) |
 | ArbitrumGoerli  | [0x9F64932Be34D5D897C4253D17707b50921f372B6](https://nitro-devnet-explorer.arbitrum.io/address/0x9F64932Be34D5D897C4253D17707b50921f372B6) | [0xf67C575502fc1cE399a3e1895dDf41847185D7bD](https://nitro-devnet-explorer.arbitrum.io/address/0xf67C575502fc1cE399a3e1895dDf41847185D7bD) |
 | AvalancheFuji   | [0x9F64932Be34D5D897C4253D17707b50921f372B6](https://testnet.snowtrace.io/token/0x9F64932Be34D5D897C4253D17707b50921f372B6) | [0xf67C575502fc1cE399a3e1895dDf41847185D7bD](https://testnet.snowtrace.io/token/0xf67C575502fc1cE399a3e1895dDf41847185D7bD) |
-  
+| BnbChainTestnet | [0xe6ee919a81da4dad1e632614ba4fdb8d748eb278](https://testnet.bscscan.com/token/0xe6ee919a81da4dad1e632614ba4fdb8d748eb278) | [0xa6d787d1ec987a96ba2a8bf4dae79234e4a2125a](https://testnet.bscscan.com/token/0xa6d787d1ec987a96ba2a8bf4dae79234e4a2125a) |
+
 ## Technology stack
 
-NOTE: The entire web app works as a static website, hosted on Github Pages. There is NO backend, it runs only in your browser! :)  
+NOTE: The entire web app works as a static website, hosted on Github Pages. There is NO backend, it runs only in your browser! :)
 
 - Blazor WASM
 - Metamask
 - IPFS (upload provider - Infura, pinning provider - Crust)
 - Solidity smart contracts
-  
-[![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)  
+
+[![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
 ## How to run it locally?
 Simply type this command in the root of this repo:
