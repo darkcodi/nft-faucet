@@ -35,7 +35,8 @@ public class MetamaskInfo
         HasMetaMask ??= await Service.IsMetaMaskAvailableAsync();
         IsMetaMaskConnected ??= await Service.IsSiteConnectedAsync();
 
-        return HasMetaMask.Value && IsMetaMaskConnected.Value;
+        var isConnected = HasMetaMask.Value && IsMetaMaskConnected.Value;
+        return isConnected;
     }
 
     public async Task<bool> IsReady()
@@ -49,7 +50,8 @@ public class MetamaskInfo
             SubscribeToEvents();
         }
 
-        return HasMetaMask!.Value && IsMetaMaskConnected!.Value && !string.IsNullOrEmpty(Address) && ChainId != 0;
+        var isReady = HasMetaMask!.Value && IsMetaMaskConnected!.Value && ChainId != 0;
+        return isReady;
     }
 
     public async Task<bool> Connect()
