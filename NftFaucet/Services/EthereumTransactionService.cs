@@ -26,7 +26,7 @@ public class EthereumTransactionService : IEthereumTransactionService
             Uri = tokenUri,
         };
         var data = transfer.Encode();
-        var transactionHash = await _metamaskInfo.Service.SendTransaction(options.Erc721ContractAddress, 0, data);
+        var transactionHash = await _metamaskInfo.Service.SendTransactionAsync(options.Erc721ContractAddress, 0, data);
         return transactionHash;
     }
 
@@ -40,7 +40,7 @@ public class EthereumTransactionService : IEthereumTransactionService
             Uri = tokenUri,
         };
         var data = transfer.Encode();
-        var transactionHash = await _metamaskInfo.Service.SendTransaction(options.Erc1155ContractAddress, 0, data);
+        var transactionHash = await _metamaskInfo.Service.SendTransactionAsync(options.Erc1155ContractAddress, 0, data);
         return transactionHash;
     }
 }

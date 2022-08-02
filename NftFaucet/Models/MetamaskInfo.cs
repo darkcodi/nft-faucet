@@ -1,5 +1,7 @@
-using MetaMask.Blazor;
-using MetaMask.Blazor.Enums;
+using System.Globalization;
+using System.Numerics;
+using Ethereum.MetaMask.Blazor;
+using Nethereum.Hex.HexTypes;
 using NftFaucet.Models.Enums;
 using NftFaucet.Services;
 using NftFaucet.Utils;
@@ -11,25 +13,27 @@ public class MetamaskInfo
 {
     private readonly RefreshMediator _refreshMediator;
 
-    public MetamaskInfo(ExtendedMetamaskService service, RefreshMediator refreshMediator)
+    public MetamaskInfo(IMetaMaskService service, MetamaskSigningService signingService, RefreshMediator refreshMediator)
     {
         Service = service;
+        SigningService = signingService;
         _refreshMediator = refreshMediator;
     }
 
-    public ExtendedMetamaskService Service { get; }
+    public IMetaMaskService Service { get; }
+    public MetamaskSigningService SigningService { get; }
 
     public bool? HasMetaMask { get; private set; }
     public bool? IsMetaMaskConnected { get; private set; }
 
     public string Address { get; private set; }
-    public long ChainId { get; private set; }
+    public BigInteger ChainId { get; private set; }
     public NetworkChain? Network { get; private set; }
 
     public async Task<bool> IsConnected()
     {
-        HasMetaMask ??= await Service.HasMetaMask();
-        IsMetaMaskConnected ??= await Service.IsSiteConnected();
+        HasMetaMask ??= await Service.IsMetaMaskAvailableAsync();
+        IsMetaMaskConnected ??= await Service.IsSiteConnectedAsync();
 
         return HasMetaMask.Value && IsMetaMaskConnected.Value;
     }
@@ -50,7 +54,7 @@ public class MetamaskInfo
 
     public async Task<bool> Connect()
     {
-        var result = await ResultWrapper.Wrap(() => Service.ConnectMetaMask());
+        var result = await ResultWrapper.Wrap(() => Service.ConnectAsync());
         if (result.IsFailure)
         {
             Log.Error(result.Error);
@@ -67,31 +71,29 @@ public class MetamaskInfo
 
     public async Task RefreshAddress()
     {
-        Address = await Service.GetSelectedAddress();
-        ChainId = (await Service.GetSelectedChain()).chainId;
-        Network = Enum.IsDefined(typeof(NetworkChain), ChainId) ? (NetworkChain) ChainId : null;
+        Address = await Service.GetSelectedAccountAsync();
+        var chainIdHex = await Service.GetSelectedChainAsync();
+        ChainId = !string.IsNullOrEmpty(chainIdHex) ? new HexBigInteger(chainIdHex).Value : BigInteger.Zero;
+        Network = long.TryParse(ChainId.ToString(), out var longChainId) && Enum.IsDefined(typeof(NetworkChain), longChainId) ? (NetworkChain) longChainId : null;
         _refreshMediator.NotifyStateHasChangedSafe();
     }
 
     private void SubscribeToEvents()
     {
-        MetaMaskService.AccountChangedEvent += OnAccountChangedEvent;
-        MetaMaskService.ChainChangedEvent += OnChainChangedEvent;
-        Service.ListenToEvents();
+        Service.AccountsChanged += OnAccountChangedEvent;
+        Service.ChainChanged += OnChainChangedEvent;
     }
 
-    private Task OnAccountChangedEvent(string newAddress)
+    private void OnAccountChangedEvent(object sender, string[] args)
     {
-        Address = newAddress;
+        Address = args.FirstOrDefault();
         _refreshMediator.NotifyStateHasChangedSafe();
-        return Task.CompletedTask;
     }
 
-    private Task OnChainChangedEvent((long ChainId, Chain Chain) arg)
+    private void OnChainChangedEvent(object sender, string chainIdHex)
     {
-        ChainId = arg.ChainId;
-        Network = Enum.IsDefined(typeof(NetworkChain), ChainId) ? (NetworkChain) ChainId : null;
+        ChainId = !string.IsNullOrEmpty(chainIdHex) ? new HexBigInteger(chainIdHex).Value : BigInteger.Zero;
+        Network = long.TryParse(ChainId.ToString(), out var longChainId) && Enum.IsDefined(typeof(NetworkChain), longChainId) ? (NetworkChain) longChainId : null;
         _refreshMediator.NotifyStateHasChangedSafe();
-        return Task.CompletedTask;
     }
 }

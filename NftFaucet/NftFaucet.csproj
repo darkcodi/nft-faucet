@@ -10,9 +10,11 @@
         <PackageReference Include="AntDesign" Version="0.10.6-alpha.2" />
         <PackageReference Include="BlazorMonaco" Version="2.1.0" />
         <PackageReference Include="CSharpFunctionalExtensions" Version="2.29.0" />
-        <PackageReference Include="MetaMask.Blazor" Version="1.6.1" />
+        <PackageReference Include="Ethereum.MetaMask.Blazor" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
+        <PackageReference Include="Nethereum.ABI" Version="4.7.0" />
+        <PackageReference Include="Nethereum.JsonRpc.Client" Version="4.7.0" />
         <PackageReference Include="RestEase" Version="1.5.5" />
         <PackageReference Include="Serilog.Sinks.BrowserConsole" Version="1.0.0" />
         <PackageReference Include="Solana.Metaplex" Version="1.2.0" />

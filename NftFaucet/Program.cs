@@ -1,9 +1,8 @@
-using MetaMask.Blazor;
+using Ethereum.MetaMask.Blazor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using NftFaucet;
 using NftFaucet.Models;
-using NftFaucet.Models.Enums;
 using NftFaucet.Options;
 using NftFaucet.Services;
 using Serilog;
@@ -25,7 +24,7 @@ builder.Services.AddScoped(_ => new HttpClient {BaseAddress = new Uri(builder.Ho
 builder.Services.AddScoped<ScopedAppState>();
 builder.Services.AddScoped<RefreshMediator>();
 builder.Services.AddScoped<MetamaskInfo>();
-builder.Services.AddScoped<ExtendedMetamaskService>();
+builder.Services.AddScoped<MetamaskSigningService>();
 builder.Services.AddScoped<NavigationWrapper>();
 builder.Services.AddScoped<IEthereumTransactionService, EthereumTransactionService>();
 builder.Services.AddScoped<ISolanaTransactionService, SolanaTransactionService>();
@@ -34,8 +33,5 @@ builder.Services.AddScoped<IpfsBlockchainContext>();
 
 builder.Services.AddAntDesign();
 builder.Services.AddMetaMaskBlazor();
-
-//var ser = new SolanaTransactionService();
-//await ser.MintNft(EthereumNetwork.SolanaDevnet, null, null);
 
 await builder.Build().RunAsync();

@@ -1,7 +1,6 @@
 using CSharpFunctionalExtensions;
 using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.Util;
-using NftFaucet.Models.Enums;
 
 namespace NftFaucet.Models;
 
@@ -37,8 +36,6 @@ public class Address : ValueObject<Address>
     }
 
     public override string ToString() => Value;
-    public string ToShortFormatString() => ToString();
-    public string ToLongFormatString() => LongFormatPrefix + Value.RemoveHexPrefix();
 
     protected override bool EqualsCore(Address other)
         => string.Equals(Value, other.Value, StringComparison.InvariantCultureIgnoreCase);

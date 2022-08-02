@@ -30,7 +30,7 @@ public class ConnectIpfsComponent : BasicComponent
     protected async Task Sign()
     {
         var address = Metamask.Address.ToLowerInvariant();
-        var signedMessageResult = await ResultWrapper.Wrap(Metamask.Service.SignAsync(address));
+        var signedMessageResult = await ResultWrapper.Wrap(Metamask.SigningService.SignAsync(address));
         if (signedMessageResult.IsFailure)
         {
             return;

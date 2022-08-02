@@ -1,4 +1,3 @@
-using MetaMask.Blazor;
 using Microsoft.JSInterop;
 using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.JsonRpc.Client;
@@ -8,11 +7,11 @@ using RpcError = Nethereum.JsonRpc.Client.RpcError;
 
 namespace NftFaucet.Services;
 
-public class ExtendedMetamaskService : MetaMaskService
+public class MetamaskSigningService
 {
     private readonly IJSRuntime _jsRuntime;
 
-    public ExtendedMetamaskService(IJSRuntime jsRuntime) : base(jsRuntime)
+    public MetamaskSigningService(IJSRuntime jsRuntime)
     {
         _jsRuntime = jsRuntime;
     }

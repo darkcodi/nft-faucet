@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
-using Nethereum.Hex.HexConvertors.Extensions;
-using Nethereum.Util;
 
 namespace NftFaucet.Models;
 
@@ -30,8 +28,6 @@ public class SolanaAddress : ValueObject<SolanaAddress>
     }
 
     public override string ToString() => Value;
-    public string ToShortFormatString() => ToString();
-    public string ToLongFormatString() => Value.RemoveHexPrefix();
 
     protected override bool EqualsCore(SolanaAddress other)
         => string.Equals(Value, other.Value, StringComparison.InvariantCultureIgnoreCase);
