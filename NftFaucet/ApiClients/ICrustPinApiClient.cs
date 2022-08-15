@@ -4,7 +4,7 @@ using RestEase;
 namespace NftFaucet.ApiClients;
 
 [BaseAddress("https://pin.crustcode.com")]
-public interface ICrustApiClient
+public interface ICrustPinApiClient
 {
     [Header("Authorization")]
     public string Auth { get; set; }

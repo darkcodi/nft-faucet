@@ -49,11 +49,13 @@ public class IpfsService : IIpfsService
     public async Task<Uri> Upload(string fileName, string fileType, byte[] fileBytes)
     {
         var fileUploadRequest = ToMultipartContent(fileName, fileType, fileBytes);
-        var uploadClient = RestClient.For<IInfuraIpfsApiClient>();
+        var uploadClient = RestClient.For<ICrustUploadApiClient>();
+        var authHeader = GenerateAuthHeader();
+        uploadClient.Auth = authHeader;
         var response = await uploadClient.UploadFile(fileUploadRequest);
 
-        var pinningClient = RestClient.For<ICrustApiClient>();
-        pinningClient.Auth = GenerateAuthHeader();
+        var pinningClient = RestClient.For<ICrustPinApiClient>();
+        pinningClient.Auth = authHeader;
         var pinRequest = new PinRequest
         {
             cid = response.Hash,
