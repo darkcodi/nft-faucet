@@ -31,7 +31,7 @@ namespace NftFaucetRadzen.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected NetworkModel[] Networks { get; } = new[]
+        protected NetworkModel[] EthereumNetworks { get; } = new[]
         {
             new NetworkModel
             {
@@ -110,6 +110,30 @@ namespace NftFaucetRadzen.Pages
                 Currency = "???",
                 ImageName = "ethereum-gray.svg",
                 IsSupported = false,
+                IsTestnet = true,
+                IsDeprecated = false,
+            },
+        };
+
+        protected NetworkModel[] PolygonNetworks { get; } = new[]
+        {
+            new NetworkModel
+            {
+                Name = "Polygon Mainnet",
+                ChainId = 137,
+                Currency = "MATIC",
+                ImageName = "polygon-matic.svg",
+                IsSupported = false,
+                IsTestnet = false,
+                IsDeprecated = false,
+            },
+            new NetworkModel
+            {
+                Name = "Polygon Mumbai",
+                ChainId = 80001,
+                Currency = "MATIC",
+                ImageName = "polygon-matic.svg",
+                IsSupported = true,
                 IsTestnet = true,
                 IsDeprecated = false,
             },
