@@ -35,7 +35,7 @@ namespace NftFaucetRadzen.Pages
         {
             new NetworkModel
             {
-                Name = "Ethereum Mainnet",
+                Name = "Mainnet",
                 ChainId = 1,
                 Currency = "ETH",
                 ImageName = "ethereum.svg",
@@ -92,6 +92,15 @@ namespace NftFaucetRadzen.Pages
                 Name = "Sepolia",
                 ChainId = 11155111,
                 Currency = "SEP",
+                ImageName = "ethereum.svg",
+                IsSupported = false,
+                IsTestnet = true,
+            },
+            new NetworkModel
+            {
+                Name = "Custom",
+                ChainId = 1337,
+                Currency = "???",
                 ImageName = "ethereum.svg",
                 IsSupported = false,
                 IsTestnet = true,
