@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet", "NftFaucet\NftFaucet.csproj", "{EBEB2AEE-0DC0-4F3D-9675-680D5BCD8A01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucetRadzen", "NftFaucetRadzen\NftFaucetRadzen.csproj", "{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{EBEB2AEE-0DC0-4F3D-9675-680D5BCD8A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBEB2AEE-0DC0-4F3D-9675-680D5BCD8A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBEB2AEE-0DC0-4F3D-9675-680D5BCD8A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
