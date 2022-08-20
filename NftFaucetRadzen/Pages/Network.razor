@@ -1,0 +1,42 @@
+@page "/network"
+@using NftFaucetRadzen.Models
+
+<PageTitle>Network</PageTitle>
+<RadzenContent Container="main">
+    <RadzenHeading Size="H1" Text="Select network" />
+    <RadzenTabs RenderMode="Radzen.TabRenderMode.Client">
+        <Tabs>
+            <RadzenTabsItem Text="Ethereum">
+                <RadzenDataList WrapItems="true" Data="@Networks" TItem="NetworkModel" >
+                    <Template Context="network">
+                        <RadzenCard Style="width: 250px">
+                            <div class="row">
+                                <div class="col-md-8 text-truncate">
+                                    @if (!network.IsSupported)
+                                    {
+                                        <RadzenBadge BadgeStyle="BadgeStyle.Light" Text=@("Not supported") Class="mr-1"/>
+                                    }
+                                    <b>@(network.Name)</b>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <RadzenBadge BadgeStyle="@(network.IsTestnet ? BadgeStyle.Success : BadgeStyle.Danger)" Text=@(network.IsTestnet ? "Testnet" : "Mainnet") />
+                                </div>
+                            </div>
+                            <hr style="border: none; background-color: rgba(0,0,0,.08); height: 1px; margin: 1rem 0;" />
+                            <div class="d-flex flex-row align-items-center">
+                                <RadzenImage Path="\icon-192.png" Class="rounded-circle float-left mr-3" Style="width: 80px; height: 80px;" />
+                                <div>
+                                    <h4 class="mb-0">@network.Name</h4>
+                                    <div>@network.ChainId</div>
+                                    <div style="font-size: .8em">@network.Currency</div>
+                                </div>
+                            </div>
+                        </RadzenCard>
+                    </Template>
+                </RadzenDataList>
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="Polygon"></RadzenTabsItem>
+            <RadzenTabsItem Text="Solana"></RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
+</RadzenContent>
