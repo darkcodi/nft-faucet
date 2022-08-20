@@ -8,4 +8,5 @@ public class NetworkModel
     public string ImageName { get; set; }
     public bool IsSupported { get; set; }
     public bool IsTestnet { get; set; }
+    public bool IsDeprecated { get; set; }
 }

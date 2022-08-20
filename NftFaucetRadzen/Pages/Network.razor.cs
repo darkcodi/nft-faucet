@@ -41,6 +41,7 @@ namespace NftFaucetRadzen.Pages
                 ImageName = "ethereum.svg",
                 IsSupported = false,
                 IsTestnet = false,
+                IsDeprecated = false,
             },
             new NetworkModel
             {
@@ -50,6 +51,7 @@ namespace NftFaucetRadzen.Pages
                 ImageName = "ethereum.svg",
                 IsSupported = true,
                 IsTestnet = true,
+                IsDeprecated = true,
             },
             new NetworkModel
             {
@@ -59,6 +61,7 @@ namespace NftFaucetRadzen.Pages
                 ImageName = "ethereum.svg",
                 IsSupported = true,
                 IsTestnet = true,
+                IsDeprecated = true,
             },
             new NetworkModel
             {
@@ -68,6 +71,7 @@ namespace NftFaucetRadzen.Pages
                 ImageName = "ethereum.svg",
                 IsSupported = true,
                 IsTestnet = true,
+                IsDeprecated = false,
             },
             new NetworkModel
             {
@@ -77,6 +81,7 @@ namespace NftFaucetRadzen.Pages
                 ImageName = "ethereum.svg",
                 IsSupported = true,
                 IsTestnet = true,
+                IsDeprecated = true,
             },
             new NetworkModel
             {
@@ -86,6 +91,7 @@ namespace NftFaucetRadzen.Pages
                 ImageName = "ethereum.svg",
                 IsSupported = false,
                 IsTestnet = true,
+                IsDeprecated = true,
             },
             new NetworkModel
             {
@@ -95,6 +101,7 @@ namespace NftFaucetRadzen.Pages
                 ImageName = "ethereum.svg",
                 IsSupported = false,
                 IsTestnet = true,
+                IsDeprecated = false,
             },
             new NetworkModel
             {
@@ -104,6 +111,7 @@ namespace NftFaucetRadzen.Pages
                 ImageName = "ethereum.svg",
                 IsSupported = false,
                 IsTestnet = true,
+                IsDeprecated = false,
             },
         };
     }
