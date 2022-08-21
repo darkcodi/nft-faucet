@@ -29,6 +29,7 @@ namespace NftFaucetRadzen.Pages
         {
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Mainnet",
                 ChainId = 1,
                 Currency = "ETH",
@@ -39,6 +40,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Ropsten",
                 ChainId = 3,
                 Currency = "ETH",
@@ -49,6 +51,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Rinkeby",
                 ChainId = 4,
                 Currency = "ETH",
@@ -59,6 +62,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Goerli",
                 ChainId = 5,
                 Currency = "ETH",
@@ -69,6 +73,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Kovan",
                 ChainId = 42,
                 Currency = "ETH",
@@ -79,6 +84,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Kiln",
                 ChainId = 1337802,
                 Currency = "ETH",
@@ -89,6 +95,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Sepolia",
                 ChainId = 11155111,
                 Currency = "SEP",
@@ -99,6 +106,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Custom",
                 ImageName = "ethereum-gray.svg",
                 IsSupported = false,
@@ -111,6 +119,7 @@ namespace NftFaucetRadzen.Pages
         {
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Polygon Mainnet",
                 ChainId = 137,
                 Currency = "MATIC",
@@ -121,6 +130,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Polygon Mumbai",
                 ChainId = 80001,
                 Currency = "MATIC",
@@ -135,6 +145,7 @@ namespace NftFaucetRadzen.Pages
         {
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Solana Mainnet",
                 Currency = "SOL",
                 ImageName = "solana.svg",
@@ -144,6 +155,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Solana Devnet",
                 Currency = "SOL",
                 ImageName = "solana-black.svg",
@@ -153,6 +165,7 @@ namespace NftFaucetRadzen.Pages
             },
             new NetworkModel
             {
+                Id = Guid.NewGuid(),
                 Name = "Solana Testnet",
                 Currency = "SOL",
                 ImageName = "solana-black.svg",
