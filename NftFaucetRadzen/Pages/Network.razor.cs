@@ -116,7 +116,7 @@ namespace NftFaucetRadzen.Pages
                 Name = "Polygon Mainnet",
                 ChainId = 137,
                 Currency = "MATIC",
-                ImageName = "polygon-matic.svg",
+                ImageName = "polygon.svg",
                 IsSupported = false,
                 IsTestnet = false,
                 IsDeprecated = false,
@@ -126,7 +126,41 @@ namespace NftFaucetRadzen.Pages
                 Name = "Polygon Mumbai",
                 ChainId = 80001,
                 Currency = "MATIC",
-                ImageName = "polygon-matic.svg",
+                ImageName = "polygon-black.svg",
+                IsSupported = true,
+                IsTestnet = true,
+                IsDeprecated = false,
+            },
+        };
+
+        protected NetworkModel[] SolanaNetworks { get; } = new[]
+        {
+            new NetworkModel
+            {
+                Name = "Solana Mainnet",
+                ChainId = 137,
+                Currency = "SOL",
+                ImageName = "solana.svg",
+                IsSupported = false,
+                IsTestnet = false,
+                IsDeprecated = false,
+            },
+            new NetworkModel
+            {
+                Name = "Solana Devnet",
+                ChainId = 80001,
+                Currency = "SOL",
+                ImageName = "solana-black.svg",
+                IsSupported = true,
+                IsTestnet = true,
+                IsDeprecated = false,
+            },
+            new NetworkModel
+            {
+                Name = "Solana Testnet",
+                ChainId = 80001,
+                Currency = "SOL",
+                ImageName = "solana-black.svg",
                 IsSupported = true,
                 IsTestnet = true,
                 IsDeprecated = false,
