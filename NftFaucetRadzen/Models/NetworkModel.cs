@@ -1,3 +1,5 @@
+using NftFaucetRadzen.Models.Enums;
+
 namespace NftFaucetRadzen.Models;
 
 public class NetworkModel
@@ -10,4 +12,7 @@ public class NetworkModel
     public bool IsSupported { get; set; }
     public bool IsTestnet { get; set; }
     public bool IsDeprecated { get; set; }
+    public NetworkType Type { get; set; }
+    public string Erc721ContractAddress { get; set; }
+    public string Erc1155ContractAddress { get; set; }
 }

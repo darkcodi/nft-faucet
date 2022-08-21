@@ -6,14 +6,30 @@
     <RadzenTabs RenderMode="TabRenderMode.Client">
         <Tabs>
             <RadzenTabsItem Text="Ethereum">
-                <NetworkList Data="@EthereumNetworks" SelectedNetworkId="@EthereumNetworks.First(x => x.Name == "Ropsten").Id" />
+                <NetworkList Data="@EthereumNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Polygon">
-                <NetworkList Data="@PolygonNetworks" />
+                <NetworkList Data="@PolygonNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="Bsc">
+                <NetworkList Data="@BscNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="Optimism">
+                <NetworkList Data="@OptimismNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="Moonbase">
+                <NetworkList Data="@MoonbaseNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="Arbitrum">
+                <NetworkList Data="@ArbitrumNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="Avalanche">
+                <NetworkList Data="@AvalancheNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Solana">
-                <NetworkList Data="@SolanaNetworks" />
+                <NetworkList Data="@SolanaNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
+            
         </Tabs>
     </RadzenTabs>
 </RadzenContent>

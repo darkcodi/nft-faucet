@@ -1,6 +1,8 @@
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Models.Enums;
+using NftFaucetRadzen.Options;
 using Radzen;
 
 namespace NftFaucetRadzen.Pages
@@ -25,154 +27,30 @@ namespace NftFaucetRadzen.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected NetworkModel[] EthereumNetworks { get; } = new[]
-        {
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Mainnet",
-                ChainId = 1,
-                Currency = "ETH",
-                ImageName = "ethereum.svg",
-                IsSupported = false,
-                IsTestnet = false,
-                IsDeprecated = false,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Ropsten",
-                ChainId = 3,
-                Currency = "ETH",
-                ImageName = "ethereum-gray.svg",
-                IsSupported = true,
-                IsTestnet = true,
-                IsDeprecated = true,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Rinkeby",
-                ChainId = 4,
-                Currency = "ETH",
-                ImageName = "ethereum-gray.svg",
-                IsSupported = true,
-                IsTestnet = true,
-                IsDeprecated = true,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Goerli",
-                ChainId = 5,
-                Currency = "ETH",
-                ImageName = "ethereum-gray.svg",
-                IsSupported = true,
-                IsTestnet = true,
-                IsDeprecated = false,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Kovan",
-                ChainId = 42,
-                Currency = "ETH",
-                ImageName = "ethereum-gray.svg",
-                IsSupported = true,
-                IsTestnet = true,
-                IsDeprecated = true,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Kiln",
-                ChainId = 1337802,
-                Currency = "ETH",
-                ImageName = "ethereum-gray.svg",
-                IsSupported = false,
-                IsTestnet = true,
-                IsDeprecated = true,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Sepolia",
-                ChainId = 11155111,
-                Currency = "SEP",
-                ImageName = "ethereum-gray.svg",
-                IsSupported = false,
-                IsTestnet = true,
-                IsDeprecated = false,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Custom",
-                ImageName = "ethereum-gray.svg",
-                IsSupported = false,
-                IsTestnet = true,
-                IsDeprecated = false,
-            },
-        };
+        [Inject]
+        protected Settings Settings { get; set; }
 
-        protected NetworkModel[] PolygonNetworks { get; } = new[]
+        protected override void OnInitialized()
         {
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Polygon Mainnet",
-                ChainId = 137,
-                Currency = "MATIC",
-                ImageName = "polygon.svg",
-                IsSupported = false,
-                IsTestnet = false,
-                IsDeprecated = false,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Polygon Mumbai",
-                ChainId = 80001,
-                Currency = "MATIC",
-                ImageName = "polygon-black.svg",
-                IsSupported = true,
-                IsTestnet = true,
-                IsDeprecated = false,
-            },
-        };
+            EthereumNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Ethereum).ToArray();
+            PolygonNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Polygon).ToArray();
+            BscNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Bsc).ToArray();
+            OptimismNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Optimism).ToArray();
+            MoonbaseNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Moonbase).ToArray();
+            ArbitrumNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Arbitrum).ToArray();
+            AvalancheNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Avalanche).ToArray();
+            SolanaNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Solana).ToArray();
+        }
 
-        protected NetworkModel[] SolanaNetworks { get; } = new[]
-        {
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Solana Mainnet",
-                Currency = "SOL",
-                ImageName = "solana.svg",
-                IsSupported = false,
-                IsTestnet = false,
-                IsDeprecated = false,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Solana Devnet",
-                Currency = "SOL",
-                ImageName = "solana-black.svg",
-                IsSupported = true,
-                IsTestnet = true,
-                IsDeprecated = false,
-            },
-            new NetworkModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Solana Testnet",
-                Currency = "SOL",
-                ImageName = "solana-black.svg",
-                IsSupported = true,
-                IsTestnet = true,
-                IsDeprecated = false,
-            },
-        };
+        protected NetworkModel[] EthereumNetworks { get; private set; }
+        protected NetworkModel[] PolygonNetworks { get; private set; }
+        protected NetworkModel[] BscNetworks { get; private set; }
+        protected NetworkModel[] OptimismNetworks { get; private set; }
+        protected NetworkModel[] MoonbaseNetworks { get; private set; }
+        protected NetworkModel[] ArbitrumNetworks { get; private set; }
+        protected NetworkModel[] AvalancheNetworks { get; private set; }
+        protected NetworkModel[] SolanaNetworks { get; private set; }
+
+        public Guid[] SelectedNetworkIds { get; set; }
     }
 }

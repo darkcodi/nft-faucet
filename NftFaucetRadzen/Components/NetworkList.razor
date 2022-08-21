@@ -6,7 +6,7 @@
             <div class="d-flex flex-row align-items-center">
                 <RadzenImage Path=@("./images/" + (network.ImageName ?? "ethereum.svg")) Class="float-left mr-3" Style="width: 80px; height: 80px; margin-right: 1em;" />
                 <div>
-                    @if (SelectedNetworkId.HasValue && SelectedNetworkId.Value == network.Id)
+                    @if (SelectedNetworkIds != null && SelectedNetworkIds.Contains(network.Id))
                     {
                         <Checkmark AnchorToTopRightCorner="true"/>
                     }
