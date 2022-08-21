@@ -100,8 +100,6 @@ namespace NftFaucetRadzen.Pages
             new NetworkModel
             {
                 Name = "Custom",
-                ChainId = 1337,
-                Currency = "???",
                 ImageName = "ethereum-gray.svg",
                 IsSupported = false,
                 IsTestnet = true,
@@ -138,7 +136,6 @@ namespace NftFaucetRadzen.Pages
             new NetworkModel
             {
                 Name = "Solana Mainnet",
-                ChainId = 137,
                 Currency = "SOL",
                 ImageName = "solana.svg",
                 IsSupported = false,
@@ -148,7 +145,6 @@ namespace NftFaucetRadzen.Pages
             new NetworkModel
             {
                 Name = "Solana Devnet",
-                ChainId = 80001,
                 Currency = "SOL",
                 ImageName = "solana-black.svg",
                 IsSupported = true,
@@ -158,7 +154,6 @@ namespace NftFaucetRadzen.Pages
             new NetworkModel
             {
                 Name = "Solana Testnet",
-                ChainId = 80001,
                 Currency = "SOL",
                 ImageName = "solana-black.svg",
                 IsSupported = true,
