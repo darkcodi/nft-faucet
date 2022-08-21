@@ -6,4 +6,5 @@ namespace NftFaucetRadzen.Components;
 public partial class NetworkList
 {
     [Parameter] public NetworkModel[] Data { get; set; }
+    [Parameter] public Guid? SelectedNetworkId { get; set; }
 }
