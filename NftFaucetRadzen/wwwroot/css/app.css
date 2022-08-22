@@ -72,8 +72,12 @@ a, .btn-link {
     box-shadow: 0 0 11px rgba(33,33,33,.2);
 }
 
-.non-supported-container {
+.box-disabled {
     background-color: #dfdfdf !important;
+}
+
+.box-selected {
+    border: solid 0.2em green !important;
 }
 
 .checkmark {
