@@ -6,28 +6,28 @@
     <RadzenTabs RenderMode="TabRenderMode.Client">
         <Tabs>
             <RadzenTabsItem Text="Ethereum">
-                <NetworkList Data="@EthereumNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+                <NetworkList Data="@EthereumNetworks" @bind-SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Polygon">
-                <NetworkList Data="@PolygonNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+                <NetworkList Data="@PolygonNetworks" @bind-SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Bsc">
-                <NetworkList Data="@BscNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+                <NetworkList Data="@BscNetworks" @bind-SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Optimism">
-                <NetworkList Data="@OptimismNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+                <NetworkList Data="@OptimismNetworks" @bind-SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Moonbase">
-                <NetworkList Data="@MoonbaseNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+                <NetworkList Data="@MoonbaseNetworks" @bind-SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Arbitrum">
-                <NetworkList Data="@ArbitrumNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+                <NetworkList Data="@ArbitrumNetworks" @bind-SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Avalanche">
-                <NetworkList Data="@AvalancheNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+                <NetworkList Data="@AvalancheNetworks" @bind-SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             <RadzenTabsItem Text="Solana">
-                <NetworkList Data="@SolanaNetworks" SelectedNetworkIds="@SelectedNetworkIds" />
+                <NetworkList Data="@SolanaNetworks" @bind-SelectedNetworkIds="@SelectedNetworkIds" />
             </RadzenTabsItem>
             
         </Tabs>

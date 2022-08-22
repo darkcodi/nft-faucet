@@ -7,10 +7,11 @@ public partial class NetworkList
 {
     [Parameter] public NetworkModel[] Data { get; set; }
     [Parameter] public Guid[] SelectedNetworkIds { get; set; }
+    [Parameter] public EventCallback<Guid[]> SelectedNetworkIdsChanged { get; set; }
     [Parameter] public bool AllowMultipleSelection { get; set; }
     [Parameter] public bool AllowUnselect { get; set; }
 
-    public void ToggleSelection(Guid networkId)
+    public async Task ToggleSelection(Guid networkId)
     {
         var selectedNetworks = SelectedNetworkIds?.ToList() ?? new List<Guid>();
         var isAlreadySelected = selectedNetworks.Contains(networkId);
@@ -27,6 +28,7 @@ public partial class NetworkList
             selectedNetworks.Add(networkId);
         }
         SelectedNetworkIds = selectedNetworks.ToArray();
+        await SelectedNetworkIdsChanged.InvokeAsync(SelectedNetworkIds);
         StateHasChanged();
     }
 }
