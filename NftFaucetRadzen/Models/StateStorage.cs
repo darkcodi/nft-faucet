@@ -2,6 +2,6 @@ namespace NftFaucetRadzen.Models;
 
 public class StateStorage
 {
-    public CardListItem[] SelectedNetworks { get; set; }
-    public CardListItem[] SelectedProviders { get; set; }
+    public Guid[] SelectedNetworks { get; set; }
+    public Guid[] SelectedProviders { get; set; }
 }

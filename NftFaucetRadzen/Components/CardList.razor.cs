@@ -6,8 +6,8 @@ namespace NftFaucetRadzen.Components;
 public partial class CardList : BasicComponent
 {
     [Parameter] public CardListItem[] Data { get; set; }
-    [Parameter] public CardListItem[] SelectedItems { get; set; }
-    [Parameter] public EventCallback<CardListItem[]> SelectedItemsChanged { get; set; }
+    [Parameter] public Guid[] SelectedItems { get; set; }
+    [Parameter] public EventCallback<Guid[]> SelectedItemsChanged { get; set; }
     [Parameter] public bool AllowMultipleSelection { get; set; }
     [Parameter] public bool AllowUnselect { get; set; }
 
@@ -18,11 +18,11 @@ public partial class CardList : BasicComponent
             return;
         }
         
-        var selectedItems = SelectedItems?.ToList() ?? new List<CardListItem>();
-        var isAlreadySelected = selectedItems.Contains(item);
+        var selectedItems = SelectedItems?.ToList() ?? new List<Guid>();
+        var isAlreadySelected = selectedItems.Contains(item.Id);
         if (isAlreadySelected && AllowUnselect)
         {
-            selectedItems.Remove(item);
+            selectedItems.Remove(item.Id);
         }
         else if (!isAlreadySelected)
         {
@@ -30,7 +30,7 @@ public partial class CardList : BasicComponent
             {
                 selectedItems.Clear();
             }
-            selectedItems.Add(item);
+            selectedItems.Add(item.Id);
         }
         SelectedItems = selectedItems.ToArray();
         await SelectedItemsChanged.InvokeAsync(SelectedItems);

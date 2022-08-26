@@ -6,5 +6,6 @@ namespace NftFaucetRadzen.Shared;
 
 public partial class NavMenu : BasicComponent
 {
-    protected string SelectedNetworkName => AppState.Storage.SelectedNetworks?.FirstOrDefault()?.Header;
+    protected Guid? SelectedNetworkId => AppState.Storage.SelectedNetworks?.FirstOrDefault();
+    protected string SelectedNetworkName => Settings.Networks.FirstOrDefault(x => x.Id == SelectedNetworkId)?.Name;
 }

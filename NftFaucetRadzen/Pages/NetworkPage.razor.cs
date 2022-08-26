@@ -48,6 +48,7 @@ public partial class NetworkPage : BasicComponent
     private static CardListItem MapCardListItem(NetworkModel model)
         => new CardListItem
         {
+            Id = model.Id,
             ImageName = model.ImageName,
             Header = model.Name,
             IsDisabled = !model.IsSupported,
