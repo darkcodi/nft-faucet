@@ -4,10 +4,10 @@
     <Template Context="cardListItem">
         <RadzenCard class=@("box"
                             + (cardListItem.IsDisabled ? string.Empty : " box-disabled")
-                            + (SelectedItemIds != null && SelectedItemIds.Contains(cardListItem.Id) ? " box-selected" : string.Empty))
-                    Style="width: 250px;" onclick="@(async () => await ToggleSelection(cardListItem.Id))">
+                            + (SelectedItems != null && SelectedItems.Contains(cardListItem) ? " box-selected" : string.Empty))
+                    Style="width: 250px;" onclick="@(async () => await ToggleSelection(cardListItem))">
             <div class="d-flex flex-row align-items-center">
-                @if (SelectedItemIds != null && SelectedItemIds.Contains(cardListItem.Id))
+                @if (SelectedItems != null && SelectedItems.Contains(cardListItem))
                 {
                     <Checkmark AnchorToTopRightCorner="true"/>
                 }

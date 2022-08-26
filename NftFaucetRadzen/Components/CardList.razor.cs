@@ -6,29 +6,29 @@ namespace NftFaucetRadzen.Components;
 public partial class CardList
 {
     [Parameter] public CardListItem[] Data { get; set; }
-    [Parameter] public Guid[] SelectedItemIds { get; set; }
-    [Parameter] public EventCallback<Guid[]> SelectedItemIdsChanged { get; set; }
+    [Parameter] public CardListItem[] SelectedItems { get; set; }
+    [Parameter] public EventCallback<CardListItem[]> SelectedItemsChanged { get; set; }
     [Parameter] public bool AllowMultipleSelection { get; set; }
     [Parameter] public bool AllowUnselect { get; set; }
 
-    public async Task ToggleSelection(Guid itemId)
+    public async Task ToggleSelection(CardListItem item)
     {
-        var selectedItemIds = SelectedItemIds?.ToList() ?? new List<Guid>();
-        var isAlreadySelected = selectedItemIds.Contains(itemId);
+        var selectedItems = SelectedItems?.ToList() ?? new List<CardListItem>();
+        var isAlreadySelected = selectedItems.Contains(item);
         if (isAlreadySelected && AllowUnselect)
         {
-            selectedItemIds.Remove(itemId);
+            selectedItems.Remove(item);
         }
         else if (!isAlreadySelected)
         {
             if (!AllowMultipleSelection)
             {
-                selectedItemIds.Clear();
+                selectedItems.Clear();
             }
-            selectedItemIds.Add(itemId);
+            selectedItems.Add(item);
         }
-        SelectedItemIds = selectedItemIds.ToArray();
-        await SelectedItemIdsChanged.InvokeAsync(SelectedItemIds);
+        SelectedItems = selectedItems.ToArray();
+        await SelectedItemsChanged.InvokeAsync(SelectedItems);
         StateHasChanged();
     }
 }

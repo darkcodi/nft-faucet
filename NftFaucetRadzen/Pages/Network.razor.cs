@@ -51,12 +51,11 @@ namespace NftFaucetRadzen.Pages
         protected CardListItem[] AvalancheNetworks { get; private set; }
         protected CardListItem[] SolanaNetworks { get; private set; }
 
-        public Guid[] SelectedNetworkIds { get; set; }
+        public CardListItem[] SelectedNetworks { get; set; }
 
         private static CardListItem MapCardListItem(NetworkModel model)
             => new CardListItem
             {
-                Id = model.Id,
                 ImageName = model.ImageName,
                 Header = model.Name,
                 IsDisabled = model.IsSupported,
