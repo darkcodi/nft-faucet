@@ -3,7 +3,7 @@ using NftFaucetRadzen.Extensions;
 
 namespace NftFaucetRadzen.Pages;
 
-public class IndexComponent : BasicComponent
+public partial class IndexPage : BasicComponent
 {
     protected override async Task OnInitializedAsync()
     {

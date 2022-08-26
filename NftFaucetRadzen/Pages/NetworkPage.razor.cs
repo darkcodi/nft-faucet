@@ -7,7 +7,7 @@ using Radzen;
 
 namespace NftFaucetRadzen.Pages;
 
-public partial class Network : BasicComponent
+public partial class NetworkPage : BasicComponent
 {
     [Inject]
     protected IJSRuntime JSRuntime { get; set; }
