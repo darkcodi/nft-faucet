@@ -1,4 +1,6 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inherits BasicComponent
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">NftFaucetRadzen</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -11,7 +13,7 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="network">
-                <span class="oi oi-wifi" aria-hidden="true"></span> Network
+                <span class="oi oi-wifi" aria-hidden="true"></span> @("Network" + (SelectedNetworkName != null ? $" ({SelectedNetworkName})" : string.Empty))
             </NavLink>
         </div>
         <div class="nav-item px-3">

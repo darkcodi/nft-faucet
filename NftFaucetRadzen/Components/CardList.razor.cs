@@ -3,7 +3,7 @@ using NftFaucetRadzen.Models;
 
 namespace NftFaucetRadzen.Components;
 
-public partial class CardList
+public partial class CardList : BasicComponent
 {
     [Parameter] public CardListItem[] Data { get; set; }
     [Parameter] public CardListItem[] SelectedItems { get; set; }
@@ -34,6 +34,6 @@ public partial class CardList
         }
         SelectedItems = selectedItems.ToArray();
         await SelectedItemsChanged.InvokeAsync(SelectedItems);
-        StateHasChanged();
+        RefreshMediator.NotifyStateHasChangedSafe();
     }
 }
