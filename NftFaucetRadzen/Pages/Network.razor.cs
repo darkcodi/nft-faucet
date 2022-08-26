@@ -32,25 +32,45 @@ namespace NftFaucetRadzen.Pages
 
         protected override void OnInitialized()
         {
-            EthereumNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Ethereum).ToArray();
-            PolygonNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Polygon).ToArray();
-            BscNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Bsc).ToArray();
-            OptimismNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Optimism).ToArray();
-            MoonbaseNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Moonbase).ToArray();
-            ArbitrumNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Arbitrum).ToArray();
-            AvalancheNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Avalanche).ToArray();
-            SolanaNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Solana).ToArray();
+            EthereumNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Ethereum).Select(MapCardListItem).ToArray();
+            PolygonNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Polygon).Select(MapCardListItem).ToArray();
+            BscNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Bsc).Select(MapCardListItem).ToArray();
+            OptimismNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Optimism).Select(MapCardListItem).ToArray();
+            MoonbaseNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Moonbase).Select(MapCardListItem).ToArray();
+            ArbitrumNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Arbitrum).Select(MapCardListItem).ToArray();
+            AvalancheNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Avalanche).Select(MapCardListItem).ToArray();
+            SolanaNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Solana).Select(MapCardListItem).ToArray();
         }
 
-        protected NetworkModel[] EthereumNetworks { get; private set; }
-        protected NetworkModel[] PolygonNetworks { get; private set; }
-        protected NetworkModel[] BscNetworks { get; private set; }
-        protected NetworkModel[] OptimismNetworks { get; private set; }
-        protected NetworkModel[] MoonbaseNetworks { get; private set; }
-        protected NetworkModel[] ArbitrumNetworks { get; private set; }
-        protected NetworkModel[] AvalancheNetworks { get; private set; }
-        protected NetworkModel[] SolanaNetworks { get; private set; }
+        protected CardListItem[] EthereumNetworks { get; private set; }
+        protected CardListItem[] PolygonNetworks { get; private set; }
+        protected CardListItem[] BscNetworks { get; private set; }
+        protected CardListItem[] OptimismNetworks { get; private set; }
+        protected CardListItem[] MoonbaseNetworks { get; private set; }
+        protected CardListItem[] ArbitrumNetworks { get; private set; }
+        protected CardListItem[] AvalancheNetworks { get; private set; }
+        protected CardListItem[] SolanaNetworks { get; private set; }
 
         public Guid[] SelectedNetworkIds { get; set; }
+
+        private static CardListItem MapCardListItem(NetworkModel model)
+            => new CardListItem
+            {
+                Id = model.Id,
+                ImageName = model.ImageName,
+                Header = model.Name,
+                IsDisabled = model.IsSupported,
+                Properties = new[]
+                {
+                    new CardListItemProperty { Name = "ChainID", Value = model.ChainId?.ToString() },
+                    new CardListItemProperty { Name = "Currency", Value = model.Currency },
+                },
+                Badges = new[]
+                {
+                    !model.IsSupported ? new CardListItemBadge { Style = BadgeStyle.Light, Text = "Not Supported" } : null,
+                    !model.IsTestnet ? new CardListItemBadge { Style = BadgeStyle.Danger, Text = "Mainnet" } : null,
+                    model.IsDeprecated ? new CardListItemBadge { Style = BadgeStyle.Warning, Text = "Deprecated" } : null,
+                }.Where(x => x != null).ToArray(),
+            };
     }
 }

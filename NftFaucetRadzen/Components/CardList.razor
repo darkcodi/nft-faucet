@@ -1,0 +1,40 @@
+@using NftFaucetRadzen.Models
+
+<RadzenDataList WrapItems="true" Data="@Data" TItem="CardListItem" >
+    <Template Context="cardListItem">
+        <RadzenCard class=@("box"
+                            + (cardListItem.IsDisabled ? string.Empty : " box-disabled")
+                            + (SelectedItemIds != null && SelectedItemIds.Contains(cardListItem.Id) ? " box-selected" : string.Empty))
+                    Style="width: 250px;" onclick="@(async () => await ToggleSelection(cardListItem.Id))">
+            <div class="d-flex flex-row align-items-center">
+                @if (SelectedItemIds != null && SelectedItemIds.Contains(cardListItem.Id))
+                {
+                    <Checkmark AnchorToTopRightCorner="true"/>
+                }
+                @if (!string.IsNullOrEmpty(cardListItem.ImageName))
+                {
+                    <RadzenImage Path=@($"./images/{cardListItem.ImageName}") Class="float-left mr-3" Style="width: 80px; height: 80px; margin-right: 1em;"/>
+                }
+                <div>
+                    <h4 class="mb-0">@cardListItem.Header</h4>
+                    @foreach (var property in cardListItem.Properties)
+                    {
+                        if (!string.IsNullOrEmpty(property?.Value))
+                        {
+                            <div style="font-size: .8em">@property.Name: @property.Value</div>
+                        }
+                    }
+                    <div>
+                        @foreach (var badge in cardListItem.Badges)
+                        {
+                            if (!string.IsNullOrEmpty(badge?.Text))
+                            {
+                                <RadzenBadge BadgeStyle="@badge.Style" IsPill="true" Text="@badge.Text"/>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </RadzenCard>
+    </Template>
+</RadzenDataList>
