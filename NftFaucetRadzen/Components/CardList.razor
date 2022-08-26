@@ -3,7 +3,7 @@
 <RadzenDataList WrapItems="true" Data="@Data" TItem="CardListItem" >
     <Template Context="cardListItem">
         <RadzenCard class=@("box"
-                            + (cardListItem.IsDisabled ? string.Empty : " box-disabled")
+                            + (cardListItem.IsDisabled ? " box-disabled" : string.Empty)
                             + (SelectedItems != null && SelectedItems.Contains(cardListItem) ? " box-selected" : string.Empty))
                     Style="width: 250px;" onclick="@(async () => await ToggleSelection(cardListItem))">
             <div class="d-flex flex-row align-items-center">

@@ -13,6 +13,11 @@ public partial class CardList
 
     public async Task ToggleSelection(CardListItem item)
     {
+        if (item.IsDisabled)
+        {
+            return;
+        }
+        
         var selectedItems = SelectedItems?.ToList() ?? new List<CardListItem>();
         var isAlreadySelected = selectedItems.Contains(item);
         if (isAlreadySelected && AllowUnselect)

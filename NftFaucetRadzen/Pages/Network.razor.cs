@@ -58,7 +58,7 @@ namespace NftFaucetRadzen.Pages
             {
                 ImageName = model.ImageName,
                 Header = model.Name,
-                IsDisabled = model.IsSupported,
+                IsDisabled = !model.IsSupported,
                 Properties = new[]
                 {
                     new CardListItemProperty { Name = "ChainID", Value = model.ChainId?.ToString() },
