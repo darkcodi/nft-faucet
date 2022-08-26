@@ -6,6 +6,7 @@ public class NetworkModel
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
+    public string ShortName { get; set; }
     public ulong? ChainId { get; set; }
     public string Currency { get; set; }
     public string ImageName { get; set; }
