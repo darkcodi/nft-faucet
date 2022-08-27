@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace NftFaucetRadzen.Components;
+namespace NftFaucetRadzen.Components.Checkmark;
 
 public partial class Checkmark
 {
