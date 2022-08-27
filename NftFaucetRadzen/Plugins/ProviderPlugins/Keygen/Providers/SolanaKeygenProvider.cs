@@ -25,5 +25,5 @@ public class SolanaKeygenProvider : IProvider
         };
 
     public bool IsNetworkSupported(INetwork network)
-        => network.Type == NetworkType.Solana;
+        => network?.Type == NetworkType.Solana;
 }

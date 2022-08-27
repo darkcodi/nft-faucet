@@ -28,5 +28,5 @@ public class EthereumKeygenProvider : IProvider
         };
 
     public bool IsNetworkSupported(INetwork network)
-        => network.Type == NetworkType.Ethereum;
+        => network?.Type == NetworkType.Ethereum;
 }
