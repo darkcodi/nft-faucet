@@ -1,6 +1,7 @@
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Components;
+using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 using Radzen;

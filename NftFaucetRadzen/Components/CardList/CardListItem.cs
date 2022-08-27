@@ -1,4 +1,6 @@
-namespace NftFaucetRadzen.Models;
+using NftFaucetRadzen.Models;
+
+namespace NftFaucetRadzen.Components.CardList;
 
 public class CardListItem
 {

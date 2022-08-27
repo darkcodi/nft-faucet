@@ -1,6 +1,6 @@
 using Radzen;
 
-namespace NftFaucetRadzen.Models;
+namespace NftFaucetRadzen.Components.CardList;
 
 public class CardListItemButton
 {

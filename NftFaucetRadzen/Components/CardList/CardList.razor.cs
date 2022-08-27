@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Models;
 
-namespace NftFaucetRadzen.Components;
+namespace NftFaucetRadzen.Components.CardList;
 
 public partial class CardList : BasicComponent
 {

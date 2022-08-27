@@ -1,4 +1,4 @@
-namespace NftFaucetRadzen.Models;
+namespace NftFaucetRadzen.Components.CardList;
 
 public class CardListItemProperty
 {
