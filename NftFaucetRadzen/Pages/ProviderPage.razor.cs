@@ -26,13 +26,11 @@ public partial class ProviderPage : BasicComponent
     [Inject]
     protected NotificationService NotificationService { get; set; }
 
-    protected EthereumKey GeneratedKey { get; set; }
-
     protected CardListItem[] Providers { get; private set; }
 
     protected override void OnInitialized()
     {
-        GeneratedKey = EthereumKey.GenerateNew();
+        // AppState.Storage.GeneratedKey = EthereumKey.GenerateNew();
         Providers = new[]
         {
             new CardListItem
@@ -43,8 +41,8 @@ public partial class ProviderPage : BasicComponent
                 IsDisabled = false,
                 Properties = new[]
                 {
-                    new CardListItemProperty { Name = "Private key", Value = GeneratedKey.PrivateKey },
-                    new CardListItemProperty { Name = "Address", Value = GeneratedKey.Address },
+                    new CardListItemProperty { Name = "Private key", Value = AppState.Storage.GeneratedKey?.PrivateKey ?? "<null>" },
+                    new CardListItemProperty { Name = "Address", Value = AppState.Storage.GeneratedKey?.Address ?? "<null>" },
                 },
                 Badges = Array.Empty<CardListItemBadge>(),
             },
