@@ -6,13 +6,16 @@
     <RadzenHeading Size="H1" Text="Select network" />
     <RadzenTabs RenderMode="TabRenderMode.Client">
         <Tabs>
-            @foreach (var grouping in NetworksLookup)
+            @if (NetworksLookup != null)
             {
-                var networkType = grouping.Key;
-                var networks = grouping.ToArray();
-                <RadzenTabsItem Text="@networkType.ToString()">
-                    <CardList Data="@networks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks"/>
-                </RadzenTabsItem>
+                foreach (var grouping in NetworksLookup)
+                {
+                    var networkType = grouping.Key;
+                    var networks = grouping.ToArray();
+                    <RadzenTabsItem Text="@networkType.ToString()">
+                        <CardList Data="@networks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks"/>
+                    </RadzenTabsItem>
+                }
             }
         </Tabs>
     </RadzenTabs>

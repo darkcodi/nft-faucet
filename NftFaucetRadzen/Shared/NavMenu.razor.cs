@@ -6,10 +6,10 @@ namespace NftFaucetRadzen.Shared;
 
 public partial class NavMenu : BasicComponent
 {
-    protected Guid? SelectedNetworkId => AppState.Storage.SelectedNetworks?.FirstOrDefault();
-    protected string SelectedNetworkName => PluginLoader.NetworkPlugins.SelectMany(x => x.GetNetworks()).FirstOrDefault(x => x.Id == SelectedNetworkId)?.ShortName;
-    protected Guid? SelectedProviderId => AppState.Storage.SelectedProviders?.FirstOrDefault();
-    protected string SelectedProviderName => PluginLoader.ProviderPlugins.SelectMany(x => x.GetProviders()).FirstOrDefault(x => x.Id == SelectedProviderId)?.ShortName;
+    protected Guid? SelectedNetworkId => AppState?.Storage?.SelectedNetworks?.FirstOrDefault();
+    protected string SelectedNetworkName => PluginLoader?.NetworkPlugins?.SelectMany(x => x.GetNetworks()).FirstOrDefault(x => x.Id == SelectedNetworkId)?.ShortName;
+    protected Guid? SelectedProviderId => AppState?.Storage?.SelectedProviders?.FirstOrDefault();
+    protected string SelectedProviderName => PluginLoader?.ProviderPlugins?.SelectMany(x => x.GetProviders()).FirstOrDefault(x => x.Id == SelectedProviderId)?.ShortName;
 
     private bool CollapseNavMenu { get; set; } = true;
 

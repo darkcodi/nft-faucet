@@ -26,8 +26,10 @@ public partial class NetworkPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        PluginLoader.EnsurePluginsLoaded();
-        NetworksLookup = PluginLoader.NetworkPlugins.SelectMany(x => x.GetNetworks()).OrderBy(x => x.ChainId ?? ulong.MaxValue).ToLookup(x => x.Type, MapCardListItem);
+        PluginLoader?.EnsurePluginsLoaded();
+        var networkPlugins = PluginLoader?.NetworkPlugins;
+        var networks = networkPlugins?.SelectMany(x => x?.GetNetworks()).Where(x => x != null).OrderBy(x => x.ChainId ?? ulong.MaxValue).ToArray() ?? Array.Empty<INetwork>();
+        NetworksLookup = networks.ToLookup(x => x.Type, MapCardListItem);
     }
 
     private ILookup<NetworkType, CardListItem> NetworksLookup { get; set; }
