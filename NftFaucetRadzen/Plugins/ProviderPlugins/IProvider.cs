@@ -13,5 +13,5 @@ public interface IProvider
 
     public void Initialize();
     public List<(string Name, string Value)> GetProperties();
-    // public bool IsNetworkSupported(INetwork network);
+    public bool IsNetworkSupported(INetwork network);
 }

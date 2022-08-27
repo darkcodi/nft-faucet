@@ -1,3 +1,5 @@
+using NftFaucetRadzen.Plugins.NetworkPlugins;
+
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Keygen.Providers;
 
 public class SolanaKeygenProvider : IProvider
@@ -21,4 +23,7 @@ public class SolanaKeygenProvider : IProvider
             ("Private key", "<null>"),
             ("Address", "<null>"),
         };
+
+    public bool IsNetworkSupported(INetwork network)
+        => network.Type == NetworkType.Solana;
 }

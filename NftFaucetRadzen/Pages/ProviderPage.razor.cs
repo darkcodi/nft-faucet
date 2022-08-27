@@ -26,7 +26,7 @@ public partial class ProviderPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        Providers = AppState.Storage.Providers.ToArray();
+        Providers = AppState.Storage.Providers.Where(x => x.IsNetworkSupported(AppState.SelectedNetwork)).ToArray();
         RefreshData();
     }
 

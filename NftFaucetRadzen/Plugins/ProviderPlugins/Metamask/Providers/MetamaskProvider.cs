@@ -1,3 +1,5 @@
+using NftFaucetRadzen.Plugins.NetworkPlugins;
+
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Metamask.Providers;
 
 public class MetamaskProvider : IProvider
@@ -21,4 +23,7 @@ public class MetamaskProvider : IProvider
             ("Installed", "YES"),
             ("Connected", IsInitialized ? "YES" : "NO"),
         };
+
+    public bool IsNetworkSupported(INetwork network)
+        => network.Type == NetworkType.Ethereum;
 }

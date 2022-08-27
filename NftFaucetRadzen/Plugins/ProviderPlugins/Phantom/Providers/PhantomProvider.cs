@@ -1,3 +1,5 @@
+using NftFaucetRadzen.Plugins.NetworkPlugins;
+
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Phantom.Providers;
 
 public class PhantomProvider : IProvider
@@ -21,4 +23,7 @@ public class PhantomProvider : IProvider
             ("Installed", "YES"),
             ("Connected", IsInitialized ? "YES" : "NO"),
         };
+
+    public bool IsNetworkSupported(INetwork network)
+        => network.Type == NetworkType.Solana;
 }

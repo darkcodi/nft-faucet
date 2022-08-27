@@ -1,4 +1,5 @@
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Plugins.NetworkPlugins;
 
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Keygen.Providers;
 
@@ -25,4 +26,7 @@ public class EthereumKeygenProvider : IProvider
             ("Private key", Key?.PrivateKey ?? "<null>"),
             ("Address", Key?.Address ?? "<null>"),
         };
+
+    public bool IsNetworkSupported(INetwork network)
+        => network.Type == NetworkType.Ethereum;
 }
