@@ -26,15 +26,20 @@ public partial class ProviderPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        Providers = PluginLoader.ProviderPlugins.SelectMany(x => x.GetProviders()).Select(MapCardListItem).ToArray();
-        AddRecommendationsBadge(Providers);
+        Providers = PluginLoader?.ProviderPlugins?.SelectMany(x => x.GetProviders()).Where(x => x != null).ToArray() ?? Array.Empty<IProvider>();
+        RefreshData();
     }
 
-    private CardListItem[] Providers { get; set; }
+    private IProvider[] Providers { get; set; }
+    private CardListItem[] Data { get; set; }
 
-    private static CardListItem MapCardListItem(IProvider provider)
+    private void RefreshData()
     {
-        var cardItem = new CardListItem
+        Data = Providers.Select(MapCardListItem).ToArray();
+    }
+
+    private CardListItem MapCardListItem(IProvider provider)
+        => new CardListItem
         {
             Id = provider.Id,
             ImageName = provider.ImageName,
@@ -47,34 +52,22 @@ public partial class ProviderPage : BasicComponent
             }).ToArray(),
             Badges = new[]
             {
-                !provider.IsSupported ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"} : null,
+                (Settings?.RecommendedProviders?.Contains(provider.Id) ?? false)
+                    ? new CardListItemBadge {Style = BadgeStyle.Success, Text = "Recommended"}
+                    : null,
+                !provider.IsSupported
+                    ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"}
+                    : null,
             }.Where(x => x != null).ToArray(),
-        };
-        Action initAction = () =>
-        {
-            provider.Initialize();
-            cardItem.Properties = provider.GetProperties().Select(x => new CardListItemProperty
+            Buttons = new[]
             {
-                Name = x.Name,
-                Value = x.Value,
-            }).ToArray();
+                !provider.IsInitialized
+                    ? new CardListItemButton { Name = "Initialize", Style = ButtonStyle.Secondary, Action = () =>
+                    {
+                        provider.Initialize();
+                        RefreshData();
+                    }}
+                    : null,
+            }.Where(x => x != null).ToArray()
         };
-        cardItem.Buttons = new[]
-        {
-            !provider.IsInitialized ? new CardListItemButton { Name = "Initialize", Action = initAction, Style = ButtonStyle.Secondary } : null,
-        }.Where(x => x != null).ToArray();
-        return cardItem;
-    }
-
-    private void AddRecommendationsBadge(CardListItem[] providers)
-    {
-        foreach (var provider in providers)
-        {
-            if (Settings.RecommendedProviders.Contains(provider.Id))
-            {
-                var newBadge = new CardListItemBadge {Style = BadgeStyle.Success, Text = "Recommended"};
-                provider.Badges = new[] {newBadge}.Concat(provider.Badges).ToArray();
-            }
-        }
-    }
 }
