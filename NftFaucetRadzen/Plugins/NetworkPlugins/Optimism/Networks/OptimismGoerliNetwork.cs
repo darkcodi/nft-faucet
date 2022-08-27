@@ -12,7 +12,8 @@ public class OptimismGoerliNetwork : INetwork
     public bool IsSupported { get; } = false;
     public bool IsTestnet { get; } = true;
     public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Optimism;
+    public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Optimism;
     public string Erc721ContractAddress { get; } = null;
     public string Erc1155ContractAddress { get; } = null;
 }

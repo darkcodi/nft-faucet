@@ -12,7 +12,8 @@ public class MoonbeamNetwork : INetwork
     public bool IsSupported { get; } = false;
     public bool IsTestnet { get; } = false;
     public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Moonbase;
+    public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Moonbase;
     public string Erc721ContractAddress { get; } = null;
     public string Erc1155ContractAddress { get; } = null;
 }

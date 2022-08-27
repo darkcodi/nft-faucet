@@ -13,6 +13,7 @@ public class SolanaMainnetNetwork : INetwork
     public bool IsTestnet { get; } = false;
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Solana;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
     public string Erc721ContractAddress { get; } = null;
     public string Erc1155ContractAddress { get; } = null;
 }

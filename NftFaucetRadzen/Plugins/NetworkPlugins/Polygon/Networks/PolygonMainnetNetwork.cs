@@ -12,7 +12,8 @@ public class PolygonMainnetNetwork : INetwork
     public bool IsSupported { get; } = false;
     public bool IsTestnet { get; } = false;
     public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Polygon;
+    public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
     public string Erc721ContractAddress { get; } = null;
     public string Erc1155ContractAddress { get; } = null;
 }

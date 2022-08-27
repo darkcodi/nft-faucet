@@ -13,6 +13,7 @@ public class KovanNetwork : INetwork
     public bool IsTestnet { get; } = true;
     public bool IsDeprecated { get; } = true;
     public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
     public string Erc721ContractAddress { get; } = "0x99ea658e02baDE18c43Af5Fa8c18cfF4f251E311";
     public string Erc1155ContractAddress { get; } = "0xdBDD0377D1799910A4B0a4306F8d812265bF33Cb";
 }

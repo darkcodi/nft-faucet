@@ -13,6 +13,7 @@ public class GoerliNetwork : INetwork
     public bool IsTestnet { get; } = true;
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
     public string Erc721ContractAddress { get; } = "0xC3E4214dd442136079dF06bb2529Bae276d37564";
     public string Erc1155ContractAddress { get; } = "0x5807d7be82153F6a302d92199221090E3b78A3C3";
 }

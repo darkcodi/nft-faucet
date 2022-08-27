@@ -12,7 +12,8 @@ public class PolygonMumbaiNetwork : INetwork
     public bool IsSupported { get; } = true;
     public bool IsTestnet { get; } = true;
     public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Polygon;
+    public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
     public string Erc721ContractAddress { get; } = "0xeE8272220A0988279627714144Ff6981E204fbE4";
     public string Erc1155ContractAddress { get; } = "0x23147CdbD963A3D0fec0F25E4604844f477F65d2";
 }

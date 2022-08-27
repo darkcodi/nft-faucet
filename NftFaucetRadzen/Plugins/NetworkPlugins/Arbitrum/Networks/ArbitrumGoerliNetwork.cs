@@ -12,7 +12,8 @@ public class ArbitrumGoerliNetwork : INetwork
     public bool IsSupported { get; } = true;
     public bool IsTestnet { get; } = true;
     public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Arbitrum;
+    public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Arbitrum;
     public string Erc721ContractAddress { get; } = "0x9F64932Be34D5D897C4253D17707b50921f372B6";
     public string Erc1155ContractAddress { get; } = "0xf67C575502fc1cE399a3e1895dDf41847185D7bD";
 }

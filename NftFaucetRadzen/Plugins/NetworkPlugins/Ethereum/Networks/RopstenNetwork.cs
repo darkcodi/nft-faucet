@@ -13,6 +13,7 @@ public class RopstenNetwork : INetwork
     public bool IsTestnet { get; } = true;
     public bool IsDeprecated { get; } = true;
     public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
     public string Erc721ContractAddress { get; } = "0x71902F99902339d7ce1F994C12155f4350BCD226";
     public string Erc1155ContractAddress { get; } = "0x80b45421881c0452A6e70148Fc928fA33107cEb3";
 }

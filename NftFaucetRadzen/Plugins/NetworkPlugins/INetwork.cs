@@ -13,6 +13,7 @@ public interface INetwork
     public bool IsTestnet { get; }
     public bool IsDeprecated { get; }
     public NetworkType Type { get; }
+    public NetworkSubtype SubType { get; }
     public string Erc721ContractAddress { get; }
     public string Erc1155ContractAddress { get; }
 }

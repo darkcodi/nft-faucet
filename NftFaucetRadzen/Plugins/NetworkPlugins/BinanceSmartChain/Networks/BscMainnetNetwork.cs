@@ -12,7 +12,8 @@ public class BscMainnetNetwork : INetwork
     public bool IsSupported { get; } = false;
     public bool IsTestnet { get; } = false;
     public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Bsc;
+    public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Bsc;
     public string Erc721ContractAddress { get; } = null;
     public string Erc1155ContractAddress { get; } = null;
 }

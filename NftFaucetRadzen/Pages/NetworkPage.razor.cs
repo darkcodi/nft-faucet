@@ -27,11 +27,11 @@ public partial class NetworkPage : BasicComponent
     protected override void OnInitialized()
     {
         Networks = AppState.Storage.Networks
-            .GroupBy(x => x.Type)
+            .GroupBy(x => x.SubType)
             .ToDictionary(x => x.Key, x => x.OrderBy(v => v.Order ?? int.MaxValue).Select(MapCardListItem).ToArray());
     }
 
-    private Dictionary<NetworkType, CardListItem[]> Networks { get; set; }
+    private Dictionary<NetworkSubtype, CardListItem[]> Networks { get; set; }
 
     private static CardListItem MapCardListItem(INetwork model)
         => new CardListItem
