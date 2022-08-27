@@ -69,6 +69,10 @@ public partial class ProviderPage : BasicComponent
             {
                 !provider.IsSupported ? new CardListItemBadge { Style = BadgeStyle.Light, Text = "Not Supported" } : null,
             }.Where(x => x != null).ToArray(),
+            Buttons = new[]
+            {
+                !provider.IsInitialized ? new CardListItemButton { Name = "Initialize", Action = provider.Initialize, Style = ButtonStyle.Secondary } : null,
+            }.Where(x => x != null).ToArray(),
         };
 
     private void AddRecommendationsBadge(CardListItem[] providers)

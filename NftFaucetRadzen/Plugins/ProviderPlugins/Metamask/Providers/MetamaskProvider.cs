@@ -7,4 +7,11 @@ public class MetamaskProvider : IProvider
     public string ShortName { get; } = "Metamask";
     public string ImageName { get; } = "metamask_fox.svg";
     public bool IsSupported { get; } = true;
+
+    public bool IsInitialized { get; private set; }
+
+    public void Initialize()
+    {
+        IsInitialized = true;
+    }
 }
