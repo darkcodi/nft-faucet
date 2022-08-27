@@ -6,6 +6,7 @@ public class AvalancheMainnetNetwork : INetwork
     public string Name { get; } = "Avalanche C-Chain";
     public string ShortName { get; } = "Avalanche";
     public ulong? ChainId { get; } = 43114;
+    public int? Order { get; } = 1;
     public string Currency { get; } = "AVAX";
     public string ImageName { get; } = "avalanche.svg";
     public bool IsSupported { get; } = false;

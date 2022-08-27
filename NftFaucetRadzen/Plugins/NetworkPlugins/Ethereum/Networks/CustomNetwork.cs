@@ -6,6 +6,7 @@ public class CustomNetwork : INetwork
     public string Name { get; } = "Custom";
     public string ShortName { get; } = "custom";
     public ulong? ChainId { get; } = null;
+    public int? Order { get; } = 8;
     public string Currency { get; } = null;
     public string ImageName { get; } = "ethereum-gray.svg";
     public bool IsSupported { get; } = false;

@@ -6,6 +6,7 @@ public class RopstenNetwork : INetwork
     public string Name { get; } = "Ropsten";
     public string ShortName { get; } = "Ropsten";
     public ulong? ChainId { get; } = 3;
+    public int? Order { get; } = 2;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "ethereum-gray.svg";
     public bool IsSupported { get; } = true;

@@ -6,6 +6,7 @@ public class EthereumMainnetNetwork : INetwork
     public string Name { get; } = "Mainnet";
     public string ShortName { get; } = "Mainnet";
     public ulong? ChainId { get; } = 1;
+    public int? Order { get; } = 1;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "ethereum.svg";
     public bool IsSupported { get; } = false;

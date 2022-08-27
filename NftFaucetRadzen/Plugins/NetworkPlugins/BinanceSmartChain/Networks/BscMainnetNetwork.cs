@@ -6,6 +6,7 @@ public class BscMainnetNetwork : INetwork
     public string Name { get; } = "Binance Smart Chain";
     public string ShortName { get; } = "BSC";
     public ulong? ChainId { get; } = 56;
+    public int? Order { get; } = 1;
     public string Currency { get; } = "BNB";
     public string ImageName { get; } = "bnb.svg";
     public bool IsSupported { get; } = false;

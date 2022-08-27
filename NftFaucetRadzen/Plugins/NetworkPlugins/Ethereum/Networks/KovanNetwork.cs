@@ -6,6 +6,7 @@ public class KovanNetwork : INetwork
     public string Name { get; } = "Kovan";
     public string ShortName { get; } = "Kovan";
     public ulong? ChainId { get; } = 42;
+    public int? Order { get; } = 5;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "ethereum-gray.svg";
     public bool IsSupported { get; } = true;

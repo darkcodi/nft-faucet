@@ -6,6 +6,7 @@ public class SolanaMainnetNetwork : INetwork
     public string Name { get; } = "Solana Mainnet";
     public string ShortName { get; } = "Solana";
     public ulong? ChainId { get; } = null;
+    public int? Order { get; } = 1;
     public string Currency { get; } = "SOL";
     public string ImageName { get; } = "solana.svg";
     public bool IsSupported { get; } = false;

@@ -6,6 +6,7 @@ public class ArbitrumNovaNetwork : INetwork
     public string Name { get; } = "Arbitrum Nova";
     public string ShortName { get; } = "ArbNova";
     public ulong? ChainId { get; } = 42170;
+    public int? Order { get; } = 2;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "arbitrum-black.svg";
     public bool IsSupported { get; } = false;

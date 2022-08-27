@@ -6,6 +6,7 @@ public class MoonbaseAlphaNetwork : INetwork
     public string Name { get; } = "Moonbase Alpha";
     public string ShortName { get; } = "MoonAlpha";
     public ulong? ChainId { get; } = 1287;
+    public int? Order { get; } = 3;
     public string Currency { get; } = "DEV";
     public string ImageName { get; } = "moonbeam-black.svg";
     public bool IsSupported { get; } = true;

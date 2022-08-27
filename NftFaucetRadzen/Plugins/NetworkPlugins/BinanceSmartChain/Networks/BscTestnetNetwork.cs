@@ -6,6 +6,7 @@ public class BscTestnetNetwork : INetwork
     public string Name { get; } = "Binance Smart Chain Testnet";
     public string ShortName { get; } = "BSC test";
     public ulong? ChainId { get; } = 97;
+    public int? Order { get; } = 2;
     public string Currency { get; } = "tBNB";
     public string ImageName { get; } = "bnb-black.svg";
     public bool IsSupported { get; } = true;

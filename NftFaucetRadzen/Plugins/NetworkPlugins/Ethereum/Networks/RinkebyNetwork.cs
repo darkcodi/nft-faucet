@@ -6,6 +6,7 @@ public class RinkebyNetwork : INetwork
     public string Name { get; } = "Rinkeby";
     public string ShortName { get; } = "Rinkeby";
     public ulong? ChainId { get; } = 4;
+    public int? Order { get; } = 3;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "ethereum-gray.svg";
     public bool IsSupported { get; } = true;

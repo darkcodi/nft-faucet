@@ -6,6 +6,7 @@ public class OptimismGoerliNetwork : INetwork
     public string Name { get; } = "Optimism Goerli";
     public string ShortName { get; } = "OpGoerli";
     public ulong? ChainId { get; } = 420;
+    public int? Order { get; } = 3;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "optimism-black.svg";
     public bool IsSupported { get; } = false;

@@ -6,6 +6,7 @@ public class GoerliNetwork : INetwork
     public string Name { get; } = "Goerli";
     public string ShortName { get; } = "Goerli";
     public ulong? ChainId { get; } = 5;
+    public int? Order { get; } = 4;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "ethereum-gray.svg";
     public bool IsSupported { get; } = true;

@@ -6,6 +6,7 @@ public class OptimismMainnetNetwork : INetwork
     public string Name { get; } = "Optimism";
     public string ShortName { get; } = "Optimism";
     public ulong? ChainId { get; } = 10;
+    public int? Order { get; } = 1;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "optimism.svg";
     public bool IsSupported { get; } = false;

@@ -6,6 +6,7 @@ public class OptimismKovanNetwork : INetwork
     public string Name { get; } = "Optimism Kovan";
     public string ShortName { get; } = "OpKovan";
     public ulong? ChainId { get; } = 69;
+    public int? Order { get; } = 2;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "optimism-black.svg";
     public bool IsSupported { get; } = true;

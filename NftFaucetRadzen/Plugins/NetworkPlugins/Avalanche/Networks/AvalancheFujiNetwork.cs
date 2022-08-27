@@ -6,6 +6,7 @@ public class AvalancheFujiNetwork : INetwork
     public string Name { get; } = "Avalanche Fuji Testnet";
     public string ShortName { get; } = "Fuji";
     public ulong? ChainId { get; } = 43113;
+    public int? Order { get; } = 2;
     public string Currency { get; } = "AVAX";
     public string ImageName { get; } = "avalanche-black.svg";
     public bool IsSupported { get; } = true;

@@ -28,11 +28,11 @@ public partial class NetworkPage : BasicComponent
     {
         PluginLoader?.EnsurePluginsLoaded();
         var networkPlugins = PluginLoader?.NetworkPlugins;
-        var networks = networkPlugins?.SelectMany(x => x?.Networks).Where(x => x != null).OrderBy(x => x.ChainId ?? ulong.MaxValue).ToArray() ?? Array.Empty<INetwork>();
-        NetworksLookup = networks.ToLookup(x => x.Type, MapCardListItem);
+        var networks = networkPlugins?.SelectMany(x => x?.Networks).Where(x => x != null).ToArray() ?? Array.Empty<INetwork>();
+        Networks = networks.GroupBy(x => x.Type).ToDictionary(x => x.Key, x => x.OrderBy(v => v.Order ?? int.MaxValue).Select(MapCardListItem).ToArray());
     }
 
-    private ILookup<NetworkType, CardListItem> NetworksLookup { get; set; }
+    private Dictionary<NetworkType, CardListItem[]> Networks { get; set; }
 
     private static CardListItem MapCardListItem(INetwork model)
         => new CardListItem

@@ -6,6 +6,7 @@ public class ArbitrumGoerliNetwork : INetwork
     public string Name { get; } = "Arbitrum Goerli";
     public string ShortName { get; } = "ArbGoerli";
     public ulong? ChainId { get; } = 421613;
+    public int? Order { get; } = 4;
     public string Currency { get; } = "AGOR";
     public string ImageName { get; } = "arbitrum-black.svg";
     public bool IsSupported { get; } = true;

@@ -6,6 +6,7 @@ public class ArbitrumRinkebyNetwork : INetwork
     public string Name { get; } = "Arbitrum Rinkeby";
     public string ShortName { get; } = "ArbRinkeby";
     public ulong? ChainId { get; } = 421611;
+    public int? Order { get; } = 3;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "arbitrum-black.svg";
     public bool IsSupported { get; } = true;

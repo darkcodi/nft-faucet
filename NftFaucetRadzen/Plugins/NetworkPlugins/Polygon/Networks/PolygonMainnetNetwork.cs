@@ -6,6 +6,7 @@ public class PolygonMainnetNetwork : INetwork
     public string Name { get; } = "Polygon";
     public string ShortName { get; } = "Polygon";
     public ulong? ChainId { get; } = 137;
+    public int? Order { get; } = 1;
     public string Currency { get; } = "MATIC";
     public string ImageName { get; } = "polygon.svg";
     public bool IsSupported { get; } = false;

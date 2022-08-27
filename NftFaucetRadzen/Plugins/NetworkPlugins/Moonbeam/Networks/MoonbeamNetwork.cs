@@ -6,6 +6,7 @@ public class MoonbeamNetwork : INetwork
     public string Name { get; } = "Moonbeam";
     public string ShortName { get; } = "Moonbeam";
     public ulong? ChainId { get; } = 1284;
+    public int? Order { get; } = 1;
     public string Currency { get; } = "GLMR";
     public string ImageName { get; } = "moonbeam.svg";
     public bool IsSupported { get; } = false;

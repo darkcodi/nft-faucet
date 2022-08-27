@@ -9,5 +9,6 @@ public class ArbitrumNetworkPlugin : INetworkPlugin
         new ArbitrumOneNetwork(),
         new ArbitrumNovaNetwork(),
         new ArbitrumRinkebyNetwork(),
+        new ArbitrumGoerliNetwork(),
     };
 }

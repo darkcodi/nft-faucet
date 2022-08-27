@@ -6,6 +6,7 @@ public class KilnNetwork : INetwork
     public string Name { get; } = "Kiln";
     public string ShortName { get; } = "Kiln";
     public ulong? ChainId { get; } = 1337802;
+    public int? Order { get; } = 6;
     public string Currency { get; } = "ETH";
     public string ImageName { get; } = "ethereum-gray.svg";
     public bool IsSupported { get; } = false;

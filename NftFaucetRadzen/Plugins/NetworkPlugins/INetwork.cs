@@ -6,6 +6,7 @@ public interface INetwork
     public string Name { get; }
     public string ShortName { get; }
     public ulong? ChainId { get; }
+    public int? Order { get; }
     public string Currency { get; }
     public string ImageName { get; }
     public bool IsSupported { get; }

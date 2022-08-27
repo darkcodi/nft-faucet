@@ -6,6 +6,7 @@ public class PolygonMumbaiNetwork : INetwork
     public string Name { get; } = "Polygon Mumbai";
     public string ShortName { get; } = "Mumbai";
     public ulong? ChainId { get; } = 80001;
+    public int? Order { get; } = 2;
     public string Currency { get; } = "MATIC";
     public string ImageName { get; } = "polygon-black.svg";
     public bool IsSupported { get; } = true;

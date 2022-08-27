@@ -6,6 +6,7 @@ public class SepoliaNetwork : INetwork
     public string Name { get; } = "Sepolia";
     public string ShortName { get; } = "Sepolia";
     public ulong? ChainId { get; } = 11155111;
+    public int? Order { get; } = 7;
     public string Currency { get; } = "SEP";
     public string ImageName { get; } = "ethereum-gray.svg";
     public bool IsSupported { get; } = false;
