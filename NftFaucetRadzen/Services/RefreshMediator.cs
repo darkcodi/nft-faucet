@@ -1,4 +1,4 @@
-namespace NftFaucetRadzen.Models;
+namespace NftFaucetRadzen.Services;
 
 public class RefreshMediator
 {

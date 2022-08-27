@@ -1,4 +1,4 @@
-﻿namespace NftFaucetRadzen.Models.Enums;
+﻿namespace NftFaucetRadzen.Plugins.NetworkPlugins;
 
 public enum NetworkType
 {

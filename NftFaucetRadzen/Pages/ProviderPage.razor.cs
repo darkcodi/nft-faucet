@@ -1,10 +1,8 @@
-using Cryptography.ECDSA;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Nethereum.Hex.HexConvertors.Extensions;
-using Nethereum.Util;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Plugins.ProviderPlugins;
 using Radzen;
 
 namespace NftFaucetRadzen.Pages;
@@ -26,14 +24,15 @@ public partial class ProviderPage : BasicComponent
     [Inject]
     protected NotificationService NotificationService { get; set; }
 
-    protected CardListItem[] Providers { get; private set; }
-
     protected override void OnInitialized()
     {
         // AppState.Storage.GeneratedKey = EthereumKey.GenerateNew();
-        Providers = Settings.Providers.Select(MapCardListItem).ToArray();
+        Providers = PluginLoader.ProviderPlugins.SelectMany(x => x.GetProviders()).Select(MapCardListItem).ToArray();
         EnhanceProviderModels(Providers);
+        AddRecommendationsBadge(Providers);
     }
+
+    private CardListItem[] Providers { get; set; }
 
     private void EnhanceProviderModels(CardListItem[] models)
     {
@@ -55,24 +54,32 @@ public partial class ProviderPage : BasicComponent
                 new CardListItemProperty { Name = "Installed", Value = "yes" },
                 new CardListItemProperty { Name = "Connected", Value = "no" },
             };
-            metamaskModel.Badges = new[]
-            {
-                new CardListItemBadge { Style = BadgeStyle.Success, Text = "Recommended" },
-            };
         }
     }
 
-    private static CardListItem MapCardListItem(ProviderModel model)
+    private static CardListItem MapCardListItem(IProvider provider)
         => new CardListItem
         {
-            Id = model.Id,
-            ImageName = model.ImageName,
-            Header = model.Name,
-            IsDisabled = !model.IsSupported,
+            Id = provider.Id,
+            ImageName = provider.ImageName,
+            Header = provider.Name,
+            IsDisabled = !provider.IsSupported,
             Properties = Array.Empty<CardListItemProperty>(),
             Badges = new[]
             {
-                !model.IsSupported ? new CardListItemBadge { Style = BadgeStyle.Light, Text = "Not Supported" } : null,
+                !provider.IsSupported ? new CardListItemBadge { Style = BadgeStyle.Light, Text = "Not Supported" } : null,
             }.Where(x => x != null).ToArray(),
         };
+
+    private void AddRecommendationsBadge(CardListItem[] providers)
+    {
+        foreach (var provider in providers)
+        {
+            if (Settings.RecommendedProviders.Contains(provider.Id))
+            {
+                var newBadge = new CardListItemBadge {Style = BadgeStyle.Success, Text = "Recommended"};
+                provider.Badges = new[] {newBadge}.Concat(provider.Badges).ToArray();
+            }
+        }
+    }
 }

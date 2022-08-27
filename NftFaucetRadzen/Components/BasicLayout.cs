@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Services;
 
 namespace NftFaucetRadzen.Components;
 

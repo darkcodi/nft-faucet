@@ -1,0 +1,10 @@
+namespace NftFaucetRadzen.Plugins.ProviderPlugins;
+
+public interface IProvider
+{
+    public Guid Id { get; }
+    public string Name { get; }
+    public string ShortName { get; }
+    public string ImageName { get; }
+    public bool IsSupported { get; }
+}

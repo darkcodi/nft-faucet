@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Models;
-using NftFaucetRadzen.Models.Enums;
+using NftFaucetRadzen.Plugins.NetworkPlugins;
 using Radzen;
 
 namespace NftFaucetRadzen.Pages;
@@ -26,26 +26,13 @@ public partial class NetworkPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        EthereumNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Ethereum).Select(MapCardListItem).ToArray();
-        PolygonNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Polygon).Select(MapCardListItem).ToArray();
-        BscNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Bsc).Select(MapCardListItem).ToArray();
-        OptimismNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Optimism).Select(MapCardListItem).ToArray();
-        MoonbaseNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Moonbase).Select(MapCardListItem).ToArray();
-        ArbitrumNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Arbitrum).Select(MapCardListItem).ToArray();
-        AvalancheNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Avalanche).Select(MapCardListItem).ToArray();
-        SolanaNetworks = Settings.Networks.Where(x => x.Type == NetworkType.Solana).Select(MapCardListItem).ToArray();
+        PluginLoader.EnsurePluginsLoaded();
+        NetworksLookup = PluginLoader.NetworkPlugins.SelectMany(x => x.GetNetworks()).OrderBy(x => x.ChainId ?? ulong.MaxValue).ToLookup(x => x.Type, MapCardListItem);
     }
 
-    protected CardListItem[] EthereumNetworks { get; private set; }
-    protected CardListItem[] PolygonNetworks { get; private set; }
-    protected CardListItem[] BscNetworks { get; private set; }
-    protected CardListItem[] OptimismNetworks { get; private set; }
-    protected CardListItem[] MoonbaseNetworks { get; private set; }
-    protected CardListItem[] ArbitrumNetworks { get; private set; }
-    protected CardListItem[] AvalancheNetworks { get; private set; }
-    protected CardListItem[] SolanaNetworks { get; private set; }
+    private ILookup<NetworkType, CardListItem> NetworksLookup { get; set; }
 
-    private static CardListItem MapCardListItem(NetworkModel model)
+    private static CardListItem MapCardListItem(INetwork model)
         => new CardListItem
         {
             Id = model.Id,

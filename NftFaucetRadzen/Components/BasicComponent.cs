@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Options;
+using NftFaucetRadzen.Services;
+using NftFaucetRadzen.Services.Abstractions;
 
 namespace NftFaucetRadzen.Components;
 
@@ -17,6 +19,9 @@ public abstract class BasicComponent : ComponentBase
 
     [Inject]
     protected Settings Settings { get; set; }
+
+    [Inject]
+    protected IPluginLoader PluginLoader { get; set; }
 
     protected override void OnInitialized()
     {

@@ -6,30 +6,14 @@
     <RadzenHeading Size="H1" Text="Select network" />
     <RadzenTabs RenderMode="TabRenderMode.Client">
         <Tabs>
-            <RadzenTabsItem Text="Ethereum">
-                <CardList Data="@EthereumNetworks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks" />
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="Polygon">
-                <CardList Data="@PolygonNetworks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks" />
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="Bsc">
-                <CardList Data="@BscNetworks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks" />
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="Optimism">
-                <CardList Data="@OptimismNetworks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks" />
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="Moonbase">
-                <CardList Data="@MoonbaseNetworks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks" />
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="Arbitrum">
-                <CardList Data="@ArbitrumNetworks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks" />
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="Avalanche">
-                <CardList Data="@AvalancheNetworks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks" />
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="Solana">
-                <CardList Data="@SolanaNetworks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks" />
-            </RadzenTabsItem>
+            @foreach (var grouping in NetworksLookup)
+            {
+                var networkType = grouping.Key;
+                var networks = grouping.ToArray();
+                <RadzenTabsItem Text="@networkType.ToString()">
+                    <CardList Data="@networks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks"/>
+                </RadzenTabsItem>
+            }
         </Tabs>
     </RadzenTabs>
 </RadzenContent>
