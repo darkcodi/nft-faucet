@@ -14,4 +14,11 @@ public class MetamaskProvider : IProvider
     {
         IsInitialized = true;
     }
+
+    public List<(string Name, string Value)> GetProperties()
+        => new List<(string Name, string Value)>
+        {
+            ("Installed", "YES"),
+            ("Connected", IsInitialized ? "YES" : "NO"),
+        };
 }

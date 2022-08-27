@@ -10,4 +10,5 @@ public interface IProvider
 
     public bool IsInitialized { get; }
     public void Initialize();
+    public List<(string Name, string Value)> GetProperties();
 }

@@ -26,54 +26,45 @@ public partial class ProviderPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        // AppState.Storage.GeneratedKey = EthereumKey.GenerateNew();
         Providers = PluginLoader.ProviderPlugins.SelectMany(x => x.GetProviders()).Select(MapCardListItem).ToArray();
-        EnhanceProviderModels(Providers);
         AddRecommendationsBadge(Providers);
     }
 
     private CardListItem[] Providers { get; set; }
 
-    private void EnhanceProviderModels(CardListItem[] models)
-    {
-        var genKeyModel = models.FirstOrDefault(x => x.Id == Guid.Parse("ded55b2b-8139-4251-a0fc-ba620f9727c9"));
-        if (genKeyModel != null)
-        {
-            genKeyModel.Properties = new[]
-            {
-                new CardListItemProperty { Name = "Private key", Value = AppState.Storage.GeneratedKey?.PrivateKey ?? "<null>" },
-                new CardListItemProperty { Name = "Address", Value = AppState.Storage.GeneratedKey?.Address ?? "<null>" },
-            };
-        }
-
-        var metamaskModel = models.FirstOrDefault(x => x.Id == Guid.Parse("3367b9bb-f50c-4768-aeb3-9ac14d4c3987"));
-        if (metamaskModel != null)
-        {
-            metamaskModel.Properties = new[]
-            {
-                new CardListItemProperty { Name = "Installed", Value = "yes" },
-                new CardListItemProperty { Name = "Connected", Value = "no" },
-            };
-        }
-    }
-
     private static CardListItem MapCardListItem(IProvider provider)
-        => new CardListItem
+    {
+        var cardItem = new CardListItem
         {
             Id = provider.Id,
             ImageName = provider.ImageName,
             Header = provider.Name,
             IsDisabled = !provider.IsSupported,
-            Properties = Array.Empty<CardListItemProperty>(),
+            Properties = provider.GetProperties().Select(x => new CardListItemProperty
+            {
+                Name = x.Name,
+                Value = x.Value,
+            }).ToArray(),
             Badges = new[]
             {
-                !provider.IsSupported ? new CardListItemBadge { Style = BadgeStyle.Light, Text = "Not Supported" } : null,
-            }.Where(x => x != null).ToArray(),
-            Buttons = new[]
-            {
-                !provider.IsInitialized ? new CardListItemButton { Name = "Initialize", Action = provider.Initialize, Style = ButtonStyle.Secondary } : null,
+                !provider.IsSupported ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"} : null,
             }.Where(x => x != null).ToArray(),
         };
+        Action initAction = () =>
+        {
+            provider.Initialize();
+            cardItem.Properties = provider.GetProperties().Select(x => new CardListItemProperty
+            {
+                Name = x.Name,
+                Value = x.Value,
+            }).ToArray();
+        };
+        cardItem.Buttons = new[]
+        {
+            !provider.IsInitialized ? new CardListItemButton { Name = "Initialize", Action = initAction, Style = ButtonStyle.Secondary } : null,
+        }.Where(x => x != null).ToArray();
+        return cardItem;
+    }
 
     private void AddRecommendationsBadge(CardListItem[] providers)
     {

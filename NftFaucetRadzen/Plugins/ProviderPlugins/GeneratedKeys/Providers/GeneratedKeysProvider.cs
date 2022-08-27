@@ -18,4 +18,11 @@ public class GeneratedKeysProvider : IProvider
         Key = EthereumKey.GenerateNew();
         IsInitialized = true;
     }
+
+    public List<(string Name, string Value)> GetProperties()
+        => new List<(string Name, string Value)>
+        {
+            ("Private key", Key?.PrivateKey ?? "<null>"),
+            ("Address", Key?.Address ?? "<null>"),
+        };
 }
