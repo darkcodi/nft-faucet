@@ -8,6 +8,8 @@ public partial class NavMenu : BasicComponent
 {
     protected Guid? SelectedNetworkId => AppState.Storage.SelectedNetworks?.FirstOrDefault();
     protected string SelectedNetworkName => Settings.Networks.FirstOrDefault(x => x.Id == SelectedNetworkId)?.ShortName;
+    protected Guid? SelectedProviderId => AppState.Storage.SelectedProviders?.FirstOrDefault();
+    protected string SelectedProviderName => Settings.Providers.FirstOrDefault(x => x.Id == SelectedProviderId)?.ShortName;
 
     private bool CollapseNavMenu { get; set; } = true;
 
