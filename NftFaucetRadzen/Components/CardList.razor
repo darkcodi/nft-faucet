@@ -16,7 +16,7 @@
                 {
                     <RadzenImage Path=@($"./images/{cardListItem.ImageName}") Class="float-left mr-3" Style="width: 80px; height: 80px; margin-right: 1em;"/>
                 }
-                <div>
+                <div style="width: 100%;">
                     <h4 class="mb-0">@cardListItem.Header</h4>
                         @foreach (var property in cardListItem.Properties ?? Array.Empty<CardListItemProperty>())
                         {
@@ -34,7 +34,7 @@
                             }
                         }
                     </div>
-                    <div>
+                    <div class="d-flex flex-row align-items-center justify-content-end">
                         @foreach (var button in cardListItem.Buttons ?? Array.Empty<CardListItemButton>())
                         {
                             if (!string.IsNullOrEmpty(button?.Name))
