@@ -7,5 +7,6 @@ public class KeygenProviderPlugin : IProviderPlugin
     public IReadOnlyCollection<IProvider> Providers { get; } = new IProvider[]
     {
         new EthereumKeygenProvider(),
+        new SolanaKeygenProvider(),
     };
 }
