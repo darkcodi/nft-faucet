@@ -26,10 +26,9 @@ public partial class NetworkPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        PluginLoader?.EnsurePluginsLoaded();
-        var networkPlugins = PluginLoader?.NetworkPlugins;
-        var networks = networkPlugins?.SelectMany(x => x?.Networks).Where(x => x != null).ToArray() ?? Array.Empty<INetwork>();
-        Networks = networks.GroupBy(x => x.Type).ToDictionary(x => x.Key, x => x.OrderBy(v => v.Order ?? int.MaxValue).Select(MapCardListItem).ToArray());
+        Networks = AppState.Storage.Networks
+            .GroupBy(x => x.Type)
+            .ToDictionary(x => x.Key, x => x.OrderBy(v => v.Order ?? int.MaxValue).Select(MapCardListItem).ToArray());
     }
 
     private Dictionary<NetworkType, CardListItem[]> Networks { get; set; }
