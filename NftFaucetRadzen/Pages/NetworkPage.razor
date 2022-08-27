@@ -8,7 +8,7 @@
         <Tabs>
             @if (Networks != null)
             {
-                foreach (var kvp in Networks)
+                foreach (var kvp in Networks.OrderBy(x => x.Key))
                 {
                     var networkType = kvp.Key;
                     var networks = kvp.Value;
