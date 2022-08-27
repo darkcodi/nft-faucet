@@ -4,7 +4,7 @@ namespace NftFaucetRadzen.Plugins.NetworkPlugins.Ethereum;
 
 public class EthereumNetworkPlugin : INetworkPlugin
 {
-    private IReadOnlyCollection<INetwork> Networks { get; } = new INetwork[]
+    public IReadOnlyCollection<INetwork> Networks { get; } = new INetwork[]
     {
         new EthereumMainnetNetwork(),
         new RopstenNetwork(),
@@ -15,6 +15,4 @@ public class EthereumNetworkPlugin : INetworkPlugin
         new SepoliaNetwork(),
         new CustomNetwork(),
     };
-
-    public IReadOnlyCollection<INetwork> GetNetworks() => Networks;
 }

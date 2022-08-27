@@ -26,7 +26,7 @@ public partial class ProviderPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        Providers = PluginLoader?.ProviderPlugins?.SelectMany(x => x.GetProviders()).Where(x => x != null).ToArray() ?? Array.Empty<IProvider>();
+        Providers = PluginLoader?.ProviderPlugins?.SelectMany(x => x.Providers).Where(x => x != null).ToArray() ?? Array.Empty<IProvider>();
         RefreshData();
     }
 

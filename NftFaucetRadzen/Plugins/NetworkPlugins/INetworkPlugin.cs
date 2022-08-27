@@ -2,5 +2,5 @@ namespace NftFaucetRadzen.Plugins.NetworkPlugins;
 
 public interface INetworkPlugin
 {
-    public IReadOnlyCollection<INetwork> GetNetworks();
+    public IReadOnlyCollection<INetwork> Networks { get; }
 }

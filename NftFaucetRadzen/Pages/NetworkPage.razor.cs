@@ -28,7 +28,7 @@ public partial class NetworkPage : BasicComponent
     {
         PluginLoader?.EnsurePluginsLoaded();
         var networkPlugins = PluginLoader?.NetworkPlugins;
-        var networks = networkPlugins?.SelectMany(x => x?.GetNetworks()).Where(x => x != null).OrderBy(x => x.ChainId ?? ulong.MaxValue).ToArray() ?? Array.Empty<INetwork>();
+        var networks = networkPlugins?.SelectMany(x => x?.Networks).Where(x => x != null).OrderBy(x => x.ChainId ?? ulong.MaxValue).ToArray() ?? Array.Empty<INetwork>();
         NetworksLookup = networks.ToLookup(x => x.Type, MapCardListItem);
     }
 
