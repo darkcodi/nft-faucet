@@ -53,4 +53,19 @@ public partial class NetworkPage : BasicComponent
                 model.IsDeprecated ? new CardListItemBadge { Style = BadgeStyle.Warning, Text = "Deprecated" } : null,
             }.Where(x => x != null).ToArray(),
         };
+
+    private void ResetProviderSelectionIfNeeded()
+    {
+        var currentProvider = AppState.SelectedProvider;
+        if (currentProvider == null)
+        {
+            return;
+        }
+
+        var currentNetwork = AppState.SelectedNetwork;
+        if (currentNetwork == null || !currentProvider.IsNetworkSupported(currentNetwork))
+        {
+            AppState.Storage.SelectedProviders = Array.Empty<Guid>();
+        }
+    }
 }

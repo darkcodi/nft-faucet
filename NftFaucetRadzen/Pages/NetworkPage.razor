@@ -14,7 +14,7 @@
                     var networkType = kvp.Key;
                     var networks = kvp.Value;
                     <RadzenTabsItem Text="@networkType.ToString()">
-                        <CardList Data="@networks" @bind-SelectedItems="@AppState.Storage.SelectedNetworks"/>
+                        <CardList Data="@networks" OnSelectedChange="@(_ => ResetProviderSelectionIfNeeded())" @bind-SelectedItems="@AppState.Storage.SelectedNetworks"/>
                     </RadzenTabsItem>
                 }
             }

@@ -8,6 +8,7 @@ public partial class CardList : BasicComponent
     [Parameter] public CardListItem[] Data { get; set; }
     [Parameter] public Guid[] SelectedItems { get; set; }
     [Parameter] public EventCallback<Guid[]> SelectedItemsChanged { get; set; }
+    [Parameter] public EventCallback<Guid[]> OnSelectedChange { get; set; }
     [Parameter] public bool AllowMultipleSelection { get; set; }
     [Parameter] public bool AllowUnselect { get; set; }
 
@@ -34,6 +35,7 @@ public partial class CardList : BasicComponent
         }
         SelectedItems = selectedItems.ToArray();
         await SelectedItemsChanged.InvokeAsync(SelectedItems);
+        await OnSelectedChange.InvokeAsync(SelectedItems);
         RefreshMediator.NotifyStateHasChangedSafe();
     }
 }
