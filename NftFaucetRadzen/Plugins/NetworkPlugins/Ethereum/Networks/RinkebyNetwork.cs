@@ -32,7 +32,7 @@ public class RinkebyNetwork : INetwork
         },
         new Contract
         {
-            Id = Guid.Parse("c18c6b3f-c6c1-4aae-92b6-c5158c1704eb"),
+            Id = Guid.Parse("8ca22018-337a-4485-bc9a-909ec438bead"),
             Name = "ERC-1155 Faucet",
             Symbol = "FA1155",
             Address = "0xf67C575502fc1cE399a3e1895dDf41847185D7bD",
