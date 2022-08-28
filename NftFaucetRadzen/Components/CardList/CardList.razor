@@ -17,14 +17,17 @@
                     <RadzenImage Path=@($"./images/{cardListItem.ImageName}") Class="float-left mr-3" Style="width: 80px; height: 80px; margin-right: 1em;"/>
                 }
                 <div style="width: 100%;">
-                    <h4 class="mb-0">@cardListItem.Header</h4>
-                        @foreach (var property in cardListItem.Properties ?? Array.Empty<CardListItemProperty>())
+                    @if (!string.IsNullOrEmpty(cardListItem.Header))
+                    {
+                        <h4 class="mb-0">@cardListItem.Header</h4>
+                    }
+                    @foreach (var property in cardListItem.Properties ?? Array.Empty<CardListItemProperty>())
+                    {
+                        if (!string.IsNullOrEmpty(property?.Value))
                         {
-                            if (!string.IsNullOrEmpty(property?.Value))
-                            {
-                                <div style="font-size: .8em">@property.Name: @property.Value</div>
-                            }
+                            <div style="font-size: .8em">@property.Name: @property.Value</div>
                         }
+                    }
                     <div>
                         @foreach (var badge in cardListItem.Badges ?? Array.Empty<CardListItemBadge>())
                         {
@@ -40,7 +43,7 @@
                             if (!string.IsNullOrEmpty(button?.Name))
                             {
                                 <RadzenButton Text="@button.Name" Click="@button.Action" ButtonStyle="@button.Style"
-                                              Disabled="SelectedItems == null || !SelectedItems.Contains(cardListItem.Id)" />
+                                              Disabled="SelectedItems == null || !SelectedItems.Contains(cardListItem.Id)"/>
                             }
                         }
                     </div>
