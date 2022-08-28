@@ -53,16 +53,13 @@ public partial class NetworksPage : BasicComponent
             }.Where(x => x != null).ToArray(),
         };
 
-    private void ResetProviderSelectionIfNeeded()
+    private void OnNetworkChange()
     {
-        var currentProvider = AppState.SelectedProvider;
-        if (currentProvider == null)
-        {
-            return;
-        }
-
         var currentNetwork = AppState.SelectedNetwork;
-        if (currentNetwork == null || !currentProvider.IsNetworkSupported(currentNetwork))
+        AppState.Storage.SelectedContracts = Array.Empty<Guid>();
+
+        var currentProvider = AppState.SelectedProvider;
+        if (currentNetwork == null || (currentProvider != null && !currentProvider.IsNetworkSupported(currentNetwork)))
         {
             AppState.Storage.SelectedProviders = Array.Empty<Guid>();
         }
