@@ -1,0 +1,19 @@
+@page "/uploads"
+@inherits BasicComponent
+
+<PageTitle>Token upload locations</PageTitle>
+<RadzenContent Container="main">
+    <RadzenHeading Size="H1" Text="Select or create a token upload" />
+    @if (AppState.SelectedToken == null)
+    {
+        <RadzenHeading Size="H3" Text="Please choose token first!" />
+    }
+    else
+    {
+        <div style="width: 100%; display: flex; flex-direction: row; justify-content: end;">
+            <RadzenButton Text="Create New" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"
+                          Click="@OpenCreateTokenDialog"/>
+        </div>
+        <CardList Data="@Data" @bind-SelectedItems="@AppState.Storage.SelectedUploadLocations"/>
+    }
+</RadzenContent>

@@ -12,6 +12,7 @@ public class ScopedAppState
     public IProvider SelectedProvider => Storage?.Providers?.FirstOrDefault(x => x.Id == Storage?.SelectedProviders?.FirstOrDefault());
     public IContract SelectedContract => Storage?.Contracts?.FirstOrDefault(x => x.Id == Storage?.SelectedContracts?.FirstOrDefault());
     public IToken SelectedToken => Storage?.Tokens?.FirstOrDefault(x => x.Id == Storage?.SelectedTokens?.FirstOrDefault());
+    public ITokenUploadLocation SelectedUploadLocation => Storage?.UploadLocations?.FirstOrDefault(x => x.Id == Storage?.SelectedUploadLocations?.FirstOrDefault());
 
     public void Reset()
     {

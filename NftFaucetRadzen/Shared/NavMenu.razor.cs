@@ -10,6 +10,7 @@ public partial class NavMenu : BasicComponent
     protected string SelectedProviderName => AppState?.SelectedProvider?.ShortName;
     protected string SelectedContractName => AppState?.SelectedContract?.Symbol;
     protected string SelectedTokenName => AppState?.SelectedToken?.Name;
+    protected string SelectedUploadName => AppState?.SelectedUploadLocation?.Name;
 
     private bool CollapseNavMenu { get; set; } = true;
 
