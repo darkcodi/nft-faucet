@@ -14,6 +14,19 @@ public class SolanaTestnetNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Solana;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
-    public string Erc721ContractAddress { get; } = null;
-    public string Erc1155ContractAddress { get; } = null;
+
+    public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
+    {
+        new Contract
+        {
+            Id = Guid.Parse("794c6238-2d9a-4932-9c5a-d79edc783d47"),
+            Name = "Token Program",
+            Symbol = "SPL",
+            Address = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+            Type = ContractType.Solana,
+            DeploymentTxHash = "<unknown>",
+            DeployedAt = DateTime.UnixEpoch,
+            IsVerified = true,
+        },
+    };
 }

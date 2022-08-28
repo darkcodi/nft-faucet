@@ -1,0 +1,15 @@
+@page "/contracts"
+@inherits BasicComponent
+
+<PageTitle>Contracts</PageTitle>
+<RadzenContent Container="main">
+    <RadzenHeading Size="H1" Text="Select contract" />
+    @if (AppState.SelectedNetwork == null)
+    {
+        <RadzenHeading Size="H3" Text="Please choose network first!" />
+    }
+    else
+    {
+        <CardList Data="@Data" @bind-SelectedItems="@AppState.Storage.SelectedContracts" />
+    }
+</RadzenContent>

@@ -25,6 +25,7 @@ public abstract class BasicLayout : LayoutComponentBase
         PluginLoader.EnsurePluginsLoaded();
         AppState.Storage.Networks = PluginLoader.NetworkPlugins.SelectMany(x => x.Networks).Where(x => x != null).ToArray();
         AppState.Storage.Providers = PluginLoader.ProviderPlugins.SelectMany(x => x.Providers).Where(x => x != null).ToArray();
+        AppState.Storage.Contracts = AppState.Storage.Networks.SelectMany(x => x.DeployedContracts).Where(x => x != null).ToArray();
 
         RefreshMediator.StateChanged += async () => await InvokeAsync(StateHasChangedSafe);
     }

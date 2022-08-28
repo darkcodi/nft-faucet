@@ -14,6 +14,5 @@ public class PolygonMainnetNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
-    public string Erc721ContractAddress { get; } = null;
-    public string Erc1155ContractAddress { get; } = null;
+    public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

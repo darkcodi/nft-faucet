@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace NftFaucetRadzen.Plugins.NetworkPlugins.Ethereum.Networks;
 
 public class RinkebyNetwork : INetwork
@@ -14,6 +16,30 @@ public class RinkebyNetwork : INetwork
     public bool IsDeprecated { get; } = true;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
-    public string Erc721ContractAddress { get; } = "0x9F64932Be34D5D897C4253D17707b50921f372B6";
-    public string Erc1155ContractAddress { get; } = "0xf67C575502fc1cE399a3e1895dDf41847185D7bD";
+
+    public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
+    {
+        new Contract
+        {
+            Id = Guid.Parse("c18c6b3f-c6c1-4aae-92b6-c5158c1704eb"),
+            Name = "ERC-721 Faucet",
+            Symbol = "FA721",
+            Address = "0x9F64932Be34D5D897C4253D17707b50921f372B6",
+            Type = ContractType.Erc721,
+            DeploymentTxHash = "0xc1db534202f68a169a463b5053de7011330d870c9c63dd69bf03dd72c0d99f8b",
+            DeployedAt = DateTime.Parse("Apr-17-2022 10:20:34 AM", CultureInfo.InvariantCulture),
+            IsVerified = true,
+        },
+        new Contract
+        {
+            Id = Guid.Parse("c18c6b3f-c6c1-4aae-92b6-c5158c1704eb"),
+            Name = "ERC-1155 Faucet",
+            Symbol = "FA1155",
+            Address = "0xf67C575502fc1cE399a3e1895dDf41847185D7bD",
+            Type = ContractType.Erc1155,
+            DeploymentTxHash = "0xa216e02c0978b1dc2ff2d33b981345861136cbe611dfc5c53500fd16da81654b",
+            DeployedAt = DateTime.Parse("Apr-17-2022 10:40:06 AM", CultureInfo.InvariantCulture),
+            IsVerified = true,
+        },
+    };
 }
