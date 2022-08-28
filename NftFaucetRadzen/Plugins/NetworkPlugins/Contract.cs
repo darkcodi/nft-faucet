@@ -8,6 +8,6 @@ public class Contract : IContract
     public string Address { get; set; }
     public ContractType Type { get; set; }
     public string DeploymentTxHash { get; set; }
-    public DateTime DeployedAt { get; set; }
+    public DateTime? DeployedAt { get; set; }
     public bool IsVerified { get; set; }
 }

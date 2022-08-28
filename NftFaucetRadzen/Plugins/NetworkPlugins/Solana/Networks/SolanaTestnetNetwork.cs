@@ -24,8 +24,8 @@ public class SolanaTestnetNetwork : INetwork
             Symbol = "SPL",
             Address = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
             Type = ContractType.Solana,
-            DeploymentTxHash = "<unknown>",
-            DeployedAt = DateTime.UnixEpoch,
+            DeploymentTxHash = null,
+            DeployedAt = null,
             IsVerified = true,
         },
     };

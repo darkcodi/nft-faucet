@@ -59,12 +59,12 @@ public partial class ContractsPage : BasicComponent
                 new CardListItemProperty
                 {
                     Name = "TxHash",
-                    Value = contract.DeploymentTxHash,
+                    Value = contract.DeploymentTxHash ?? "<unknown>",
                 },
                 new CardListItemProperty
                 {
                     Name = "DeployedAt",
-                    Value = contract.DeployedAt.ToString(CultureInfo.InvariantCulture),
+                    Value = contract.DeployedAt?.ToString(CultureInfo.InvariantCulture) ?? "<unknown>",
                 },
             },
             Badges = new[]

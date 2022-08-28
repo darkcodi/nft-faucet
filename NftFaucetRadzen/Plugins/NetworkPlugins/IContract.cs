@@ -8,6 +8,6 @@ public interface IContract
     public string Address { get; }
     public ContractType Type { get; }
     public string DeploymentTxHash { get; }
-    public DateTime DeployedAt { get; }
+    public DateTime? DeployedAt { get; }
     public bool IsVerified { get; }
 }
