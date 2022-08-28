@@ -12,9 +12,9 @@
                 {
                     <Checkmark AnchorToTopRightCorner="true"/>
                 }
-                @if (!string.IsNullOrEmpty(cardListItem.ImageName))
+                @if (!string.IsNullOrEmpty(cardListItem.ImageLocation))
                 {
-                    <RadzenImage Path=@($"./images/{cardListItem.ImageName}") Class="float-left mr-3" Style="width: 80px; height: 80px; margin-right: 1em;"/>
+                    <RadzenImage Path=@(cardListItem.ImageLocation) Class="float-left mr-3" Style="width: 80px; height: 80px; margin-right: 1em;"/>
                 }
                 <div style="width: 100%;">
                     @if (!string.IsNullOrEmpty(cardListItem.Header))

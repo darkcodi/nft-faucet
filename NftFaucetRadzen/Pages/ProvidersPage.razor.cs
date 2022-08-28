@@ -42,7 +42,7 @@ public partial class ProvidersPage : BasicComponent
         => new CardListItem
         {
             Id = provider.Id,
-            ImageName = provider.ImageName,
+            ImageLocation = provider.ImageName != null ? "./images/" + provider.ImageName : null,
             Header = provider.Name,
             IsDisabled = !provider.IsSupported,
             Properties = provider.GetProperties().Select(x => new CardListItemProperty

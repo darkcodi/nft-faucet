@@ -37,7 +37,7 @@ public partial class NetworksPage : BasicComponent
         => new CardListItem
         {
             Id = model.Id,
-            ImageName = model.ImageName,
+            ImageLocation = model.ImageName != null ? "./images/" + model.ImageName : null,
             Header = model.Name,
             IsDisabled = !model.IsSupported,
             Properties = new[]

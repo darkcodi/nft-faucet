@@ -1,7 +1,5 @@
-using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Newtonsoft.Json;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Models;
@@ -44,23 +42,10 @@ public partial class TokensPage : BasicComponent
         => new CardListItem
         {
             Id = token.Id,
+            Header = token.Name,
+            ImageLocation = token.Image.FileData,
             Properties = new[]
             {
-                new CardListItemProperty
-                {
-                    Name = "Id",
-                    Value = token.Id.ToString(),
-                },
-                new CardListItemProperty
-                {
-                    Name = "CreatedAt",
-                    Value = token.CreatedAt.ToString(CultureInfo.InvariantCulture),
-                },
-                new CardListItemProperty
-                {
-                    Name = "Name",
-                    Value = token.Name,
-                },
                 new CardListItemProperty
                 {
                     Name = "Description",
