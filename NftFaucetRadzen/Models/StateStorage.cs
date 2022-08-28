@@ -6,10 +6,10 @@ namespace NftFaucetRadzen.Models;
 
 public class StateStorage
 {
-    public IReadOnlyCollection<INetwork> Networks { get; set; }
-    public IReadOnlyCollection<IProvider> Providers { get; set; }
-    public IReadOnlyCollection<IContract> Contracts { get; set; }
-    public IReadOnlyCollection<IToken> Tokens { get; set; }
+    public ICollection<INetwork> Networks { get; set; }
+    public ICollection<IProvider> Providers { get; set; }
+    public ICollection<IContract> Contracts { get; set; }
+    public ICollection<IToken> Tokens { get; set; }
 
     public Guid[] SelectedNetworks { get; set; }
     public Guid[] SelectedProviders { get; set; }

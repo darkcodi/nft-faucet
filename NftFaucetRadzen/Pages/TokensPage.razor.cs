@@ -1,8 +1,10 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Components.CardList;
+using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins;
 using Radzen;
 
@@ -28,16 +30,14 @@ public partial class TokensPage : BasicComponent
     protected override void OnInitialized()
     {
         // ToDo: Add loading from IndexedDB
-        Tokens = Array.Empty<IToken>();
         RefreshData();
     }
 
-    private IToken[] Tokens { get; set; }
     private CardListItem[] Data { get; set; }
 
     private void RefreshData()
     {
-        Data = Tokens.Select(MapCardListItem).ToArray();
+        Data = AppState?.Storage?.Tokens?.Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
     }
 
     private CardListItem MapCardListItem(IToken token)
@@ -71,8 +71,26 @@ public partial class TokensPage : BasicComponent
 
     private async Task OpenCreateTokenDialog()
     {
-        await DialogService.OpenAsync<CreateTokenPage>("Create new token",
+        var newFileModel = (NewFileModel) await DialogService.OpenAsync<CreateTokenPage>("Create new token",
             new Dictionary<string, object>(),
             new DialogOptions() { Width = "700px", Height = "570px", Resizable = true, Draggable = true });
+        
+        var token = new Token
+        {
+            Id = Guid.NewGuid(),
+            Name = newFileModel.Name,
+            Description = newFileModel.Description,
+            CreatedAt = DateTime.Now,
+            Image = new TokenMedia
+            {
+                FileName = newFileModel.FileName,
+                FileSize = newFileModel.FileSize!.Value,
+                FileData = newFileModel.FileData,
+            },
+        };
+        AppState.Storage.Tokens ??= new List<IToken>();
+        AppState.Storage.Tokens.Add(token);
+        RefreshData();
+        StateHasChangedSafe();
     }
 }
