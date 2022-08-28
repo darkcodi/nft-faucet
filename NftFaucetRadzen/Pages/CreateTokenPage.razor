@@ -2,5 +2,16 @@
 
 <PageTitle>Create token</PageTitle>
 <RadzenContent Container="main">
-    <RadzenHeading Size="H1" Text="Create new token" />
+    <h4 class="mb-4">Image</h4>
+    <RadzenFileInput @bind-Value=@Model.FileData @bind-FileName=@Model.FileName @bind-FileSize=@Model.FileSize TValue="string" Class="w-100"/>
+    <h4 class="mb-4">Name</h4>
+    <RadzenTextBox Placeholder="Name..." MaxLength="50" @bind-Value="@Model.Name" Class="w-100" />
+    <h4 class="mb-4">Description</h4>
+    <RadzenTextArea MaxLength="250" @bind-Value="@Model.Description" Class="w-100"/>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <RadzenButton Click="@((args) => DialogService.Close())" ButtonStyle="ButtonStyle.Secondary" Text="Cancel" Style="width: 120px" Class="mr-1" />
+            <RadzenButton Click="@((args) => OnSavePressed())" Disabled="!ModelIsValid" Text="Save" Style="width: 120px" />
+        </div>
+    </div>
 </RadzenContent>

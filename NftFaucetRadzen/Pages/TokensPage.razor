@@ -6,7 +6,7 @@
     <RadzenHeading Size="H1" Text="Select or create a token to mint" />
     <div style="width: 100%; display: flex; flex-direction: row; justify-content: end;">
         <RadzenButton Text="Create New" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"
-                      Click="@(() => NotificationService.Notify(NotificationSeverity.Warning, "NOT IMPLEMENTED", "Will be implemented later"))" />
+                      Click="@OpenCreateTokenDialog" />
     </div>
     <CardList Data="@Data" @bind-SelectedItems="@AppState.Storage.SelectedTokens" />
 </RadzenContent>

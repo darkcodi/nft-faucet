@@ -68,4 +68,11 @@ public partial class TokensPage : BasicComponent
                 },
             },
         };
+
+    private async Task OpenCreateTokenDialog()
+    {
+        await DialogService.OpenAsync<CreateTokenPage>("Create new token",
+            new Dictionary<string, object>(),
+            new DialogOptions() { Width = "700px", Height = "570px", Resizable = true, Draggable = true });
+    }
 }
