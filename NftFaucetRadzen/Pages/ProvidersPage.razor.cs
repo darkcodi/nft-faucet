@@ -2,13 +2,12 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Components.CardList;
-using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins.ProviderPlugins;
 using Radzen;
 
 namespace NftFaucetRadzen.Pages;
 
-public partial class ProviderPage : BasicComponent
+public partial class ProvidersPage : BasicComponent
 {
     [Inject]
     protected IJSRuntime JSRuntime { get; set; }
