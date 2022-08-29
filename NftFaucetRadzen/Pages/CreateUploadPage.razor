@@ -3,12 +3,24 @@
 
 <PageTitle>Create upload</PageTitle>
 <RadzenContent Container="main">
-    <h4 class="mb-4">Uploader</h4>
-    <CardList Data="@Data" @bind-SelectedItems="@SelectedUploaders" />
+    <RadzenSteps>
+        <Steps>
+            <RadzenStepsItem Text="Select uploader">
+                <CardList Data="@Data" @bind-SelectedItems="@SelectedUploaders"/>
+            </RadzenStepsItem>
+            <RadzenStepsItem Text="Configure uploader" Disabled="@(SelectedUploaders == null || SelectedUploaders.Length == 0)">
+                <h3 class="mt-4">Specify dedicated domain</h3>
+                <RadzenTextBox Placeholder="Domain..." MaxLength="50" Class="w-100" />
+            </RadzenStepsItem>
+            <RadzenStepsItem Text="Upload" Disabled="@(SelectedUploaders == null || SelectedUploaders.Length == 0)">
+                <h3 class="mt-4">Uploading... Wait!</h3>
+            </RadzenStepsItem>
+        </Steps>
+    </RadzenSteps>
     <div class="row">
         <div class="col-md-12 text-right">
-            <RadzenButton Click="@((args) => DialogService.Close())" ButtonStyle="ButtonStyle.Secondary" Text="Cancel" Style="width: 120px" Class="mr-1" />
-            <RadzenButton Click="@((args) => OnSavePressed())" Disabled="!ModelIsValid" Text="Save" Style="width: 120px" />
+            <RadzenButton Click="@((args) => DialogService.Close())" ButtonStyle="ButtonStyle.Secondary" Text="Cancel" Style="width: 120px" Class="mr-1"/>
+            <RadzenButton Click="@((args) => OnSavePressed())" Disabled="!ModelIsValid" Text="Save" Style="width: 120px"/>
         </div>
     </div>
 </RadzenContent>
