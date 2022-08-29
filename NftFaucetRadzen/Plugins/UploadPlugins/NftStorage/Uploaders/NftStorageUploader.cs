@@ -1,3 +1,5 @@
+using CSharpFunctionalExtensions;
+
 namespace NftFaucetRadzen.Plugins.UploadPlugins.NftStorage.Uploaders;
 
 public class NftStorageUploader : IUploader
@@ -8,4 +10,14 @@ public class NftStorageUploader : IUploader
     public string ImageName { get; } = "nft-storage.svg";
     public bool IsSupported { get; } = false;
     public bool IsInitialized { get; } = false;
+
+    public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems)
+    {
+        throw new NotImplementedException();
+    }
 }

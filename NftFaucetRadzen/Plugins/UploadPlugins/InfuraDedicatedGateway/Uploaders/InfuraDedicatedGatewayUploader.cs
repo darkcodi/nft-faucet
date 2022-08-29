@@ -1,3 +1,5 @@
+using CSharpFunctionalExtensions;
+
 namespace NftFaucetRadzen.Plugins.UploadPlugins.InfuraDedicatedGateway.Uploaders;
 
 public class InfuraDedicatedGatewayUploader : IUploader
@@ -8,4 +10,47 @@ public class InfuraDedicatedGatewayUploader : IUploader
     public string ImageName { get; } = "infura_black.svg";
     public bool IsSupported { get; } = true;
     public bool IsInitialized { get; private set; } = false;
+
+    public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
+        => new[]
+        {
+            new ConfigurationItem
+            {
+                Name = "Dedicated gateway URL",
+                Tooltip = "Specify full URL with 'https://' prefix and '.infura-ipfs.io' postfix",
+                Value = "https://<your-subdomain>.infura-ipfs.io",
+            },
+        };
+
+    public async Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems)
+    {
+        if (configurationItems == null || configurationItems.Count != 1)
+        {
+            return Result.Failure("Invalid configuration items count");
+        }
+
+        var urlString = configurationItems.First().Value;
+        if (string.IsNullOrEmpty(urlString))
+        {
+            return Result.Failure("Url string is null or empty");
+        }
+
+        if (!Uri.TryCreate(urlString, UriKind.Absolute, out var url))
+        {
+            return Result.Failure("Url string is invalid");
+        }
+
+        if (url.Scheme != "https")
+        {
+            return Result.Failure("Invalid url scheme. Expected 'https'");
+        }
+
+        if (!url.Host.EndsWith("infura-ipfs.io"))
+        {
+            return Result.Failure("Invalid url host. Expected host ending with '.infura-ipfs.io'");
+        }
+
+        IsInitialized = true;
+        return Result.Success();
+    }
 }

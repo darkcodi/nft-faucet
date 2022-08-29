@@ -1,3 +1,5 @@
+using CSharpFunctionalExtensions;
+
 namespace NftFaucetRadzen.Plugins.UploadPlugins;
 
 public interface IUploader
@@ -8,4 +10,6 @@ public interface IUploader
     public string ImageName { get; }
     public bool IsSupported { get; }
     public bool IsInitialized { get; }
+    public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems();
+    public Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems);
 }

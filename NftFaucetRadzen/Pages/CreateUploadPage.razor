@@ -3,16 +3,24 @@
 
 <PageTitle>Create upload</PageTitle>
 <RadzenContent Container="main">
-    <RadzenSteps>
+    <RadzenSteps Change="@OnChange" ShowStepsButtons="false">
         <Steps>
             <RadzenStepsItem Text="Select uploader">
-                <CardList Data="@Data" @bind-SelectedItems="@SelectedUploaders"/>
+                <CardList Data="@Data" @bind-SelectedItems="@SelectedUploaderIds"/>
             </RadzenStepsItem>
-            <RadzenStepsItem Text="Configure uploader" Disabled="@(SelectedUploaders == null || SelectedUploaders.Length == 0)">
-                <h3 class="mt-4">Specify dedicated domain</h3>
-                <RadzenTextBox Placeholder="Domain..." MaxLength="50" Class="w-100" />
+            <RadzenStepsItem Text="Configure uploader" Disabled="@(SelectedUploader == null)">
+                @if (ConfigurationItems != null)
+                {
+                    foreach (var configurationItem in ConfigurationItems)
+                    {
+                        <h3 class="mt-4">@configurationItem.Name</h3>
+                        <p>@configurationItem.Tooltip</p>
+                        <RadzenTextBox @bind-Value="@configurationItem.Value" Class="w-100"/>
+                    }
+                    <RadzenButton Text="Verify configuration" Click="@(async () => await VerifyConfiguration())" />
+                }
             </RadzenStepsItem>
-            <RadzenStepsItem Text="Upload" Disabled="@(SelectedUploaders == null || SelectedUploaders.Length == 0)">
+            <RadzenStepsItem Text="Upload" Disabled="@(SelectedUploader == null || !SelectedUploader.IsInitialized)">
                 <h3 class="mt-4">Uploading... Wait!</h3>
             </RadzenStepsItem>
         </Steps>
