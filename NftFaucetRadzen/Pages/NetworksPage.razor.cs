@@ -33,7 +33,7 @@ public partial class NetworksPage : BasicComponent
 
     private Dictionary<NetworkSubtype, CardListItem[]> Networks { get; set; }
 
-    private static CardListItem MapCardListItem(INetwork model)
+    private CardListItem MapCardListItem(INetwork model)
         => new CardListItem
         {
             Id = model.Id,
@@ -47,6 +47,9 @@ public partial class NetworksPage : BasicComponent
             },
             Badges = new[]
             {
+                (Settings?.RecommendedNetworks?.Contains(model.Id) ?? false)
+                    ? new CardListItemBadge {Style = BadgeStyle.Success, Text = "Recommended"}
+                    : null,
                 !model.IsSupported ? new CardListItemBadge { Style = BadgeStyle.Light, Text = "Not Supported" } : null,
                 !model.IsTestnet ? new CardListItemBadge { Style = BadgeStyle.Danger, Text = "Mainnet" } : null,
                 model.IsDeprecated ? new CardListItemBadge { Style = BadgeStyle.Warning, Text = "Deprecated" } : null,

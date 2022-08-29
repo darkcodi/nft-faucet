@@ -12,7 +12,7 @@
     {
         <div style="width: 100%; display: flex; flex-direction: row; justify-content: end;">
             <RadzenButton Text="Create New" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"
-                          Click="@OpenCreateTokenDialog"/>
+                          Click="@OpenCreateUploadDialog"/>
         </div>
         <CardList Data="@Data" @bind-SelectedItems="@AppState.Storage.SelectedUploadLocations"/>
     }

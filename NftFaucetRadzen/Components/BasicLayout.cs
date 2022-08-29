@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Extensions;
 using NftFaucetRadzen.Models;
-using NftFaucetRadzen.Plugins.NetworkPlugins;
-using NftFaucetRadzen.Plugins.ProviderPlugins;
 using NftFaucetRadzen.Services;
 
 namespace NftFaucetRadzen.Components;
@@ -43,11 +41,13 @@ public abstract class BasicLayout : LayoutComponentBase
     {
         var isFirstRun = AppState.Storage.Networks == null &&
                          AppState.Storage.Providers == null &&
+                         AppState.Storage.Uploaders == null &&
                          AppState.Storage.Contracts == null;
 
         PluginLoader.EnsurePluginsLoaded();
         AppState.Storage.Networks ??= PluginLoader.NetworkPlugins.SelectMany(x => x.Networks).Where(x => x != null).ToArray();
         AppState.Storage.Providers ??= PluginLoader.ProviderPlugins.SelectMany(x => x.Providers).Where(x => x != null).ToArray();
+        AppState.Storage.Uploaders ??= PluginLoader.UploadPlugins.SelectMany(x => x.Uploaders).Where(x => x != null).ToArray();
         AppState.Storage.Contracts ??= AppState.Storage.Networks.SelectMany(x => x.DeployedContracts).Where(x => x != null).ToArray();
 
         if (isFirstRun)
@@ -60,6 +60,7 @@ public abstract class BasicLayout : LayoutComponentBase
     {
         var networkIds = AppState.Storage.Networks.Select(x => x.Id).ToArray();
         var providerIds = AppState.Storage.Providers.Select(x => x.Id).ToArray();
+        var uploaderIds = AppState.Storage.Uploaders.Select(x => x.Id).ToArray();
         var contractIds = AppState.Storage.Contracts.Select(x => x.Id).ToArray();
 
         var networkIdDuplicates = networkIds.Duplicates().ToArray();
@@ -74,17 +75,23 @@ public abstract class BasicLayout : LayoutComponentBase
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are providers with same ids: {string.Join(", ", providerIdDuplicates)}");
         }
 
+        var uploaderIdDuplicates = uploaderIds.Duplicates().ToArray();
+        if (uploaderIdDuplicates.Any())
+        {
+            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are uploaders with same ids: {string.Join(", ", uploaderIdDuplicates)}");
+        }
+
         var contractIdDuplicates = contractIds.Duplicates().ToArray();
         if (contractIdDuplicates.Any())
         {
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are contracts with same ids: {string.Join(", ", contractIdDuplicates)}");
         }
 
-        var allIds = networkIds.Concat(providerIds).Concat(contractIds).ToArray();
+        var allIds = networkIds.Concat(providerIds).Concat(uploaderIds).Concat(contractIds).ToArray();
         var allIdDuplicates = allIds.Duplicates().ToArray();
         if (allIdDuplicates.Any())
         {
-            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are plugin data items (networks/providers/contracts) with same ids: {string.Join(", ", allIdDuplicates)}");
+            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are plugin data items (networks/providers/uploaders/contracts) with same ids: {string.Join(", ", allIdDuplicates)}");
         }
 
         var networkShortNames = AppState.Storage.Networks.Select(x => x.ShortName).Where(x => x != null).ToArray();
@@ -99,6 +106,13 @@ public abstract class BasicLayout : LayoutComponentBase
         if (providerShortNameDuplicates.Any())
         {
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are providers with same short name: {string.Join(", ", providerShortNameDuplicates)}");
+        }
+
+        var uploaderShortNames = AppState.Storage.Uploaders.Select(x => x.ShortName).Where(x => x != null).ToArray();
+        var uploaderShortNameDuplicates = uploaderShortNames.Duplicates().ToArray();
+        if (uploaderShortNameDuplicates.Any())
+        {
+            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are uploaders with same short name: {string.Join(", ", uploaderShortNameDuplicates)}");
         }
 
         var txHashes = AppState.Storage.Contracts.Select(x => x.DeploymentTxHash).Where(x => x != null).ToArray();

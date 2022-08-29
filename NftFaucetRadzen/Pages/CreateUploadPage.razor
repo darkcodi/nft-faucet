@@ -1,0 +1,14 @@
+@page "/uploads/new"
+@inherits BasicComponent
+
+<PageTitle>Create upload</PageTitle>
+<RadzenContent Container="main">
+    <h4 class="mb-4">Uploader</h4>
+    <CardList Data="@Data" @bind-SelectedItems="@SelectedUploaders" />
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <RadzenButton Click="@((args) => DialogService.Close())" ButtonStyle="ButtonStyle.Secondary" Text="Cancel" Style="width: 120px" Class="mr-1" />
+            <RadzenButton Click="@((args) => OnSavePressed())" Disabled="!ModelIsValid" Text="Save" Style="width: 120px" />
+        </div>
+    </div>
+</RadzenContent>

@@ -54,11 +54,11 @@ public partial class UploadLocationsPage : BasicComponent
             },
         };
 
-    private async Task OpenCreateTokenDialog()
+    private async Task OpenCreateUploadDialog()
     {
-        // var newFileModel = (NewFileModel) await DialogService.OpenAsync<CreateTokenPage>("Create new upload",
-        //     new Dictionary<string, object>(),
-        //     new DialogOptions() { Width = "700px", Height = "570px", Resizable = true, Draggable = true });
+        await DialogService.OpenAsync<CreateUploadPage>("Create new upload",
+            new Dictionary<string, object>(),
+            new DialogOptions() { Width = "1000px", Height = "700px", Resizable = true, Draggable = true });
         //
         // var token = new Token
         // {

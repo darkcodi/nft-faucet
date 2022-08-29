@@ -4,6 +4,7 @@ public interface ITokenUploadLocation
 {
     public Guid Id { get; }
     public string Name { get; }
-    public StorageType StorageType { get; }
-    public UploadProvider UploadProvider { get; }
+    public string Location { get; }
+    public DateTime CreatedAt { get; }
+    public Guid UploaderId { get; }
 }
