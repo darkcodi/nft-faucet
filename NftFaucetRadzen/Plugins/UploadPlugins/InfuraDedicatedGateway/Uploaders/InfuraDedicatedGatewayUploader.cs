@@ -14,61 +14,88 @@ public class InfuraDedicatedGatewayUploader : IUploader
     public bool IsSupported { get; } = true;
     public bool IsInitialized { get; private set; } = false;
     
-    private Uri DedicatedGatewayUrl { get; set; }
+    private string ProjectId { get; set; }
+    private string ProjectSecret { get; set; }
 
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
         => new[]
         {
             new ConfigurationItem
             {
-                Name = "Dedicated gateway URL",
-                Tooltip = "Specify full URL with 'https://' prefix and '.infura-ipfs.io' postfix",
-                Value = "https://<your-subdomain>.infura-ipfs.io",
+                Name = "Project ID",
+                Placeholder = "<ProjectId>",
+            },
+            new ConfigurationItem
+            {
+                Name = "API Key Secret",
+                Placeholder = "<ProjectSecret>",
             },
         };
 
     public async Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems)
     {
-        if (configurationItems == null || configurationItems.Count != 1)
+        if (configurationItems == null || configurationItems.Count != 2)
         {
             return Result.Failure("Invalid configuration items count");
         }
 
-        var urlString = configurationItems.First().Value;
-        if (string.IsNullOrEmpty(urlString))
+        var projectId = configurationItems.First().Value;
+        if (string.IsNullOrEmpty(projectId))
         {
-            return Result.Failure("Url string is null or empty");
+            return Result.Failure("ProjectId is null or empty");
         }
 
-        if (!Uri.TryCreate(urlString, UriKind.Absolute, out var url))
+        var projectSecret = configurationItems.Skip(1).First().Value;
+        if (string.IsNullOrEmpty(projectSecret))
         {
-            return Result.Failure("Url string is invalid");
+            return Result.Failure("ProjectSecret is null or empty");
         }
 
-        if (url.Scheme != "https")
+        var apiClient = GetInfuraClient(projectId, projectSecret);
+        var response = await apiClient.GetVersion();
+        if (!response.ResponseMessage.IsSuccessStatusCode)
         {
-            return Result.Failure("Invalid url scheme. Expected 'https'");
+            return Result.Failure<Uri>($"Status: {(int) response.ResponseMessage.StatusCode}. Reason: {response.ResponseMessage.ReasonPhrase}");
         }
 
-        if (!url.Host.EndsWith("infura-ipfs.io"))
+        var uploadResponse = response.GetContent();
+        if (string.IsNullOrEmpty(uploadResponse?.Version))
         {
-            return Result.Failure("Invalid url host. Expected host ending with '.infura-ipfs.io'");
+            return Result.Failure<Uri>($"Unexpected response: {response.StringContent}");
         }
 
-        DedicatedGatewayUrl = url;
+        ProjectId = projectId;
+        ProjectSecret = projectSecret;
         IsInitialized = true;
         return Result.Success();
     }
 
     public async Task<Result<Uri>> Upload(IToken token)
     {
-        var uploadClient = RestClient.For<IInfuraIpfsApiClient>();
-        var auth = Convert.ToBase64String(Encoding.ASCII.GetBytes("<project-id>:<project-secret>"));
-        uploadClient.Auth = new AuthenticationHeaderValue("Basic", auth);
+        var apiClient = GetInfuraClient(ProjectId, ProjectSecret);
         var fileUploadRequest = ToMultipartContent(token.Image.FileName, token.Image.FileType, token.Image.FileData);
-        var response = await uploadClient.UploadFile(fileUploadRequest);
-        var uri = new Uri("ipfs://" + response.Hash);
+        var response = await apiClient.UploadFile(fileUploadRequest);
+        if (!response.ResponseMessage.IsSuccessStatusCode)
+        {
+            return Result.Failure<Uri>($"Status: {(int) response.ResponseMessage.StatusCode}. Reason: {response.ResponseMessage.ReasonPhrase}");
+        }
+
+        var uploadResponse = response.GetContent();
+        if (string.IsNullOrEmpty(uploadResponse?.Hash))
+        {
+            return Result.Failure<Uri>($"Unexpected response: {response.StringContent}");
+        }
+
+        var uri = new Uri("ipfs://" + uploadResponse.Hash);
         return uri;
+    }
+
+    private IInfuraIpfsApiClient GetInfuraClient(string projectId, string projectSecret)
+    {
+        var uploadClient = RestClient.For<IInfuraIpfsApiClient>();
+        var auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{projectId}:{projectSecret}"));
+        uploadClient.Auth = new AuthenticationHeaderValue("Basic", auth);
+        return uploadClient;
     }
 
     private MultipartContent ToMultipartContent(string fileName, string fileType, string fileData)

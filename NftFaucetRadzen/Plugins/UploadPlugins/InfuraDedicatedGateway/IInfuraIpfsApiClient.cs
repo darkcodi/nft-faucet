@@ -10,5 +10,10 @@ public interface IInfuraIpfsApiClient
     public AuthenticationHeaderValue Auth { get; set; }
 
     [Post("api/v0/add")]
-    Task<UploadResponse> UploadFile([Body] MultipartContent content);
+    [AllowAnyStatusCode]
+    Task<Response<UploadResponse>> UploadFile([Body] MultipartContent content);
+
+    [Post("api/v0/version")]
+    [AllowAnyStatusCode]
+    Task<Response<VersionResponse>> GetVersion();
 }

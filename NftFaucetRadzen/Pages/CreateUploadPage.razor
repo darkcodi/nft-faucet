@@ -15,7 +15,7 @@
                     {
                         <h3 class="mt-4">@configurationItem.Name</h3>
                         <p>@configurationItem.Tooltip</p>
-                        <RadzenTextBox @bind-Value="@configurationItem.Value" Class="w-100"/>
+                        <RadzenTextBox Placeholder="@configurationItem.Placeholder" @bind-Value="@configurationItem.Value" Class="w-100"/>
                     }
                     <RadzenButton Text="Verify configuration" Click="@(async () => await VerifyConfiguration())" />
                 }
