@@ -1,5 +1,6 @@
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
+using MimeTypes;
 using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins;
 using Radzen;
@@ -43,11 +44,23 @@ public partial class CreateTokenPage
             Image = new TokenMedia
             {
                 FileName = Model.FileName,
-                FileSize = Model.FileSize!.Value,
+                FileType = DetermineFileType(Model.FileName),
                 FileData = Model.FileData,
+                FileSize = Model.FileSize!.Value,
             },
         };
         DialogService.Close(token);
+    }
+
+    private string DetermineFileType(string fileName)
+    {
+        var extension = fileName.Split('.', StringSplitOptions.RemoveEmptyEntries).Last();
+        if (!MimeTypeMap.TryGetMimeType(extension, out var mimeType))
+        {
+            return "application/octet-stream";
+        }
+
+        return mimeType;
     }
 
     private bool IsValid()

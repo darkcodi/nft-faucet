@@ -2,7 +2,8 @@ namespace NftFaucetRadzen.Plugins;
 
 public interface ITokenMedia
 {
-    public string FileData { get; }
     public string FileName { get; }
+    public string FileType { get; }
+    public string FileData { get; }
     public long FileSize { get; }
 }

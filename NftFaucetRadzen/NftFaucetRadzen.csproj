@@ -12,9 +12,11 @@
         <PackageReference Include="CSharpFunctionalExtensions" Version="2.33.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
+        <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
         <PackageReference Include="Nethereum.ABI" Version="4.8.0" />
         <PackageReference Include="Nethereum.JsonRpc.Client" Version="4.8.0" />
         <PackageReference Include="Radzen.Blazor" Version="3.20.4" />
+        <PackageReference Include="RestEase" Version="1.5.7" />
         <PackageReference Include="Solana.Metaplex" Version="1.3.0" />
     </ItemGroup>
 

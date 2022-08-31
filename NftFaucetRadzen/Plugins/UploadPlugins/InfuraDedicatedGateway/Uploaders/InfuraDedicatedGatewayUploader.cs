@@ -1,4 +1,7 @@
+using System.Net.Http.Headers;
+using System.Text;
 using CSharpFunctionalExtensions;
+using RestEase;
 
 namespace NftFaucetRadzen.Plugins.UploadPlugins.InfuraDedicatedGateway.Uploaders;
 
@@ -10,6 +13,8 @@ public class InfuraDedicatedGatewayUploader : IUploader
     public string ImageName { get; } = "infura_black.svg";
     public bool IsSupported { get; } = true;
     public bool IsInitialized { get; private set; } = false;
+    
+    private Uri DedicatedGatewayUrl { get; set; }
 
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
         => new[]
@@ -50,20 +55,38 @@ public class InfuraDedicatedGatewayUploader : IUploader
             return Result.Failure("Invalid url host. Expected host ending with '.infura-ipfs.io'");
         }
 
+        DedicatedGatewayUrl = url;
         IsInitialized = true;
         return Result.Success();
     }
 
     public async Task<Result<Uri>> Upload(IToken token)
     {
-        await Task.Delay(TimeSpan.FromSeconds(2));
-        if (Random.Shared.Next(1, 101) > 80)
-        {
-            return Result.Success(new Uri("https://example.com"));
-        }
-        else
-        {
-            return Result.Failure<Uri>("FAKE UPLOAD FAILURE");
-        }
+        var uploadClient = RestClient.For<IInfuraIpfsApiClient>();
+        var auth = Convert.ToBase64String(Encoding.ASCII.GetBytes("<project-id>:<project-secret>"));
+        uploadClient.Auth = new AuthenticationHeaderValue("Basic", auth);
+        var fileUploadRequest = ToMultipartContent(token.Image.FileName, token.Image.FileType, token.Image.FileData);
+        var response = await uploadClient.UploadFile(fileUploadRequest);
+        var uri = new Uri("ipfs://" + response.Hash);
+        return uri;
+    }
+
+    private MultipartContent ToMultipartContent(string fileName, string fileType, string fileData)
+    {
+        var content = new MultipartFormDataContent();
+
+        var bytes = Base64DataToBytes(fileData);
+        var imageContent = new ByteArrayContent(bytes);
+        imageContent.Headers.Add("Content-Type", fileType);
+        content.Add(imageContent, "\"file\"", $"\"{fileName}\"");
+
+        return content;
+    }
+
+    private byte[] Base64DataToBytes(string fileData)
+    {
+        var index = fileData.IndexOf(';');
+        var encoded = fileData.Substring(index + 8);
+        return Convert.FromBase64String(encoded);
     }
 }
