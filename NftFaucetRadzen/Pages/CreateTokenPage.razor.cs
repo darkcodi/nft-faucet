@@ -1,6 +1,7 @@
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Plugins;
 using Radzen;
 
 namespace NftFaucetRadzen.Pages;
@@ -33,7 +34,20 @@ public partial class CreateTokenPage
         if (!IsValid())
             return;
 
-        DialogService.Close(Model);
+        var token = new Token
+        {
+            Id = Guid.NewGuid(),
+            Name = Model.Name,
+            Description = Model.Description,
+            CreatedAt = DateTime.Now,
+            Image = new TokenMedia
+            {
+                FileName = Model.FileName,
+                FileSize = Model.FileSize!.Value,
+                FileData = Model.FileData,
+            },
+        };
+        DialogService.Close(token);
     }
 
     private bool IsValid()

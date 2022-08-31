@@ -53,4 +53,17 @@ public class InfuraDedicatedGatewayUploader : IUploader
         IsInitialized = true;
         return Result.Success();
     }
+
+    public async Task<Result<Uri>> Upload(IToken token)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(2));
+        if (Random.Shared.Next(1, 101) > 80)
+        {
+            return Result.Success(new Uri("https://example.com"));
+        }
+        else
+        {
+            return Result.Failure<Uri>("FAKE UPLOAD FAILURE");
+        }
+    }
 }

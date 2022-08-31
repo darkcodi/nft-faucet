@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using NftFaucetRadzen.Components;
@@ -41,9 +42,8 @@ public partial class UploadLocationsPage : BasicComponent
         => new CardListItem
         {
             Id = uploadLocation.Id,
-            Header = uploadLocation.Name,// $"{uploadLocation.StorageType} ({uploadLocation.UploadProvider})",
-            // ToDo: Add image of upload location type
-            // ImageLocation = uploadLocation.Image.FileData,
+            Header = uploadLocation.Name,
+            ImageLocation = GetUploaderImageLocation(uploadLocation.UploaderId),
             Properties = new[]
             {
                 new CardListItemProperty
@@ -51,31 +51,47 @@ public partial class UploadLocationsPage : BasicComponent
                     Name = "Id",
                     Value = uploadLocation.Id.ToString(),
                 },
+                new CardListItemProperty
+                {
+                    Name = "Location",
+                    Value = uploadLocation.Location,
+                },
+                new CardListItemProperty
+                {
+                    Name = "CreatedAt",
+                    Value = uploadLocation.CreatedAt.ToString(CultureInfo.InvariantCulture),
+                },
             },
         };
 
+    private string GetUploaderImageLocation(Guid uploaderId)
+    {
+        var uploader = AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == uploaderId);
+        if (uploader == null)
+        {
+            return null;
+        }
+
+        return "./images/" + uploader.ImageName;
+    }
+
     private async Task OpenCreateUploadDialog()
     {
-        await DialogService.OpenAsync<CreateUploadPage>("Create new upload",
-            new Dictionary<string, object>(),
+        var uploadLocation = (ITokenUploadLocation) await DialogService.OpenAsync<CreateUploadPage>("Create new upload",
+            new Dictionary<string, object>
+            {
+                { "Token", AppState.SelectedToken }, 
+            },
             new DialogOptions() { Width = "1000px", Height = "700px", Resizable = true, Draggable = true });
-        //
-        // var token = new Token
-        // {
-        //     Id = Guid.NewGuid(),
-        //     Name = newFileModel.Name,
-        //     Description = newFileModel.Description,
-        //     CreatedAt = DateTime.Now,
-        //     Image = new TokenMedia
-        //     {
-        //         FileName = newFileModel.FileName,
-        //         FileSize = newFileModel.FileSize!.Value,
-        //         FileData = newFileModel.FileData,
-        //     },
-        // };
-        // AppState.Storage.Tokens ??= new List<IToken>();
-        // AppState.Storage.Tokens.Add(token);
-        // RefreshData();
-        // StateHasChangedSafe();
+ 
+        if (uploadLocation == null)
+        {
+            return;
+        }
+
+        AppState.Storage.UploadLocations ??= new List<ITokenUploadLocation>();
+        AppState.Storage.UploadLocations.Add(uploadLocation);
+        RefreshData();
+        StateHasChangedSafe();
     }
 }

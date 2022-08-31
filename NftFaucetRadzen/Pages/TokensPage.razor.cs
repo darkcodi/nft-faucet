@@ -56,23 +56,15 @@ public partial class TokensPage : BasicComponent
 
     private async Task OpenCreateTokenDialog()
     {
-        var newFileModel = (NewFileModel) await DialogService.OpenAsync<CreateTokenPage>("Create new token",
+        var token = (IToken) await DialogService.OpenAsync<CreateTokenPage>("Create new token",
             new Dictionary<string, object>(),
             new DialogOptions() { Width = "700px", Height = "570px", Resizable = true, Draggable = true });
-        
-        var token = new Token
+
+        if (token == null)
         {
-            Id = Guid.NewGuid(),
-            Name = newFileModel.Name,
-            Description = newFileModel.Description,
-            CreatedAt = DateTime.Now,
-            Image = new TokenMedia
-            {
-                FileName = newFileModel.FileName,
-                FileSize = newFileModel.FileSize!.Value,
-                FileData = newFileModel.FileData,
-            },
-        };
+            return;
+        }
+
         AppState.Storage.Tokens ??= new List<IToken>();
         AppState.Storage.Tokens.Add(token);
         RefreshData();

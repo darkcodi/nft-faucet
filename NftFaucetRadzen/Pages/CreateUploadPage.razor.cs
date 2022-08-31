@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Components;
@@ -28,6 +29,9 @@ public partial class CreateUploadPage : BasicComponent
     [Inject]
     protected NotificationService NotificationService { get; set; }
 
+    [Parameter]
+    public IToken Token { get; set; }
+
     protected override void OnInitialized()
     {
         Data = AppState.Storage.Uploaders.Select(MapCardListItem).ToArray();
@@ -37,7 +41,7 @@ public partial class CreateUploadPage : BasicComponent
     private Guid[] SelectedUploaderIds { get; set; }
     private IUploader SelectedUploader => AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == SelectedUploaderIds?.FirstOrDefault());
     private IReadOnlyCollection<ConfigurationItem> ConfigurationItems { get; set; } = Array.Empty<ConfigurationItem>();
-    private string FileLocation { get; set; }
+    private Result<Uri>? FileLocation { get; set; }
     private bool ModelIsValid => IsValid();
 
     private CardListItem MapCardListItem(IUploader uploader)
@@ -58,13 +62,35 @@ public partial class CreateUploadPage : BasicComponent
             }.Where(x => x != null).ToArray(),
         };
 
-    private void OnChange(int pageNumber)
+    private async Task OnChange(int pageNumber)
     {
         if (pageNumber == 1)
         {
             ConfigurationItems = SelectedUploader.GetConfigurationItems();
             StateHasChangedSafe();
         }
+        else if (pageNumber == 2)
+        {
+            await Upload();
+        }
+    }
+
+    private async Task Upload()
+    {
+        FileLocation = await SelectedUploader.Upload(Token);
+        if (FileLocation.HasValue)
+        {
+            if (FileLocation.Value.IsSuccess)
+            {
+                NotificationService.Notify(NotificationSeverity.Success, "Upload succeeded", FileLocation.Value.Value.OriginalString);
+            }
+            else
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Upload failed", FileLocation.Value.Error);
+            }
+        }
+
+        StateHasChangedSafe();
     }
 
     private async Task VerifyConfiguration()
@@ -86,8 +112,16 @@ public partial class CreateUploadPage : BasicComponent
         if (!IsValid())
             return;
 
-        DialogService.Close(FileLocation);
+        var uploadLocation = new TokenUploadLocation
+        {
+            Id = Guid.NewGuid(),
+            Name = SelectedUploader.ShortName,
+            Location = FileLocation!.Value!.Value!.OriginalString,
+            CreatedAt = DateTime.Now,
+            UploaderId = SelectedUploader.Id,
+        };
+        DialogService.Close(uploadLocation);
     }
 
-    private bool IsValid() => !string.IsNullOrWhiteSpace(FileLocation);
+    private bool IsValid() => FileLocation != null && FileLocation.Value.IsSuccess;
 }

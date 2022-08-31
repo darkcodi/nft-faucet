@@ -12,4 +12,5 @@ public interface IUploader
     public bool IsInitialized { get; }
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems();
     public Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems);
+    public Task<Result<Uri>> Upload(IToken token);
 }

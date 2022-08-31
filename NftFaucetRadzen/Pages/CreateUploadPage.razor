@@ -3,7 +3,7 @@
 
 <PageTitle>Create upload</PageTitle>
 <RadzenContent Container="main">
-    <RadzenSteps Change="@OnChange" ShowStepsButtons="false">
+    <RadzenSteps Change="@(async x => await OnChange(x))" ShowStepsButtons="false">
         <Steps>
             <RadzenStepsItem Text="Select uploader">
                 <CardList Data="@Data" @bind-SelectedItems="@SelectedUploaderIds"/>
@@ -21,7 +21,21 @@
                 }
             </RadzenStepsItem>
             <RadzenStepsItem Text="Upload" Disabled="@(SelectedUploader == null || !SelectedUploader.IsInitialized)">
-                <h3 class="mt-4">Uploading... Wait!</h3>
+                @if (FileLocation == null)
+                {
+                    <h3 class="mt-4">Uploading... Wait!</h3>
+                }
+                else if (FileLocation.Value.IsSuccess)
+                {
+                    <h3 class="mt-4">Upload succeeded!</h3>
+                    <p>@FileLocation.Value.Value.OriginalString</p>
+                }
+                else
+                {
+                    <h3 class="mt-4">Upload failed! :(</h3>
+                    <p>@FileLocation.Value.Error</p>
+                    <RadzenButton Text="Retry" Click="@(async () => await Upload())" />
+                }
             </RadzenStepsItem>
         </Steps>
     </RadzenSteps>

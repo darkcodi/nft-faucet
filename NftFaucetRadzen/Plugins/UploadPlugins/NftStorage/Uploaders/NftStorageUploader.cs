@@ -20,4 +20,9 @@ public class NftStorageUploader : IUploader
     {
         throw new NotImplementedException();
     }
+
+    public Task<Result<Uri>> Upload(IToken token)
+    {
+        throw new NotImplementedException();
+    }
 }
