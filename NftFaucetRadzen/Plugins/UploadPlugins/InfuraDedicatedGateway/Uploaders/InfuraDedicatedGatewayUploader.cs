@@ -13,9 +13,11 @@ public class InfuraDedicatedGatewayUploader : IUploader
     public string ImageName { get; } = "infura_black.svg";
     public bool IsSupported { get; } = true;
     public bool IsInitialized { get; private set; } = false;
-    
+
+    private const string DefaultGatewayUrl = "https://ipfs.infura.io:5001";
     private string ProjectId { get; set; }
     private string ProjectSecret { get; set; }
+    private Uri DedicatedGatewayUrl { get; set; }
 
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
         => new[]
@@ -30,38 +32,75 @@ public class InfuraDedicatedGatewayUploader : IUploader
                 Name = "API Key Secret",
                 Placeholder = "<ProjectSecret>",
             },
+            new ConfigurationItem
+            {
+                Name = "Dedicated gateway URL (OPTIONAL)",
+                Tooltip = "Specify full URL with 'https://' prefix and '.infura-ipfs.io' postfix",
+                Placeholder = "https://<your-subdomain>.infura-ipfs.io",
+            },
         };
 
     public async Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems)
     {
-        if (configurationItems == null || configurationItems.Count != 2)
+        if (configurationItems == null || configurationItems.Count != 3)
         {
             return Result.Failure("Invalid configuration items count");
         }
 
-        var projectId = configurationItems.First().Value;
+        var items = configurationItems.ToArray();
+        var projectId = items[0].Value;
+        var projectSecret = items[1].Value;
+        var dedicatedGatewayUrl = items[2].Value;
         if (string.IsNullOrEmpty(projectId))
         {
             return Result.Failure("ProjectId is null or empty");
         }
 
-        var projectSecret = configurationItems.Skip(1).First().Value;
         if (string.IsNullOrEmpty(projectSecret))
         {
             return Result.Failure("ProjectSecret is null or empty");
         }
 
         var apiClient = GetInfuraClient(projectId, projectSecret);
-        var response = await apiClient.GetVersion();
-        if (!response.ResponseMessage.IsSuccessStatusCode)
+        var versionResponse = await apiClient.GetVersion();
+        if (!versionResponse.ResponseMessage.IsSuccessStatusCode)
         {
-            return Result.Failure<Uri>($"Status: {(int) response.ResponseMessage.StatusCode}. Reason: {response.ResponseMessage.ReasonPhrase}");
+            return Result.Failure<Uri>($"Status: {(int) versionResponse.ResponseMessage.StatusCode}. Reason: {versionResponse.ResponseMessage.ReasonPhrase}");
         }
 
-        var uploadResponse = response.GetContent();
+        var uploadResponse = versionResponse.GetContent();
         if (string.IsNullOrEmpty(uploadResponse?.Version))
         {
-            return Result.Failure<Uri>($"Unexpected response: {response.StringContent}");
+            return Result.Failure<Uri>($"Unexpected response: {versionResponse.StringContent}");
+        }
+
+        if (!string.IsNullOrEmpty(dedicatedGatewayUrl))
+        {
+            if (!Uri.TryCreate(dedicatedGatewayUrl, UriKind.Absolute, out var parsedUrl))
+            {
+                return Result.Failure("Dedicated gateway URL is invalid");
+            }
+
+            if (parsedUrl.Scheme != "https")
+            {
+                return Result.Failure("Invalid url scheme for Dedicated gateway URL. Expected 'https'");
+            }
+
+            if (!parsedUrl.Host.EndsWith("infura-ipfs.io"))
+            {
+                return Result.Failure("Invalid url host for Dedicated gateway URL. Expected host ending with '.infura-ipfs.io'");
+            }
+
+            if (parsedUrl.PathAndQuery != "/")
+            {
+                return Result.Failure("Invalid url. Url should NOT contain path or query part.");
+            }
+
+            DedicatedGatewayUrl = parsedUrl;
+        }
+        else
+        {
+            DedicatedGatewayUrl = null;
         }
 
         ProjectId = projectId;
@@ -86,13 +125,17 @@ public class InfuraDedicatedGatewayUploader : IUploader
             return Result.Failure<Uri>($"Unexpected response: {response.StringContent}");
         }
 
-        var uri = new Uri("ipfs://" + uploadResponse.Hash);
-        return uri;
+        if (DedicatedGatewayUrl != null)
+        {
+            return new Uri(DedicatedGatewayUrl, "ipfs/" + uploadResponse.Hash);
+        }
+
+        return new Uri("ipfs://" + uploadResponse.Hash);
     }
 
-    private IInfuraIpfsApiClient GetInfuraClient(string projectId, string projectSecret)
+    private IInfuraIpfsApiClient GetInfuraClient(string projectId, string projectSecret, string gatewayUrl = DefaultGatewayUrl)
     {
-        var uploadClient = RestClient.For<IInfuraIpfsApiClient>();
+        var uploadClient = RestClient.For<IInfuraIpfsApiClient>(gatewayUrl);
         var auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{projectId}:{projectSecret}"));
         uploadClient.Auth = new AuthenticationHeaderValue("Basic", auth);
         return uploadClient;
