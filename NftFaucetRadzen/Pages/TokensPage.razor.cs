@@ -28,14 +28,14 @@ public partial class TokensPage : BasicComponent
     protected override void OnInitialized()
     {
         // ToDo: Add loading from IndexedDB
-        RefreshData();
+        RefreshCards();
     }
 
-    private CardListItem[] Data { get; set; }
+    private CardListItem[] TokenCards { get; set; }
 
-    private void RefreshData()
+    private void RefreshCards()
     {
-        Data = AppState?.Storage?.Tokens?.Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
+        TokenCards = AppState?.Storage?.Tokens?.Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
     }
 
     private CardListItem MapCardListItem(IToken token)
@@ -67,7 +67,7 @@ public partial class TokensPage : BasicComponent
 
         AppState.Storage.Tokens ??= new List<IToken>();
         AppState.Storage.Tokens.Add(token);
-        RefreshData();
+        RefreshCards();
         StateHasChangedSafe();
     }
 }

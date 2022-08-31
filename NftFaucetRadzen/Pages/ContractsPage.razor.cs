@@ -28,15 +28,15 @@ public partial class ContractsPage : BasicComponent
     protected override void OnInitialized()
     {
         Contracts = AppState.SelectedNetwork?.DeployedContracts?.ToArray() ?? Array.Empty<IContract>();
-        RefreshData();
+        RefreshCards();
     }
 
     private IContract[] Contracts { get; set; }
-    private CardListItem[] Data { get; set; }
+    private CardListItem[] ContractCards { get; set; }
 
-    private void RefreshData()
+    private void RefreshCards()
     {
-        Data = Contracts.Select(MapCardListItem).ToArray();
+        ContractCards = Contracts.Select(MapCardListItem).ToArray();
     }
 
     private CardListItem MapCardListItem(IContract contract)

@@ -6,7 +6,7 @@
     <RadzenSteps Change="@(async x => await OnChange(x))" ShowStepsButtons="false">
         <Steps>
             <RadzenStepsItem Text="Select uploader">
-                <CardList Data="@Data" @bind-SelectedItems="@SelectedUploaderIds"/>
+                <CardList Data="@UploaderCards" @bind-SelectedItems="@SelectedUploaderIds"/>
             </RadzenStepsItem>
             <RadzenStepsItem Text="Configure uploader" Disabled="@(SelectedUploader == null)">
                 @if (ConfigurationItems != null)

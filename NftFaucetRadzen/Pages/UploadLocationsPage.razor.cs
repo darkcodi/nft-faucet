@@ -28,14 +28,14 @@ public partial class UploadLocationsPage : BasicComponent
     protected override void OnInitialized()
     {
         // ToDo: Add loading from IndexedDB
-        RefreshData();
+        RefreshCards();
     }
 
-    private CardListItem[] Data { get; set; }
+    private CardListItem[] UploadCards { get; set; }
 
-    private void RefreshData()
+    private void RefreshCards()
     {
-        Data = AppState?.Storage?.UploadLocations?.Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
+        UploadCards = AppState?.Storage?.UploadLocations?.Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
     }
 
     private CardListItem MapCardListItem(ITokenUploadLocation uploadLocation)
@@ -91,7 +91,7 @@ public partial class UploadLocationsPage : BasicComponent
 
         AppState.Storage.UploadLocations ??= new List<ITokenUploadLocation>();
         AppState.Storage.UploadLocations.Add(uploadLocation);
-        RefreshData();
+        RefreshCards();
         StateHasChangedSafe();
     }
 }

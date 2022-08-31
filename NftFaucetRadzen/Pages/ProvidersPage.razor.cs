@@ -27,15 +27,15 @@ public partial class ProvidersPage : BasicComponent
     protected override void OnInitialized()
     {
         Providers = AppState.Storage.Providers.Where(x => AppState.SelectedNetwork != null && x.IsNetworkSupported(AppState.SelectedNetwork)).ToArray();
-        RefreshData();
+        RefreshCards();
     }
 
     private IProvider[] Providers { get; set; }
-    private CardListItem[] Data { get; set; }
+    private CardListItem[] ProviderCards { get; set; }
 
-    private void RefreshData()
+    private void RefreshCards()
     {
-        Data = Providers.Select(MapCardListItem).ToArray();
+        ProviderCards = Providers.Select(MapCardListItem).ToArray();
     }
 
     private CardListItem MapCardListItem(IProvider provider)
@@ -65,7 +65,7 @@ public partial class ProvidersPage : BasicComponent
                     ? new CardListItemButton { Name = "Initialize", Style = ButtonStyle.Secondary, Action = () =>
                     {
                         provider.Initialize();
-                        RefreshData();
+                        RefreshCards();
                     }}
                     : null,
             }.Where(x => x != null).ToArray()

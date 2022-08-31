@@ -34,10 +34,10 @@ public partial class CreateUploadPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        Data = AppState.Storage.Uploaders.Select(MapCardListItem).ToArray();
+        UploaderCards = AppState.Storage.Uploaders.Select(MapCardListItem).ToArray();
     }
 
-    private CardListItem[] Data { get; set; }
+    private CardListItem[] UploaderCards { get; set; }
     private Guid[] SelectedUploaderIds { get; set; }
     private IUploader SelectedUploader => AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == SelectedUploaderIds?.FirstOrDefault());
     private IReadOnlyCollection<ConfigurationItem> ConfigurationItems { get; set; } = Array.Empty<ConfigurationItem>();
