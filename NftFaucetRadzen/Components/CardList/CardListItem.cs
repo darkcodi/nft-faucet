@@ -1,5 +1,3 @@
-using NftFaucetRadzen.Models;
-
 namespace NftFaucetRadzen.Components.CardList;
 
 public class CardListItem
@@ -10,5 +8,5 @@ public class CardListItem
     public bool IsDisabled { get; set; }
     public CardListItemProperty[] Properties { get; set; } = Array.Empty<CardListItemProperty>();
     public CardListItemBadge[] Badges { get; set; } = Array.Empty<CardListItemBadge>();
-    public CardListItemButton[] Buttons { get; set; } = Array.Empty<CardListItemButton>();
+    public Action ConfigureAction { get; set; }
 }

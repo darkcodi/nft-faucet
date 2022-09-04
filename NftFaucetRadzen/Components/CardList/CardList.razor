@@ -37,16 +37,12 @@
                             }
                         }
                     </div>
-                    <div class="d-flex flex-row align-items-center justify-content-end">
-                        @foreach (var button in cardListItem.Buttons ?? Array.Empty<CardListItemButton>())
-                        {
-                            if (!string.IsNullOrEmpty(button?.Name) || !string.IsNullOrEmpty(button?.Icon))
-                            {
-                                <RadzenButton Text="@button.Name" Icon="@button.Icon" Click="@button.Action" ButtonStyle="@button.Style"
-                                              Disabled="SelectedItems == null || !SelectedItems.Contains(cardListItem.Id)"/>
-                            }
-                        }
-                    </div>
+                    @if (cardListItem.ConfigureAction != null)
+                    {
+                        <RadzenButton Icon="build" Click="@cardListItem.ConfigureAction" ButtonStyle="@ButtonStyle.Secondary"
+                                      Disabled="SelectedItems == null || !SelectedItems.Contains(cardListItem.Id)"
+                                      Style="position: absolute; bottom: 1em; right: 1em;" />
+                    }
                 </div>
             </div>
         </RadzenCard>

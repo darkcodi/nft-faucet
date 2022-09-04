@@ -59,15 +59,10 @@ public partial class ProvidersPage : BasicComponent
                     ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"}
                     : null,
             }.Where(x => x != null).ToArray(),
-            Buttons = new[]
+            ConfigureAction = () =>
             {
-                provider.CanBeConfigured
-                    ? new CardListItemButton { Icon = "build", Style = ButtonStyle.Secondary, Action = () =>
-                    {
-                        provider.Configure();
-                        RefreshCards();
-                    }}
-                    : null,
-            }.Where(x => x != null).ToArray()
+                provider.Configure();
+                RefreshCards();
+            },
         };
 }
