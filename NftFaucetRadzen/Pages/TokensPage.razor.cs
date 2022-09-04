@@ -67,7 +67,8 @@ public partial class TokensPage : BasicComponent
 
         AppState.Storage.Tokens ??= new List<IToken>();
         AppState.Storage.Tokens.Add(token);
+        AppState.Storage.SelectedTokens = new[] { token.Id };
         RefreshCards();
-        StateHasChangedSafe();
+        RefreshMediator.NotifyStateHasChangedSafe();
     }
 }
