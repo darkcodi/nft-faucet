@@ -4,5 +4,5 @@ namespace NftFaucetRadzen.Components.Checkmark;
 
 public partial class Checkmark
 {
-    [Parameter] public bool AnchorToTopRightCorner { get; set; }
+    [Parameter] public string Style { get; set; }
 }

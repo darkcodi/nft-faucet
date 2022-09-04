@@ -10,7 +10,7 @@
             <div class="d-flex flex-row align-items-center">
                 @if (SelectedItems != null && SelectedItems.Contains(cardListItem.Id))
                 {
-                    <Checkmark AnchorToTopRightCorner="true"/>
+                    <Checkmark Style="position: absolute; top: 1em; right: 1em;"/>
                 }
                 @if (!string.IsNullOrEmpty(cardListItem.ImageLocation))
                 {
