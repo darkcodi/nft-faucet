@@ -3,13 +3,13 @@ using System.Text;
 using CSharpFunctionalExtensions;
 using RestEase;
 
-namespace NftFaucetRadzen.Plugins.UploadPlugins.InfuraDedicatedGateway.Uploaders;
+namespace NftFaucetRadzen.Plugins.UploadPlugins.Infura.Uploaders;
 
-public class InfuraDedicatedGatewayUploader : IUploader
+public class InfuraUploader : IUploader
 {
     public Guid Id { get; } = Guid.Parse("c0d79c82-8e35-4cd6-ad35-bbe378088308");
-    public string Name { get; } = "Infura dedicated IPFS gateway";
-    public string ShortName { get; } = "InfuraDED";
+    public string Name { get; } = "Infura";
+    public string ShortName { get; } = "Infura";
     public string ImageName { get; } = "infura_black.svg";
     public bool IsSupported { get; } = true;
     public bool IsInitialized { get; private set; } = false;

@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using RestEase;
 
-namespace NftFaucetRadzen.Plugins.UploadPlugins.InfuraDedicatedGateway;
+namespace NftFaucetRadzen.Plugins.UploadPlugins.Infura;
 
 public interface IInfuraIpfsApiClient
 {

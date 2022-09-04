@@ -1,4 +1,4 @@
-namespace NftFaucetRadzen.Plugins.UploadPlugins.InfuraDedicatedGateway;
+namespace NftFaucetRadzen.Plugins.UploadPlugins.Infura;
 
 public class UploadResponse
 {
