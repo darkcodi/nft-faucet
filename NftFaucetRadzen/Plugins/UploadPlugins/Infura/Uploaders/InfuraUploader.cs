@@ -19,6 +19,29 @@ public class InfuraUploader : IUploader
     private string ProjectSecret { get; set; }
     private Uri DedicatedGatewayUrl { get; set; }
 
+    public List<(string Name, string Value)> GetProperties()
+    {
+        var properties = new List<(string Name, string Value)>();
+        if (IsInitialized)
+        {
+            if (!string.IsNullOrEmpty(ProjectId))
+            {
+                properties.Add(("ProjectId", ProjectId));
+            }
+
+            if (DedicatedGatewayUrl != null)
+            {
+                properties.Add(("DedicatedGatewayUrl", DedicatedGatewayUrl.ToString()));
+            }
+        }
+        else
+        {
+            properties.Add(("Initialized", "NO"));
+        }
+
+        return properties;
+    }
+
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
         => new[]
         {

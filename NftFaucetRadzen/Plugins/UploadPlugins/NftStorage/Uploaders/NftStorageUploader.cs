@@ -11,10 +11,11 @@ public class NftStorageUploader : IUploader
     public bool IsSupported { get; } = false;
     public bool IsInitialized { get; } = false;
 
+    public List<(string Name, string Value)> GetProperties()
+        => new List<(string Name, string Value)>();
+
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
-    {
-        throw new NotImplementedException();
-    }
+        => Array.Empty<ConfigurationItem>();
 
     public Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems)
     {

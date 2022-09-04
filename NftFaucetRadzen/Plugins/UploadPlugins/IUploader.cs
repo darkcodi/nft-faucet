@@ -10,6 +10,8 @@ public interface IUploader
     public string ImageName { get; }
     public bool IsSupported { get; }
     public bool IsInitialized { get; }
+
+    public List<(string Name, string Value)> GetProperties();
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems();
     public Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems);
     public Task<Result<Uri>> Upload(IToken token);
