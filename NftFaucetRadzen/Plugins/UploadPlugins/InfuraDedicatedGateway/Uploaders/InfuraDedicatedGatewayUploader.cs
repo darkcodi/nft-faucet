@@ -31,6 +31,7 @@ public class InfuraDedicatedGatewayUploader : IUploader
             {
                 Name = "API Key Secret",
                 Placeholder = "<ProjectSecret>",
+                IsMaskedWithDots = true,
             },
             new ConfigurationItem
             {

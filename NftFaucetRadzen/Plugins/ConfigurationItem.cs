@@ -6,4 +6,5 @@ public class ConfigurationItem
     public string Tooltip { get; set; }
     public string Placeholder { get; set; }
     public string Value { get; set; }
+    public bool IsMaskedWithDots { get; set; }
 }

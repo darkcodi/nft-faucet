@@ -15,7 +15,14 @@
                     {
                         <h3 class="mt-4">@configurationItem.Name</h3>
                         <p>@configurationItem.Tooltip</p>
-                        <RadzenTextBox Placeholder="@configurationItem.Placeholder" @bind-Value="@configurationItem.Value" Class="w-100"/>
+                        if (configurationItem.IsMaskedWithDots)
+                        {
+                            <RadzenPassword Placeholder="@configurationItem.Placeholder" @bind-Value="@configurationItem.Value" Class="w-100"/>
+                        }
+                        else
+                        {
+                            <RadzenTextBox Placeholder="@configurationItem.Placeholder" @bind-Value="@configurationItem.Value" Class="w-100"/>
+                        }
                     }
                     <RadzenButton Text="Verify configuration" Click="@(async () => await VerifyConfiguration())" />
                 }
