@@ -49,11 +49,13 @@ public class InfuraUploader : IUploader
             {
                 Name = "Project ID",
                 Placeholder = "<ProjectId>",
+                Value = ProjectId,
             },
             new ConfigurationItem
             {
                 Name = "API Key Secret",
                 Placeholder = "<ProjectSecret>",
+                Value = ProjectSecret,
                 IsMaskedWithDots = true,
             },
             new ConfigurationItem
@@ -61,6 +63,7 @@ public class InfuraUploader : IUploader
                 Name = "Dedicated gateway URL (OPTIONAL)",
                 Tooltip = "Specify full URL with 'https://' prefix and '.infura-ipfs.io' postfix",
                 Placeholder = "https://<your-subdomain>.infura-ipfs.io",
+                Value = DedicatedGatewayUrl?.OriginalString,
             },
         };
 
