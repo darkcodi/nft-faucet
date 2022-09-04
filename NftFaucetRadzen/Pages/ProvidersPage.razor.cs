@@ -61,10 +61,10 @@ public partial class ProvidersPage : BasicComponent
             }.Where(x => x != null).ToArray(),
             Buttons = new[]
             {
-                !provider.IsInitialized
-                    ? new CardListItemButton { Name = "Initialize", Style = ButtonStyle.Secondary, Action = () =>
+                provider.CanBeConfigured
+                    ? new CardListItemButton { Icon = "build", Style = ButtonStyle.Secondary, Action = () =>
                     {
-                        provider.Initialize();
+                        provider.Configure();
                         RefreshCards();
                     }}
                     : null,

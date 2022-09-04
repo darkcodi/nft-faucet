@@ -9,9 +9,11 @@ public interface IProvider
     public string ShortName { get; }
     public string ImageName { get; }
     public bool IsSupported { get; }
-    public bool IsInitialized { get; }
 
-    public void Initialize();
+    public bool CanBeConfigured { get; }
+    public bool IsConfigured { get; }
+    public void Configure();
+
     public List<(string Name, string Value)> GetProperties();
     public bool IsNetworkSupported(INetwork network);
 }

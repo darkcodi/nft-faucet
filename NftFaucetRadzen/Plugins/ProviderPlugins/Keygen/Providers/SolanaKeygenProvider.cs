@@ -10,14 +10,14 @@ public class SolanaKeygenProvider : IProvider
     public string ShortName { get; } = "SolKeygen";
     public string ImageName { get; } = "ecdsa.svg";
     public bool IsSupported { get; } = true;
-
-    public bool IsInitialized { get; private set; }
+    public bool CanBeConfigured { get; } = true;
+    public bool IsConfigured { get; private set; }
     public SolanaKey Key { get; private set; }
 
-    public void Initialize()
+    public void Configure()
     {
         Key = SolanaKey.GenerateNew();
-        IsInitialized = true;
+        IsConfigured = true;
     }
 
     public List<(string Name, string Value)> GetProperties()
