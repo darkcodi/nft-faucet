@@ -59,10 +59,10 @@ public partial class ProvidersPage : BasicComponent
                     ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"}
                     : null,
             }.Where(x => x != null).ToArray(),
-            ConfigureAction = () =>
+            ConfigureAction = provider.CanBeConfigured ? () =>
             {
                 provider.Configure();
                 RefreshCards();
-            },
+            } : null,
         };
 }
