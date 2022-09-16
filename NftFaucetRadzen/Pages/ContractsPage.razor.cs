@@ -1,6 +1,4 @@
 using System.Globalization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
@@ -10,21 +8,6 @@ namespace NftFaucetRadzen.Pages;
 
 public partial class ContractsPage : BasicComponent
 {
-    [Inject]
-    protected IJSRuntime JSRuntime { get; set; }
-
-    [Inject]
-    protected DialogService DialogService { get; set; }
-
-    [Inject]
-    protected TooltipService TooltipService { get; set; }
-
-    [Inject]
-    protected ContextMenuService ContextMenuService { get; set; }
-
-    [Inject]
-    protected NotificationService NotificationService { get; set; }
-
     protected override void OnInitialized()
     {
         Contracts = AppState.SelectedNetwork?.DeployedContracts?.ToArray() ?? Array.Empty<IContract>();

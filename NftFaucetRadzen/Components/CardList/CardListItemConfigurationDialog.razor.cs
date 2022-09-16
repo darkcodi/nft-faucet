@@ -1,41 +1,12 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using MimeTypes;
-using NftFaucetRadzen.Models;
-using NftFaucetRadzen.Plugins;
-using NftFaucetRadzen.Services;
 using Radzen;
 
 namespace NftFaucetRadzen.Components.CardList;
 
-public partial class CardListItemConfigurationDialog
+public partial class CardListItemConfigurationDialog : BasicComponent
 {
-    [Parameter]
-    public Guid CardListItemId { get; set; }
-
-    [Parameter]
-    public CardListItem CardListItem { get; set; }
-
-    [Inject]
-    protected IJSRuntime JSRuntime { get; set; }
-
-    [Inject]
-    protected RefreshMediator RefreshMediator { get; set; }
-
-    [Inject]
-    protected NavigationManager NavigationManager { get; set; }
-
-    [Inject]
-    protected DialogService DialogService { get; set; }
-
-    [Inject]
-    protected TooltipService TooltipService { get; set; }
-
-    [Inject]
-    protected ContextMenuService ContextMenuService { get; set; }
-
-    [Inject]
-    protected NotificationService NotificationService { get; set; }
+    [Parameter] public Guid CardListItemId { get; set; }
+    [Parameter] public CardListItem CardListItem { get; set; }
 
     private async Task OnSavePressed()
     {

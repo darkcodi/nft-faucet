@@ -1,5 +1,4 @@
 using CSharpFunctionalExtensions;
-using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Components.CardList;
@@ -11,26 +10,7 @@ namespace NftFaucetRadzen.Pages;
 
 public partial class CreateUploadPage : BasicComponent
 {
-    [Inject]
-    protected IJSRuntime JSRuntime { get; set; }
-
-    [Inject]
-    protected NavigationManager NavigationManager { get; set; }
-
-    [Inject]
-    protected DialogService DialogService { get; set; }
-
-    [Inject]
-    protected TooltipService TooltipService { get; set; }
-
-    [Inject]
-    protected ContextMenuService ContextMenuService { get; set; }
-
-    [Inject]
-    protected NotificationService NotificationService { get; set; }
-
-    [Parameter]
-    public IToken Token { get; set; }
+    [Parameter] public IToken Token { get; set; }
 
     protected override void OnInitialized()
     {

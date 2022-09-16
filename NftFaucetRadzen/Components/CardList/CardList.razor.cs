@@ -14,8 +14,6 @@ public partial class CardList : BasicComponent
     [Parameter] public bool AllowMultipleSelection { get; set; }
     [Parameter] public bool AllowUnselect { get; set; }
 
-    [Inject] protected DialogService DialogService { get; set; }
-
     public async Task ToggleSelection(CardListItem item)
     {
         if (item.IsDisabled)
