@@ -28,6 +28,7 @@ public partial class ProvidersPage : BasicComponent
     {
         Providers = AppState.Storage.Providers.Where(x => AppState.SelectedNetwork != null && x.IsNetworkSupported(AppState.SelectedNetwork)).ToArray();
         RefreshCards();
+        base.OnInitialized();
     }
 
     private IProvider[] Providers { get; set; }
