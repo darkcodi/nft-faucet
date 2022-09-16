@@ -14,7 +14,7 @@ public interface IProvider
     public bool CanBeConfigured { get; }
     public bool IsConfigured { get; }
 
-    public List<(string Name, string Value)> GetProperties();
+    public CardListItemProperty[] GetProperties();
     public CardListItemConfiguration GetConfiguration();
     public bool IsNetworkSupported(INetwork network);
 }

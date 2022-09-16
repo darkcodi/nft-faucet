@@ -19,11 +19,11 @@ public class PhantomProvider : IProvider
         return Task.CompletedTask;
     }
 
-    public List<(string Name, string Value)> GetProperties()
-        => new List<(string Name, string Value)>
+    public CardListItemProperty[] GetProperties()
+        => new CardListItemProperty[]
         {
-            ("Installed", "YES"),
-            ("Connected", IsConfigured ? "YES" : "NO"),
+            new CardListItemProperty{ Name = "Installed", Value = "YES" },
+            new CardListItemProperty{ Name = "Connected", Value = IsConfigured ? "YES" : "NO" },
         };
 
     public CardListItemConfiguration GetConfiguration()

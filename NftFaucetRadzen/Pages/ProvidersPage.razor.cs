@@ -39,17 +39,15 @@ public partial class ProvidersPage : BasicComponent
     }
 
     private CardListItem MapCardListItem(IProvider provider)
-        => new CardListItem
+    {
+        var configuration = provider.CanBeConfigured ? provider.GetConfiguration() : null;
+        return new CardListItem
         {
             Id = provider.Id,
             ImageLocation = provider.ImageName != null ? "./images/" + provider.ImageName : null,
             Header = provider.Name,
             IsDisabled = !provider.IsSupported,
-            Properties = provider.GetProperties().Select(x => new CardListItemProperty
-            {
-                Name = x.Name,
-                Value = x.Value,
-            }).ToArray(),
+            Properties = provider.GetProperties().ToArray(),
             Badges = new[]
             {
                 (Settings?.RecommendedProviders?.Contains(provider.Id) ?? false)
@@ -59,6 +57,17 @@ public partial class ProvidersPage : BasicComponent
                     ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"}
                     : null,
             }.Where(x => x != null).ToArray(),
-            Configuration = provider.CanBeConfigured ? provider.GetConfiguration() : null,
+            Configuration = configuration == null ? null : new CardListItemConfiguration
+            {
+                Objects = configuration.Objects,
+                ValidationFunc = configuration.ValidationFunc,
+                ConfigureAction = x =>
+                {
+                    var result = configuration.ConfigureAction(x);
+                    RefreshCards();
+                    return result;
+                },
+            },
         };
+    }
 }

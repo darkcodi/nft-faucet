@@ -23,11 +23,11 @@ public class SolanaKeygenProvider : IProvider
         return Task.CompletedTask;
     }
 
-    public List<(string Name, string Value)> GetProperties()
-        => new List<(string Name, string Value)>
+    public CardListItemProperty[] GetProperties()
+        => new CardListItemProperty[]
         {
-            ("Private key", Key?.PrivateKey ?? "<null>"),
-            ("Address", Key?.Address ?? "<null>"),
+            new CardListItemProperty{ Name = "Private key", Value = Key?.PrivateKey ?? "<null>" },
+            new CardListItemProperty{ Name = "Address", Value = Key?.Address ?? "<null>" },
         };
 
     public CardListItemConfiguration GetConfiguration()
