@@ -40,7 +40,7 @@ public partial class ProvidersPage : BasicComponent
 
     private CardListItem MapCardListItem(IProvider provider)
     {
-        var configuration = provider.CanBeConfigured ? provider.GetConfiguration() : null;
+        var configuration = provider.GetConfiguration();
         return new CardListItem
         {
             Id = provider.Id,

@@ -10,7 +10,6 @@ public class PhantomProvider : IProvider
     public string ShortName { get; } = "Phantom";
     public string ImageName { get; } = "phantom.svg";
     public bool IsSupported { get; } = true;
-    public bool CanBeConfigured { get; } = true;
     public bool IsConfigured { get; private set; }
 
     public Task Configure(CardListItemConfigurationObject[] items)

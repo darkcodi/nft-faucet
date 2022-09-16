@@ -10,7 +10,6 @@ public class MetamaskProvider : IProvider
     public string ShortName { get; } = "Metamask";
     public string ImageName { get; } = "metamask_fox.svg";
     public bool IsSupported { get; } = true;
-    public bool CanBeConfigured { get; } = true;
     public bool IsConfigured { get; private set; }
 
     public Task Configure(CardListItemConfigurationObject[] items)

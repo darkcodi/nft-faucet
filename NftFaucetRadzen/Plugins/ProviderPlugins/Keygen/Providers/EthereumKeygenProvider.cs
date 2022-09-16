@@ -12,7 +12,6 @@ public class EthereumKeygenProvider : IProvider
     public string ShortName { get; } = "EthKeygen";
     public string ImageName { get; } = "ecdsa.svg";
     public bool IsSupported { get; } = true;
-    public bool CanBeConfigured { get; } = true;
     public bool IsConfigured { get; private set; }
     public EthereumKey Key { get; private set; }
 

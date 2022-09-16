@@ -12,7 +12,6 @@ public class SolanaKeygenProvider : IProvider
     public string ShortName { get; } = "SolKeygen";
     public string ImageName { get; } = "ecdsa.svg";
     public bool IsSupported { get; } = true;
-    public bool CanBeConfigured { get; } = true;
     public bool IsConfigured { get; private set; }
     public SolanaKey Key { get; private set; }
 

@@ -11,7 +11,6 @@ public interface IProvider
     public string ImageName { get; }
     public bool IsSupported { get; }
 
-    public bool CanBeConfigured { get; }
     public bool IsConfigured { get; }
 
     public CardListItemProperty[] GetProperties();
