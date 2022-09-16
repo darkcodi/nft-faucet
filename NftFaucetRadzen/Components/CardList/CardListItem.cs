@@ -8,5 +8,5 @@ public class CardListItem
     public bool IsDisabled { get; set; }
     public CardListItemProperty[] Properties { get; set; } = Array.Empty<CardListItemProperty>();
     public CardListItemBadge[] Badges { get; set; } = Array.Empty<CardListItemBadge>();
-    public Action ConfigureAction { get; set; }
+    public CardListItemConfiguration Configuration { get; set; }
 }

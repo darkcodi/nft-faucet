@@ -1,3 +1,4 @@
+using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Metamask.Providers;
@@ -12,9 +13,10 @@ public class MetamaskProvider : IProvider
     public bool CanBeConfigured { get; } = true;
     public bool IsConfigured { get; private set; }
 
-    public void Configure()
+    public Task Configure(CardListItemConfigurationObject[] items)
     {
         IsConfigured = true;
+        return Task.CompletedTask;
     }
 
     public List<(string Name, string Value)> GetProperties()
@@ -22,6 +24,21 @@ public class MetamaskProvider : IProvider
         {
             ("Installed", "YES"),
             ("Connected", IsConfigured ? "YES" : "NO"),
+        };
+
+    public CardListItemConfiguration GetConfiguration()
+        => new CardListItemConfiguration
+        {
+            Objects = new[]
+            {
+                new CardListItemConfigurationObject
+                {
+                    Id = Guid.Parse("88ad581f-17a4-452a-9e21-b413a2887955"),
+                    Type = CardListItemConfigurationObjectType.Button,
+                    Name = "Connect",
+                    ClickAction = () => { },
+                }
+            }
         };
 
     public bool IsNetworkSupported(INetwork network)

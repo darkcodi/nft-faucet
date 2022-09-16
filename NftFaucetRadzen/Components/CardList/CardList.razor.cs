@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Pages;
+using Radzen;
 
 namespace NftFaucetRadzen.Components.CardList;
 
@@ -11,6 +13,8 @@ public partial class CardList : BasicComponent
     [Parameter] public EventCallback<Guid[]> OnSelectedChange { get; set; }
     [Parameter] public bool AllowMultipleSelection { get; set; }
     [Parameter] public bool AllowUnselect { get; set; }
+
+    [Inject] protected DialogService DialogService { get; set; }
 
     public async Task ToggleSelection(CardListItem item)
     {
@@ -37,5 +41,21 @@ public partial class CardList : BasicComponent
         await SelectedItemsChanged.InvokeAsync(SelectedItems);
         await OnSelectedChange.InvokeAsync(SelectedItems);
         RefreshMediator.NotifyStateHasChangedSafe();
+    }
+
+    protected async Task OpenItemConfigurationDialog(CardListItem item)
+    {
+        var result = (bool?) await DialogService.OpenAsync<CardListItemConfigurationDialog>("Configuration",
+            new Dictionary<string, object>
+            {
+                { "CardListItemId", item.Id },
+                { "CardListItem", item },
+            },
+            new DialogOptions() {Width = "700px", Height = "570px", Resizable = true, Draggable = true});
+
+        if (result != null && result.Value)
+        {
+            RefreshMediator.NotifyStateHasChangedSafe();
+        }
     }
 }

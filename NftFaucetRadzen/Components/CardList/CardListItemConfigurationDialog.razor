@@ -1,0 +1,33 @@
+@page "/configuration/{CardListItemId}"
+
+<PageTitle>Configuration</PageTitle>
+
+<form onsubmit="@OnSavePressed">
+    @foreach (var configurationObject in CardListItem.Configuration.Objects)
+    {
+        switch (configurationObject.Type)
+        {
+            case CardListItemConfigurationObjectType.Input:
+            {
+                <div class="mb-4">
+                    <h4>@configurationObject.Name</h4>
+                    <RadzenTextBox Placeholder=@configurationObject.Placeholder @bind-Value="@configurationObject.Value" Class="w-100"/>
+                </div>
+                break;
+            }
+            case CardListItemConfigurationObjectType.Button:
+            {
+                <div class="mb-4">
+                    <RadzenButton Text="@configurationObject.Name" Click="@(() => configurationObject.ClickAction())" Class="w-100"/>
+                </div>
+                break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    <div style="display: flex; justify-content: end;">
+        <RadzenButton Click="@((args) => OnSavePressed())" Text="Save" Style="width: 120px"/>
+    </div>
+</form>

@@ -1,3 +1,4 @@
+using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Phantom.Providers;
@@ -12,9 +13,10 @@ public class PhantomProvider : IProvider
     public bool CanBeConfigured { get; } = true;
     public bool IsConfigured { get; private set; }
 
-    public void Configure()
+    public Task Configure(CardListItemConfigurationObject[] items)
     {
         IsConfigured = true;
+        return Task.CompletedTask;
     }
 
     public List<(string Name, string Value)> GetProperties()
@@ -22,6 +24,21 @@ public class PhantomProvider : IProvider
         {
             ("Installed", "YES"),
             ("Connected", IsConfigured ? "YES" : "NO"),
+        };
+
+    public CardListItemConfiguration GetConfiguration()
+        => new CardListItemConfiguration
+        {
+            Objects = new[]
+            {
+                new CardListItemConfigurationObject
+                {
+                    Id = Guid.Parse("4b10726b-eaac-48e6-9182-503db460d914"),
+                    Type = CardListItemConfigurationObjectType.Button,
+                    Name = "Connect",
+                    ClickAction = () => { },
+                }
+            }
         };
 
     public bool IsNetworkSupported(INetwork network)
