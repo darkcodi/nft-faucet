@@ -19,6 +19,6 @@ public partial class IndexPage : BasicComponent
         //     return;
         // }
 
-        UriHelper.NavigateToRelative("/networks");
+        NavigationManager.NavigateToRelative("/networks");
     }
 }

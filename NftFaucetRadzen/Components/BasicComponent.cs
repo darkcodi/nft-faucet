@@ -9,7 +9,7 @@ namespace NftFaucetRadzen.Components;
 public abstract class BasicComponent : ComponentBase
 {
     [Inject]
-    protected NavigationManager UriHelper { get; set; }
+    protected NavigationManager NavigationManager { get; set; }
 
     [Inject]
     protected ScopedAppState AppState { get; set; }
