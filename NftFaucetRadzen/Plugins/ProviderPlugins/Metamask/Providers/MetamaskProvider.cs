@@ -12,12 +12,6 @@ public class MetamaskProvider : IProvider
     public bool IsSupported { get; } = true;
     public bool IsConfigured { get; private set; }
 
-    public Task Configure(CardListItemConfigurationObject[] items)
-    {
-        IsConfigured = true;
-        return Task.CompletedTask;
-    }
-
     public CardListItemProperty[] GetProperties()
         => new CardListItemProperty[]
         {
@@ -37,7 +31,13 @@ public class MetamaskProvider : IProvider
                     Name = "Connect",
                     ClickAction = () => { },
                 }
-            }
+            },
+            ValidationFunc = objects => Task.FromResult(true),
+            ConfigureAction = objects =>
+            {
+                IsConfigured = true;
+                return Task.CompletedTask;
+            },
         };
 
     public bool IsNetworkSupported(INetwork network)
