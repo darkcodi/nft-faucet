@@ -12,14 +12,14 @@
             {
                 <div class="mb-4">
                     <h4>@configurationObject.Name</h4>
-                    <RadzenTextBox Placeholder=@configurationObject.Placeholder @bind-Value="@configurationObject.Value" Class="w-100"/>
+                    <RadzenTextBox Placeholder=@configurationObject.Placeholder @bind-Value="@configurationObject.Value" Disabled="@configurationObject.IsDisabled" Class="w-100"/>
                 </div>
                 break;
             }
             case CardListItemConfigurationObjectType.Button:
             {
                 <div class="mb-4">
-                    <RadzenButton Text="@configurationObject.Name" Click="@(() => configurationObject.ClickAction())" Class="w-100"/>
+                    <RadzenButton Text="@configurationObject.Name" Click="@(() => configurationObject.ClickAction())" Disabled="@configurationObject.IsDisabled" Class="w-100"/>
                 </div>
                 break;
             }

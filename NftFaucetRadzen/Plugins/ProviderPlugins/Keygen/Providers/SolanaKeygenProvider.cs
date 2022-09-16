@@ -31,27 +31,41 @@ public class SolanaKeygenProvider : IProvider
 
     public CardListItemConfiguration GetConfiguration()
     {
-        var input = new CardListItemConfigurationObject
+        var privateKeyInput = new CardListItemConfigurationObject
         {
             Id = Guid.Parse("17c198eb-4635-4229-a86f-051dcd7ca440"),
             Type = CardListItemConfigurationObjectType.Input,
             Name = "Private key",
             Value = Key?.PrivateKey ?? string.Empty,
+            IsDisabled = true,
+        };
+        var addressInput = new CardListItemConfigurationObject
+        {
+            Id = Guid.Parse("e02b71f7-538f-4527-abd4-011c43cbdb79"),
+            Type = CardListItemConfigurationObjectType.Input,
+            Name = "Address",
+            Value = Key?.Address ?? string.Empty,
+            IsDisabled = true,
         };
         var button = new CardListItemConfigurationObject
         {
             Id = Guid.Parse("6eeb1400-aae0-46c1-ab94-ae80029ce5cb"),
             Type = CardListItemConfigurationObjectType.Button,
             Name = "Generate new keys",
-            ClickAction = () => input.Value = SolanaKey.GenerateNew().PrivateKey,
+            ClickAction = () =>
+            {
+                var generatedKey = SolanaKey.GenerateNew();
+                privateKeyInput.Value = generatedKey.PrivateKey;
+                addressInput.Value = generatedKey.Address;
+            },
         };
         return new CardListItemConfiguration
         {
-            Objects = new[] { input, button },
-            ValidationFunc = objects => Task.FromResult(ResultWrapper.Wrap(() => new SolanaKey(input.Value)).IsSuccess),
+            Objects = new[] { privateKeyInput, addressInput, button },
+            ValidationFunc = objects => Task.FromResult(ResultWrapper.Wrap(() => new SolanaKey(privateKeyInput.Value)).IsSuccess),
             ConfigureAction = objects =>
             {
-                Key = new SolanaKey(input.Value);
+                Key = new SolanaKey(privateKeyInput.Value);
                 IsConfigured = true;
                 return Task.CompletedTask;
             },

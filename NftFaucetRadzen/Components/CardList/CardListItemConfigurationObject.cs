@@ -9,6 +9,7 @@ public class CardListItemConfigurationObject
     public string Value { get; set; }
     public string Icon { get; set; }
     public string Placeholder { get; set; }
+    public bool IsDisabled { get; set; }
 
     // for type=Button only
     public Action ClickAction { get; set; }
