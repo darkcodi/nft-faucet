@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using NftFaucetRadzen.Components.CardList;
 
 namespace NftFaucetRadzen.Plugins.UploadPlugins.NftStorage.Uploaders;
 
@@ -11,8 +12,8 @@ public class NftStorageUploader : IUploader
     public bool IsSupported { get; } = false;
     public bool IsInitialized { get; } = false;
 
-    public List<(string Name, string Value)> GetProperties()
-        => new List<(string Name, string Value)>();
+    public CardListItemProperty[] GetProperties()
+        => Array.Empty<CardListItemProperty>();
 
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
         => Array.Empty<ConfigurationItem>();

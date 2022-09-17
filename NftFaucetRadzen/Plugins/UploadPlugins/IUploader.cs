@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using NftFaucetRadzen.Components.CardList;
 
 namespace NftFaucetRadzen.Plugins.UploadPlugins;
 
@@ -11,7 +12,7 @@ public interface IUploader
     public bool IsSupported { get; }
     public bool IsInitialized { get; }
 
-    public List<(string Name, string Value)> GetProperties();
+    public CardListItemProperty[] GetProperties();
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems();
     public Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems);
     public Task<Result<Uri>> Upload(IToken token);

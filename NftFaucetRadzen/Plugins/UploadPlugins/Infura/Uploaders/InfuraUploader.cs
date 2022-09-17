@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using CSharpFunctionalExtensions;
+using NftFaucetRadzen.Components.CardList;
 using RestEase;
 
 namespace NftFaucetRadzen.Plugins.UploadPlugins.Infura.Uploaders;
@@ -19,27 +20,27 @@ public class InfuraUploader : IUploader
     private string ProjectSecret { get; set; }
     private Uri DedicatedGatewayUrl { get; set; }
 
-    public List<(string Name, string Value)> GetProperties()
+    public CardListItemProperty[] GetProperties()
     {
-        var properties = new List<(string Name, string Value)>();
+        var properties = new List<CardListItemProperty>();
         if (IsInitialized)
         {
             if (!string.IsNullOrEmpty(ProjectId))
             {
-                properties.Add(("ProjectId", ProjectId));
+                properties.Add(new CardListItemProperty {Name = "ProjectId", Value = ProjectId});
             }
 
             if (DedicatedGatewayUrl != null)
             {
-                properties.Add(("DedicatedGatewayUrl", DedicatedGatewayUrl.ToString()));
+                properties.Add(new CardListItemProperty {Name = "DedicatedGatewayUrl", Value = DedicatedGatewayUrl.ToString()});
             }
         }
         else
         {
-            properties.Add(("Initialized", "NO"));
+            properties.Add(new CardListItemProperty {Name = "Initialized", Value = "NO"});
         }
 
-        return properties;
+        return properties.ToArray();
     }
 
     public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
