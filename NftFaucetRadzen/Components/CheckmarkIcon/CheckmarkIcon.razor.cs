@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 
-namespace NftFaucetRadzen.Components.Checkmark;
+namespace NftFaucetRadzen.Components.CheckmarkIcon;
 
-public partial class Checkmark
+public partial class CheckmarkIcon
 {
     [Parameter] public string Style { get; set; }
 }
