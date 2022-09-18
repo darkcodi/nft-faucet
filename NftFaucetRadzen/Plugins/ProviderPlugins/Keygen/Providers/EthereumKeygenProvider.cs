@@ -30,6 +30,7 @@ public class EthereumKeygenProvider : IProvider
             Id = Guid.Parse("5f92930d-7a8f-41e6-aa14-5608185e6f4b"),
             Type = CardListItemConfigurationObjectType.Input,
             Name = "Private key",
+            Placeholder = "<null>",
             Value = Key?.PrivateKey ?? string.Empty,
             IsDisabled = true,
         };
@@ -38,6 +39,7 @@ public class EthereumKeygenProvider : IProvider
             Id = Guid.Parse("be0de328-fc98-46fe-8af5-dfb8414ecc01"),
             Type = CardListItemConfigurationObjectType.Input,
             Name = "Address",
+            Placeholder = "<null>",
             Value = Key?.Address ?? string.Empty,
             IsDisabled = true,
         };
@@ -46,6 +48,7 @@ public class EthereumKeygenProvider : IProvider
             Id = Guid.Parse("cba7789e-188e-405b-80c3-b86da1c17850"),
             Type = CardListItemConfigurationObjectType.Button,
             Name = "Generate new keys",
+            Placeholder = "<null>",
             ClickAction = () =>
             {
                 var generatedKey = EthereumKey.GenerateNew();
