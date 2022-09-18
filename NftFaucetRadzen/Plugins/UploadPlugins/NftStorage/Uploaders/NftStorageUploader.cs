@@ -15,13 +15,8 @@ public class NftStorageUploader : IUploader
     public CardListItemProperty[] GetProperties()
         => Array.Empty<CardListItemProperty>();
 
-    public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
-        => Array.Empty<ConfigurationItem>();
-
-    public Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems)
-    {
-        throw new NotImplementedException();
-    }
+    public CardListItemConfiguration GetConfiguration()
+        => null;
 
     public Task<Result<Uri>> Upload(IToken token)
     {

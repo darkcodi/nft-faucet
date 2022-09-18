@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
@@ -55,12 +56,15 @@ public class EthereumKeygenProvider : IProvider
         return new CardListItemConfiguration
         {
             Objects = new[] { privateKeyInput, addressInput, button },
-            ValidationFunc = objects => Task.FromResult(ResultWrapper.Wrap(() => new EthereumKey(privateKeyInput.Value)).IsSuccess),
             ConfigureAction = objects =>
             {
-                Key = new EthereumKey(privateKeyInput.Value);
+                var keyResult = ResultWrapper.Wrap(() => new EthereumKey(objects[0].Value));
+                if (keyResult.IsFailure)
+                    return Task.FromResult(Result.Failure(keyResult.Error));
+
+                Key = keyResult.Value;
                 IsConfigured = true;
-                return Task.CompletedTask;
+                return Task.FromResult(Result.Success());
             },
         };
     }

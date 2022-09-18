@@ -44,7 +44,6 @@ public partial class ProvidersPage : BasicComponent
             Configuration = configuration == null ? null : new CardListItemConfiguration
             {
                 Objects = configuration.Objects,
-                ValidationFunc = configuration.ValidationFunc,
                 ConfigureAction = x =>
                 {
                     var result = configuration.ConfigureAction(x);

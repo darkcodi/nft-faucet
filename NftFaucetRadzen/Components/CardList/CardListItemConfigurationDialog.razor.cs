@@ -10,10 +10,10 @@ public partial class CardListItemConfigurationDialog : BasicComponent
 
     private async Task OnSavePressed()
     {
-        var isValid = await CardListItem.Configuration.ValidationFunc(CardListItem.Configuration.Objects);
-        if (!isValid)
+        var result = await CardListItem.Configuration.ConfigureAction(CardListItem.Configuration.Objects);
+        if (result.IsFailure)
         {
-            NotificationService.Notify(NotificationSeverity.Error, "Invalid configuration");
+            NotificationService.Notify(NotificationSeverity.Error, "Invalid configuration", result.Error);
             return;
         }
 

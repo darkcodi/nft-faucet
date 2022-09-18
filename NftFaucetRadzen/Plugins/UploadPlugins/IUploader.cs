@@ -13,7 +13,6 @@ public interface IUploader
     public bool IsConfigured { get; }
 
     public CardListItemProperty[] GetProperties();
-    public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems();
-    public Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems);
+    public CardListItemConfiguration GetConfiguration();
     public Task<Result<Uri>> Upload(IToken token);
 }

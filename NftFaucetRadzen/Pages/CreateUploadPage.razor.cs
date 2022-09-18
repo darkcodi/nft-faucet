@@ -14,18 +14,25 @@ public partial class CreateUploadPage : BasicComponent
 
     protected override void OnInitialized()
     {
-        UploaderCards = AppState.Storage.Uploaders.Select(MapCardListItem).ToArray();
+        RefreshCards();
+        base.OnInitialized();
     }
 
     private CardListItem[] UploaderCards { get; set; }
     private Guid[] SelectedUploaderIds { get; set; }
     private IUploader SelectedUploader => AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == SelectedUploaderIds?.FirstOrDefault());
-    private IReadOnlyCollection<ConfigurationItem> ConfigurationItems { get; set; } = Array.Empty<ConfigurationItem>();
     private Result<Uri>? FileLocation { get; set; }
     private bool ModelIsValid => IsValid();
 
+    private void RefreshCards()
+    {
+        UploaderCards = AppState.Storage.Uploaders.Select(MapCardListItem).ToArray();
+    }
+
     private CardListItem MapCardListItem(IUploader uploader)
-        => new CardListItem
+    {
+        var configuration = uploader.GetConfiguration();
+        return new CardListItem
         {
             Id = uploader.Id,
             ImageLocation = uploader.ImageName != null ? "./images/" + uploader.ImageName : null,
@@ -45,16 +52,24 @@ public partial class CreateUploadPage : BasicComponent
                     ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"}
                     : null,
             }.Where(x => x != null).ToArray(),
+            Configuration = configuration == null
+                ? null
+                : new CardListItemConfiguration
+                {
+                    Objects = configuration.Objects,
+                    ConfigureAction = x =>
+                    {
+                        var result = configuration.ConfigureAction(x);
+                        RefreshCards();
+                        return result;
+                    },
+                },
         };
+    }
 
     private async Task OnChange(int pageNumber)
     {
         if (pageNumber == 1)
-        {
-            ConfigurationItems = SelectedUploader.GetConfigurationItems();
-            StateHasChangedSafe();
-        }
-        else if (pageNumber == 2)
         {
             await Upload();
         }
@@ -75,20 +90,6 @@ public partial class CreateUploadPage : BasicComponent
             }
         }
 
-        StateHasChangedSafe();
-    }
-
-    private async Task VerifyConfiguration()
-    {
-        var result = await SelectedUploader.TryInitialize(ConfigurationItems);
-        if (result.IsSuccess)
-        {
-            NotificationService.Notify(NotificationSeverity.Success, "Init succeeded", "Configuration is valid");
-        }
-        else
-        {
-            NotificationService.Notify(NotificationSeverity.Error, "Init failed", result.Error);
-        }
         StateHasChangedSafe();
     }
 

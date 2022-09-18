@@ -8,25 +8,6 @@
             <RadzenStepsItem Text="Select uploader">
                 <CardList Data="@UploaderCards" @bind-SelectedItems="@SelectedUploaderIds"/>
             </RadzenStepsItem>
-            <RadzenStepsItem Text="Configure uploader" Disabled="@(SelectedUploader == null)">
-                @if (ConfigurationItems != null)
-                {
-                    foreach (var configurationItem in ConfigurationItems)
-                    {
-                        <h3 class="mt-4">@configurationItem.Name</h3>
-                        <p>@configurationItem.Tooltip</p>
-                        if (configurationItem.IsMaskedWithDots)
-                        {
-                            <RadzenPassword Placeholder="@configurationItem.Placeholder" @bind-Value="@configurationItem.Value" Class="w-100"/>
-                        }
-                        else
-                        {
-                            <RadzenTextBox Placeholder="@configurationItem.Placeholder" @bind-Value="@configurationItem.Value" Class="w-100"/>
-                        }
-                    }
-                    <RadzenButton Text="Verify configuration" Click="@(async () => await VerifyConfiguration())" />
-                }
-            </RadzenStepsItem>
             <RadzenStepsItem Text="Upload" Disabled="@(SelectedUploader == null || !SelectedUploader.IsConfigured)">
                 @if (FileLocation == null)
                 {

@@ -43,42 +43,41 @@ public class InfuraUploader : IUploader
         return properties.ToArray();
     }
 
-    public IReadOnlyCollection<ConfigurationItem> GetConfigurationItems()
-        => new[]
-        {
-            new ConfigurationItem
-            {
-                Name = "Project ID",
-                Placeholder = "<ProjectId>",
-                Value = ProjectId,
-            },
-            new ConfigurationItem
-            {
-                Name = "API Key Secret",
-                Placeholder = "<ProjectSecret>",
-                Value = ProjectSecret,
-                IsMaskedWithDots = true,
-            },
-            new ConfigurationItem
-            {
-                Name = "Dedicated gateway URL (OPTIONAL)",
-                Tooltip = "Specify full URL with 'https://' prefix and '.infura-ipfs.io' postfix",
-                Placeholder = "https://<your-subdomain>.infura-ipfs.io",
-                Value = DedicatedGatewayUrl?.OriginalString,
-            },
-        };
-
-    public async Task<Result> TryInitialize(IReadOnlyCollection<ConfigurationItem> configurationItems)
+    public CardListItemConfiguration GetConfiguration()
     {
-        if (configurationItems == null || configurationItems.Count != 3)
+        var projectIdInput = new CardListItemConfigurationObject
         {
-            return Result.Failure("Invalid configuration items count");
-        }
+            Id = Guid.Parse("360da657-4be0-4c02-b9f9-469fcb8a4d41"),
+            Type = CardListItemConfigurationObjectType.Input,
+            Name = "Project ID",
+            Placeholder = "<ProjectId>",
+            Value = ProjectId,
+        };
+        var projectSecretInput = new CardListItemConfigurationObject
+        {
+            Id = Guid.Parse("83768e52-e484-4cba-8d7b-1bbbaeb3c2f6"),
+            Type = CardListItemConfigurationObjectType.Input,
+            Name = "API Key Secret",
+            Placeholder = "<ProjectSecret>",
+            Value = ProjectSecret,
+        };
+        var gatewayUrlInput = new CardListItemConfigurationObject
+        {
+            Id = Guid.Parse("fbaee12c-7889-43db-a3fc-c4b2f3ed501a"),
+            Type = CardListItemConfigurationObjectType.Input,
+            Name = "Dedicated gateway URL (OPTIONAL)",
+            Placeholder = "https://<your-subdomain>.infura-ipfs.io",
+            Value = DedicatedGatewayUrl?.OriginalString,
+        };
+        return new CardListItemConfiguration
+        {
+            Objects = new[] { projectIdInput, projectSecretInput, gatewayUrlInput },
+            ConfigureAction = async objects => await TryConfigure(objects[0].Value, objects[1].Value, objects[2].Value),
+        };
+    }
 
-        var items = configurationItems.ToArray();
-        var projectId = items[0].Value;
-        var projectSecret = items[1].Value;
-        var dedicatedGatewayUrl = items[2].Value;
+    public async Task<Result> TryConfigure(string projectId, string projectSecret, string dedicatedGatewayUrl)
+    {
         if (string.IsNullOrEmpty(projectId))
         {
             return Result.Failure("ProjectId is null or empty");
@@ -161,7 +160,7 @@ public class InfuraUploader : IUploader
         return new Uri("ipfs://" + uploadResponse.Hash);
     }
 
-    private IInfuraIpfsApiClient GetInfuraClient(string projectId, string projectSecret, string gatewayUrl = DefaultGatewayUrl)
+    private static IInfuraIpfsApiClient GetInfuraClient(string projectId, string projectSecret, string gatewayUrl = DefaultGatewayUrl)
     {
         var uploadClient = RestClient.For<IInfuraIpfsApiClient>(gatewayUrl);
         var auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{projectId}:{projectSecret}"));

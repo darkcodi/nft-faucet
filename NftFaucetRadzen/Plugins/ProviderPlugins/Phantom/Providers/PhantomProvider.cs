@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 
@@ -32,11 +33,10 @@ public class PhantomProvider : IProvider
                     ClickAction = () => { },
                 }
             },
-            ValidationFunc = objects => Task.FromResult(true),
             ConfigureAction = objects =>
             {
                 IsConfigured = true;
-                return Task.CompletedTask;
+                return Task.FromResult(Result.Success());
             },
         };
 

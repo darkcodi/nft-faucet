@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
@@ -62,12 +63,15 @@ public class SolanaKeygenProvider : IProvider
         return new CardListItemConfiguration
         {
             Objects = new[] { privateKeyInput, addressInput, button },
-            ValidationFunc = objects => Task.FromResult(ResultWrapper.Wrap(() => new SolanaKey(privateKeyInput.Value)).IsSuccess),
             ConfigureAction = objects =>
             {
-                Key = new SolanaKey(privateKeyInput.Value);
+                var keyResult = ResultWrapper.Wrap(() => new SolanaKey(objects[0].Value));
+                if (keyResult.IsFailure)
+                    return Task.FromResult(Result.Failure(keyResult.Error));
+
+                Key = keyResult.Value;
                 IsConfigured = true;
-                return Task.CompletedTask;
+                return Task.FromResult(Result.Success());
             },
         };
     }
