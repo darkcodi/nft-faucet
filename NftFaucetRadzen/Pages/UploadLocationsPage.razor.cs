@@ -74,7 +74,8 @@ public partial class UploadLocationsPage : BasicComponent
 
         AppState.Storage.UploadLocations ??= new List<ITokenUploadLocation>();
         AppState.Storage.UploadLocations.Add(uploadLocation);
+        AppState.Storage.SelectedUploadLocations = new[] { uploadLocation.Id };
         RefreshCards();
-        StateHasChangedSafe();
+        RefreshMediator.NotifyStateHasChangedSafe();
     }
 }
