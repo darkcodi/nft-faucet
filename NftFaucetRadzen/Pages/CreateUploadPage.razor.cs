@@ -22,7 +22,6 @@ public partial class CreateUploadPage : BasicComponent
     private Guid[] SelectedUploaderIds { get; set; }
     private IUploader SelectedUploader => AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == SelectedUploaderIds?.FirstOrDefault());
     private Result<Uri>? FileLocation { get; set; }
-    private bool ModelIsValid => IsValid();
 
     private void RefreshCards()
     {
@@ -67,47 +66,25 @@ public partial class CreateUploadPage : BasicComponent
         };
     }
 
-    private async Task OnChange(int pageNumber)
-    {
-        if (pageNumber == 1)
-        {
-            await Upload();
-        }
-    }
-
-    private async Task Upload()
+    private async Task OnSavePressed()
     {
         FileLocation = await SelectedUploader.Upload(Token);
-        if (FileLocation.HasValue)
+        if (FileLocation.Value.IsSuccess)
         {
-            if (FileLocation.Value.IsSuccess)
+            NotificationService.Notify(NotificationSeverity.Success, "Upload succeeded", FileLocation.Value.Value.OriginalString);
+            var uploadLocation = new TokenUploadLocation
             {
-                NotificationService.Notify(NotificationSeverity.Success, "Upload succeeded", FileLocation.Value.Value.OriginalString);
-            }
-            else
-            {
-                NotificationService.Notify(NotificationSeverity.Error, "Upload failed", FileLocation.Value.Error);
-            }
+                Id = Guid.NewGuid(),
+                Name = SelectedUploader.ShortName,
+                Location = FileLocation!.Value!.Value!.OriginalString,
+                CreatedAt = DateTime.Now,
+                UploaderId = SelectedUploader.Id,
+            };
+            DialogService.Close(uploadLocation);
         }
-
-        StateHasChangedSafe();
-    }
-
-    private void OnSavePressed()
-    {
-        if (!IsValid())
-            return;
-
-        var uploadLocation = new TokenUploadLocation
+        else
         {
-            Id = Guid.NewGuid(),
-            Name = SelectedUploader.ShortName,
-            Location = FileLocation!.Value!.Value!.OriginalString,
-            CreatedAt = DateTime.Now,
-            UploaderId = SelectedUploader.Id,
-        };
-        DialogService.Close(uploadLocation);
+            NotificationService.Notify(NotificationSeverity.Error, "Upload failed", FileLocation.Value.Error);
+        }
     }
-
-    private bool IsValid() => FileLocation != null && FileLocation.Value.IsSuccess;
 }

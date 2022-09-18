@@ -3,34 +3,11 @@
 
 <PageTitle>Create upload</PageTitle>
 <RadzenContent Container="main">
-    <RadzenSteps Change="@(async x => await OnChange(x))" ShowStepsButtons="false">
-        <Steps>
-            <RadzenStepsItem Text="Select uploader">
-                <CardList Data="@UploaderCards" @bind-SelectedItems="@SelectedUploaderIds"/>
-            </RadzenStepsItem>
-            <RadzenStepsItem Text="Upload" Disabled="@(SelectedUploader == null || !SelectedUploader.IsConfigured)">
-                @if (FileLocation == null)
-                {
-                    <h3 class="mt-4">Uploading... Wait!</h3>
-                }
-                else if (FileLocation.Value.IsSuccess)
-                {
-                    <h3 class="mt-4">Upload succeeded!</h3>
-                    <p>@FileLocation.Value.Value.OriginalString</p>
-                }
-                else
-                {
-                    <h3 class="mt-4">Upload failed! :(</h3>
-                    <p>@FileLocation.Value.Error</p>
-                    <RadzenButton Text="Retry" Click="@(async () => await Upload())" />
-                }
-            </RadzenStepsItem>
-        </Steps>
-    </RadzenSteps>
+    <CardList Data="@UploaderCards" @bind-SelectedItems="@SelectedUploaderIds"/>
     <div class="row">
         <div class="col-md-12 text-right">
-            <RadzenButton Click="@((args) => DialogService.Close())" ButtonStyle="ButtonStyle.Secondary" Text="Cancel" Style="width: 120px" Class="mr-1"/>
-            <RadzenButton Click="@((args) => OnSavePressed())" Disabled="!ModelIsValid" Text="Save" Style="width: 120px"/>
+            <RadzenButton Click="@(args => DialogService.Close())" ButtonStyle="ButtonStyle.Secondary" Text="Cancel" Style="width: 120px" Class="mr-1"/>
+            <RadzenButton Click="@(async args => await OnSavePressed())" Disabled="@(SelectedUploader == null || !SelectedUploader.IsConfigured)" Text="Upload" Style="width: 120px"/>
         </div>
     </div>
 </RadzenContent>
