@@ -27,7 +27,6 @@ public class PhantomProvider : IProvider
             {
                 new CardListItemConfigurationObject
                 {
-                    Id = Guid.Parse("4b10726b-eaac-48e6-9182-503db460d914"),
                     Type = CardListItemConfigurationObjectType.Button,
                     Name = "Connect",
                     ClickAction = () => { },

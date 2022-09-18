@@ -47,7 +47,6 @@ public class InfuraUploader : IUploader
     {
         var projectIdInput = new CardListItemConfigurationObject
         {
-            Id = Guid.Parse("360da657-4be0-4c02-b9f9-469fcb8a4d41"),
             Type = CardListItemConfigurationObjectType.Input,
             Name = "Project ID",
             Placeholder = "<ProjectId>",
@@ -55,7 +54,6 @@ public class InfuraUploader : IUploader
         };
         var projectSecretInput = new CardListItemConfigurationObject
         {
-            Id = Guid.Parse("83768e52-e484-4cba-8d7b-1bbbaeb3c2f6"),
             Type = CardListItemConfigurationObjectType.Input,
             Name = "API Key Secret",
             Placeholder = "<ProjectSecret>",
@@ -63,7 +61,6 @@ public class InfuraUploader : IUploader
         };
         var gatewayUrlInput = new CardListItemConfigurationObject
         {
-            Id = Guid.Parse("fbaee12c-7889-43db-a3fc-c4b2f3ed501a"),
             Type = CardListItemConfigurationObjectType.Input,
             Name = "Dedicated gateway URL (OPTIONAL)",
             Placeholder = "https://<your-subdomain>.infura-ipfs.io",

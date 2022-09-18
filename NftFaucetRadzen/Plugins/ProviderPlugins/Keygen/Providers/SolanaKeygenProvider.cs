@@ -34,7 +34,6 @@ public class SolanaKeygenProvider : IProvider
     {
         var privateKeyInput = new CardListItemConfigurationObject
         {
-            Id = Guid.Parse("17c198eb-4635-4229-a86f-051dcd7ca440"),
             Type = CardListItemConfigurationObjectType.Input,
             Name = "Private key",
             Placeholder = "<null>",
@@ -43,7 +42,6 @@ public class SolanaKeygenProvider : IProvider
         };
         var addressInput = new CardListItemConfigurationObject
         {
-            Id = Guid.Parse("e02b71f7-538f-4527-abd4-011c43cbdb79"),
             Type = CardListItemConfigurationObjectType.Input,
             Name = "Address",
             Placeholder = "<null>",
@@ -52,7 +50,6 @@ public class SolanaKeygenProvider : IProvider
         };
         var button = new CardListItemConfigurationObject
         {
-            Id = Guid.Parse("6eeb1400-aae0-46c1-ab94-ae80029ce5cb"),
             Type = CardListItemConfigurationObjectType.Button,
             Name = "Generate new keys",
             Placeholder = "<null>",

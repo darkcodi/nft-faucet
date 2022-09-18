@@ -2,7 +2,6 @@ namespace NftFaucetRadzen.Components.CardList;
 
 public class CardListItemConfigurationObject
 {
-    public Guid Id { get; set; }
     public CardListItemConfigurationObjectType Type { get; set; }
 
     public string Name { get; set; }

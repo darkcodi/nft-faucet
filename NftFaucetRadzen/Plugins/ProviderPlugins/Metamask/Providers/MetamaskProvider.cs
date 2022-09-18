@@ -27,7 +27,6 @@ public class MetamaskProvider : IProvider
             {
                 new CardListItemConfigurationObject
                 {
-                    Id = Guid.Parse("88ad581f-17a4-452a-9e21-b413a2887955"),
                     Type = CardListItemConfigurationObjectType.Button,
                     Name = "Connect",
                     ClickAction = () => { },
