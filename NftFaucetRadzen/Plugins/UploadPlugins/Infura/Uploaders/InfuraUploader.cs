@@ -13,7 +13,7 @@ public class InfuraUploader : IUploader
     public string ShortName { get; } = "Infura";
     public string ImageName { get; } = "infura_black.svg";
     public bool IsSupported { get; } = true;
-    public bool IsInitialized { get; private set; } = false;
+    public bool IsConfigured { get; private set; } = false;
 
     private const string DefaultGatewayUrl = "https://ipfs.infura.io:5001";
     private string ProjectId { get; set; }
@@ -23,7 +23,7 @@ public class InfuraUploader : IUploader
     public CardListItemProperty[] GetProperties()
     {
         var properties = new List<CardListItemProperty>();
-        if (IsInitialized)
+        if (IsConfigured)
         {
             if (!string.IsNullOrEmpty(ProjectId))
             {
@@ -133,7 +133,7 @@ public class InfuraUploader : IUploader
 
         ProjectId = projectId;
         ProjectSecret = projectSecret;
-        IsInitialized = true;
+        IsConfigured = true;
         return Result.Success();
     }
 

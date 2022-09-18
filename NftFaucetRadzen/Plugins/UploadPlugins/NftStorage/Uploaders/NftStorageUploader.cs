@@ -10,7 +10,7 @@ public class NftStorageUploader : IUploader
     public string ShortName { get; } = "NftStorage";
     public string ImageName { get; } = "nft-storage.svg";
     public bool IsSupported { get; } = false;
-    public bool IsInitialized { get; } = false;
+    public bool IsConfigured { get; } = false;
 
     public CardListItemProperty[] GetProperties()
         => Array.Empty<CardListItemProperty>();
