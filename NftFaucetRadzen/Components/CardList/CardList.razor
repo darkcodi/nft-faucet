@@ -5,12 +5,21 @@
     <Template Context="cardListItem">
         <RadzenCard class=@("box"
                             + (cardListItem.IsDisabled ? " box-disabled" : string.Empty)
-                            + (SelectedItems != null && SelectedItems.Contains(cardListItem.Id) ? " box-selected" : string.Empty))
+                            + (SelectedItems != null && SelectedItems.Contains(cardListItem.Id)
+                                ? (cardListItem.SelectionIcon == CardListItemSelectionIcon.Checkmark ? " box-checkmark" : " box-warning")
+                                : string.Empty))
                     Style="width: 250px;" onclick="@(async () => await ToggleSelection(cardListItem))">
             <div class="d-flex flex-row align-items-center">
                 @if (SelectedItems != null && SelectedItems.Contains(cardListItem.Id))
                 {
-                    <CheckmarkIcon Style="position: absolute; top: 1em; right: 1em;"/>
+                    if (cardListItem.SelectionIcon == CardListItemSelectionIcon.Checkmark)
+                    {
+                        <CheckmarkIcon Style="position: absolute; top: 1em; right: 1em;"/>
+                    }
+                    else if (cardListItem.SelectionIcon == CardListItemSelectionIcon.Warning)
+                    {
+                        <WarningIcon Style="position: absolute; top: 1em; right: 1em;"/>
+                    }
                 }
                 @if (!string.IsNullOrEmpty(cardListItem.ImageLocation))
                 {

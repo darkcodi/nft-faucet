@@ -42,6 +42,7 @@ public partial class CreateUploadPage : BasicComponent
                 Value = x.Value,
             }).ToArray(),
             IsDisabled = !uploader.IsSupported,
+            SelectionIcon = uploader.IsConfigured ? CardListItemSelectionIcon.Checkmark : CardListItemSelectionIcon.Warning,
             Badges = new[]
             {
                 (Settings?.RecommendedUploaders?.Contains(uploader.Id) ?? false)

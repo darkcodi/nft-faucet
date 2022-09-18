@@ -32,6 +32,7 @@ public partial class ProvidersPage : BasicComponent
             Header = provider.Name,
             IsDisabled = !provider.IsSupported,
             Properties = provider.GetProperties().ToArray(),
+            SelectionIcon = provider.IsConfigured ? CardListItemSelectionIcon.Checkmark : CardListItemSelectionIcon.Warning,
             Badges = new[]
             {
                 (Settings?.RecommendedProviders?.Contains(provider.Id) ?? false)

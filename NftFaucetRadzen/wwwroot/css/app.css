@@ -76,8 +76,12 @@ a, .btn-link {
     background-color: #dfdfdf !important;
 }
 
-.box-selected {
+.box-checkmark {
     border: solid 0.2em green !important;
+}
+
+.box-warning {
+    border: solid 0.2em #FBBD08 !important;
 }
 
 .checkmark {
