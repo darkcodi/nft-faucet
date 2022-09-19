@@ -14,5 +14,5 @@ public interface IUploader
 
     public CardListItemProperty[] GetProperties();
     public CardListItemConfiguration GetConfiguration();
-    public Task<Result<Uri>> Upload(IToken token);
+    public Task<Result<Uri>> Upload(string fileName, string fileType, byte[] fileData);
 }

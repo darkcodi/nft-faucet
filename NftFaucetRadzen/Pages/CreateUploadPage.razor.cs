@@ -1,7 +1,9 @@
-using CSharpFunctionalExtensions;
+using System.Text;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Components.CardList;
+using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins;
 using NftFaucetRadzen.Plugins.UploadPlugins;
 using Radzen;
@@ -21,7 +23,6 @@ public partial class CreateUploadPage : BasicComponent
     private CardListItem[] UploaderCards { get; set; }
     private Guid[] SelectedUploaderIds { get; set; }
     private IUploader SelectedUploader => AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == SelectedUploaderIds?.FirstOrDefault());
-    private Result<Uri>? FileLocation { get; set; }
     private bool IsUploading { get; set; }
 
     private void RefreshCards()
@@ -69,27 +70,58 @@ public partial class CreateUploadPage : BasicComponent
         IsUploading = true;
         RefreshMediator.NotifyStateHasChangedSafe();
 
-        FileLocation = await SelectedUploader.Upload(Token);
+        var imageLocationResult = await SelectedUploader.Upload(Token.Image.FileName, Token.Image.FileType, Base64DataToBytes(Token.Image.FileData));
+        if (imageLocationResult.IsFailure)
+        {
+            IsUploading = false;
+            RefreshMediator.NotifyStateHasChangedSafe();
+            NotificationService.Notify(NotificationSeverity.Error, "Uploading image failed", imageLocationResult.Error);
+            return;
+        }
+
+        var imageLocation = imageLocationResult.Value;
+        var tokenMetadata = GenerateTokenMetadata(Token, imageLocation);
+        var tokenMetadataBytes = Encoding.UTF8.GetBytes(tokenMetadata);
+        var tokenLocationResult = await SelectedUploader.Upload($"{Token.Id}.json", "application/json", tokenMetadataBytes);
+        if (tokenLocationResult.IsFailure)
+        {
+            IsUploading = false;
+            RefreshMediator.NotifyStateHasChangedSafe();
+            NotificationService.Notify(NotificationSeverity.Error, "Uploading metadata failed", tokenLocationResult.Error);
+            return;
+        }
 
         IsUploading = false;
         RefreshMediator.NotifyStateHasChangedSafe();
+        NotificationService.Notify(NotificationSeverity.Success, "Upload succeeded", tokenLocationResult.Value.OriginalString);
+        var uploadLocation = new TokenUploadLocation
+        {
+            Id = Guid.NewGuid(),
+            Name = SelectedUploader.ShortName,
+            Location = tokenLocationResult.Value.OriginalString,
+            CreatedAt = DateTime.Now,
+            UploaderId = SelectedUploader.Id,
+        };
+        DialogService.Close(uploadLocation);
+    }
 
-        if (FileLocation.Value.IsSuccess)
+    private static byte[] Base64DataToBytes(string fileData)
+    {
+        var index = fileData.IndexOf(';');
+        var encoded = fileData.Substring(index + 8);
+        return Convert.FromBase64String(encoded);
+    }
+
+    private static string GenerateTokenMetadata(IToken token, Uri imageLocation)
+    {
+        var tokenMetadata = new TokenMetadata
         {
-            NotificationService.Notify(NotificationSeverity.Success, "Upload succeeded", FileLocation.Value.Value.OriginalString);
-            var uploadLocation = new TokenUploadLocation
-            {
-                Id = Guid.NewGuid(),
-                Name = SelectedUploader.ShortName,
-                Location = FileLocation!.Value!.Value!.OriginalString,
-                CreatedAt = DateTime.Now,
-                UploaderId = SelectedUploader.Id,
-            };
-            DialogService.Close(uploadLocation);
-        }
-        else
-        {
-            NotificationService.Notify(NotificationSeverity.Error, "Upload failed", FileLocation.Value.Error);
-        }
+            Name = token.Name,
+            Description = token.Description,
+            Image = imageLocation.OriginalString,
+            ExternalUrl = "https://darkcodi.github.io/nft-faucet/",
+        };
+        var metadataJson = JsonConvert.SerializeObject(tokenMetadata, Formatting.Indented);
+        return metadataJson;
     }
 }

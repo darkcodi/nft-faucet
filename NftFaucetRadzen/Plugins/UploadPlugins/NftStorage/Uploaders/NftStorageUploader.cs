@@ -18,7 +18,7 @@ public class NftStorageUploader : IUploader
     public CardListItemConfiguration GetConfiguration()
         => null;
 
-    public Task<Result<Uri>> Upload(IToken token)
+    public Task<Result<Uri>> Upload(string fileName, string fileType, byte[] fileData)
     {
         throw new NotImplementedException();
     }

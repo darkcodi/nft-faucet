@@ -24,9 +24,9 @@ public class CrustUploader : IUploader
     public CardListItemConfiguration GetConfiguration()
         => null;
 
-    public async Task<Result<Uri>> Upload(IToken token)
+    public async Task<Result<Uri>> Upload(string fileName, string fileType, byte[] fileData)
     {
-        var fileUploadRequest = ToMultipartContent(token.Image.FileName, token.Image.FileType, token.Image.FileData);
+        var fileUploadRequest = ToMultipartContent(fileName, fileType, fileData);
         var uploadClient = RestClient.For<ICrustUploadApiClient>();
         var authHeader = GetAuthHeader();
         uploadClient.Auth = authHeader;
@@ -48,7 +48,7 @@ public class CrustUploader : IUploader
         var pinRequest = new PinRequest
         {
             cid = uploadResponse.Hash,
-            name = token.Image.FileName,
+            name = fileName,
         };
         using var pinningResponse = await pinningClient.PinFile(pinRequest);
         if (!pinningResponse.IsSuccessStatusCode)
@@ -59,23 +59,13 @@ public class CrustUploader : IUploader
         return new Uri("https://gw.crustapps.net/ipfs/" + uploadResponse.Hash);
     }
 
-    private MultipartContent ToMultipartContent(string fileName, string fileType, string fileData)
+    private MultipartContent ToMultipartContent(string fileName, string fileType, byte[] fileData)
     {
         var content = new MultipartFormDataContent();
-
-        var bytes = Base64DataToBytes(fileData);
-        var imageContent = new ByteArrayContent(bytes);
+        var imageContent = new ByteArrayContent(fileData);
         imageContent.Headers.Add("Content-Type", fileType);
         content.Add(imageContent, "\"file\"", $"\"{fileName}\"");
-
         return content;
-    }
-
-    private byte[] Base64DataToBytes(string fileData)
-    {
-        var index = fileData.IndexOf(';');
-        var encoded = fileData.Substring(index + 8);
-        return Convert.FromBase64String(encoded);
     }
 
     private string GetAuthHeader()

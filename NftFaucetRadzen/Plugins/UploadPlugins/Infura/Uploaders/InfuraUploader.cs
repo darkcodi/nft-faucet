@@ -133,10 +133,10 @@ public class InfuraUploader : IUploader
         return Result.Success();
     }
 
-    public async Task<Result<Uri>> Upload(IToken token)
+    public async Task<Result<Uri>> Upload(string fileName, string fileType, byte[] fileData)
     {
         var apiClient = GetInfuraClient(ProjectId, ProjectSecret);
-        var fileUploadRequest = ToMultipartContent(token.Image.FileName, token.Image.FileType, token.Image.FileData);
+        var fileUploadRequest = ToMultipartContent(fileName, fileType, fileData);
         using var response = await apiClient.UploadFile(fileUploadRequest);
         if (!response.ResponseMessage.IsSuccessStatusCode)
         {
@@ -165,22 +165,12 @@ public class InfuraUploader : IUploader
         return uploadClient;
     }
 
-    private MultipartContent ToMultipartContent(string fileName, string fileType, string fileData)
+    private MultipartContent ToMultipartContent(string fileName, string fileType, byte[] fileData)
     {
         var content = new MultipartFormDataContent();
-
-        var bytes = Base64DataToBytes(fileData);
-        var imageContent = new ByteArrayContent(bytes);
+        var imageContent = new ByteArrayContent(fileData);
         imageContent.Headers.Add("Content-Type", fileType);
         content.Add(imageContent, "\"file\"", $"\"{fileName}\"");
-
         return content;
-    }
-
-    private byte[] Base64DataToBytes(string fileData)
-    {
-        var index = fileData.IndexOf(';');
-        var encoded = fileData.Substring(index + 8);
-        return Convert.FromBase64String(encoded);
     }
 }
