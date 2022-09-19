@@ -1,0 +1,70 @@
+@page "/mint"
+@inherits BasicComponent
+
+<PageTitle>Mint</PageTitle>
+<RadzenContent Container="main">
+    <RadzenHeading Size="H1" Text="Mint" />
+    <p>
+        <text style="font-weight: bold;">Network: </text>
+        @if (AppState?.SelectedNetwork == null)
+        {
+            @:<text style="color: red;">NOT SELECTED</text>
+        }
+        else
+        {
+            @:<text style="color: green;">OK</text>
+        }
+    </p>
+    <p>
+        <text style="font-weight: bold;">Provider: </text>
+        @if (AppState?.SelectedProvider == null)
+        {
+            @:<text style="color: red;">NOT SELECTED</text>
+        }
+        else if (!AppState.SelectedProvider.IsConfigured)
+        {
+            @:<text style="color: red;">NOT CONFIGURED</text>
+        }
+        else
+        {
+            @:<text style="color: green;">OK</text>
+        }
+    </p>
+    <p>
+        <text style="font-weight: bold;">Contract: </text>
+        @if (AppState?.SelectedContract == null)
+        {
+            @:<text style="color: red;">NOT SELECTED</text>
+        }
+        else
+        {
+            @:<text style="color: green;">OK</text>
+        }
+    </p>
+    <p>
+        <text style="font-weight: bold;">Token: </text>
+        @if (AppState?.SelectedToken == null)
+        {
+            @:<text style="color: red;">NOT SELECTED</text>
+        }
+        else
+        {
+            @:<text style="color: green;">OK</text>
+        }
+    </p>
+    <p>
+        <text style="font-weight: bold;">Upload location: </text>
+        @if (AppState?.SelectedUploadLocation == null)
+        {
+            @:<text style="color: red;">NOT SELECTED</text>
+        }
+        else
+        {
+            @:<text style="color: green;">OK</text>
+        }
+    </p>
+    @if (IsReadyToMint)
+    {
+        <RadzenButton Text="Mint" />
+    }
+</RadzenContent>
