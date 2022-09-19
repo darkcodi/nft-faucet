@@ -32,6 +32,14 @@ public class SolanaKeygenProvider : IProvider
 
     public CardListItemConfiguration GetConfiguration()
     {
+        var mnemonicInput = new CardListItemConfigurationObject
+        {
+            Type = CardListItemConfigurationObjectType.Input,
+            Name = "Mnemonic phrase",
+            Placeholder = "<null>",
+            Value = Key?.MnemonicPhrase ?? string.Empty,
+            IsDisabled = true,
+        };
         var privateKeyInput = new CardListItemConfigurationObject
         {
             Type = CardListItemConfigurationObjectType.Input,
@@ -56,13 +64,14 @@ public class SolanaKeygenProvider : IProvider
             ClickAction = () =>
             {
                 var generatedKey = SolanaKey.GenerateNew();
+                mnemonicInput.Value = generatedKey.MnemonicPhrase;
                 privateKeyInput.Value = generatedKey.PrivateKey;
                 addressInput.Value = generatedKey.Address;
             },
         };
         return new CardListItemConfiguration
         {
-            Objects = new[] { privateKeyInput, addressInput, button },
+            Objects = new[] { mnemonicInput, privateKeyInput, addressInput, button },
             ConfigureAction = objects =>
             {
                 var keyResult = ResultWrapper.Wrap(() => new SolanaKey(objects[0].Value));
