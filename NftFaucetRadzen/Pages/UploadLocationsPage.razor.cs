@@ -18,7 +18,8 @@ public partial class UploadLocationsPage : BasicComponent
 
     private void RefreshCards()
     {
-        UploadCards = AppState?.Storage?.UploadLocations?.Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
+        var selectedTokenId = AppState?.Storage?.SelectedTokens?.FirstOrDefault();
+        UploadCards = AppState?.Storage?.UploadLocations?.Where(x => x.TokenId == selectedTokenId).Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
     }
 
     private CardListItem MapCardListItem(ITokenUploadLocation uploadLocation)

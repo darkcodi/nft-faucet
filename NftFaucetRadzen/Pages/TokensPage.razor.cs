@@ -50,7 +50,13 @@ public partial class TokensPage : BasicComponent
         AppState.Storage.Tokens ??= new List<IToken>();
         AppState.Storage.Tokens.Add(token);
         AppState.Storage.SelectedTokens = new[] { token.Id };
+        AppState.Storage.SelectedUploadLocations = Array.Empty<Guid>();
         RefreshCards();
         RefreshMediator.NotifyStateHasChangedSafe();
+    }
+
+    private void OnTokenChange()
+    {
+        AppState.Storage.SelectedUploadLocations = Array.Empty<Guid>();
     }
 }

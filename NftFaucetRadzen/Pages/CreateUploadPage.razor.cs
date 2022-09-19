@@ -97,6 +97,7 @@ public partial class CreateUploadPage : BasicComponent
         var uploadLocation = new TokenUploadLocation
         {
             Id = Guid.NewGuid(),
+            TokenId = Token.Id,
             Name = SelectedUploader.ShortName,
             Location = tokenLocationResult.Value.OriginalString,
             CreatedAt = DateTime.Now,

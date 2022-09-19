@@ -8,5 +8,5 @@
         <RadzenButton Text="Create New" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"
                       Click="@OpenCreateTokenDialog" />
     </div>
-    <CardList Data="@TokenCards" @bind-SelectedItems="@AppState.Storage.SelectedTokens" />
+    <CardList Data="@TokenCards" OnSelectedChange="@(_ => OnTokenChange())" @bind-SelectedItems="@AppState.Storage.SelectedTokens" />
 </RadzenContent>

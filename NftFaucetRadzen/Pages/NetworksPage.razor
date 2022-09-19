@@ -11,9 +11,9 @@
                 foreach (var kvp in Networks.OrderBy(x => x.Key))
                 {
                     var networkType = kvp.Key;
-                    var networks = kvp.Value;
+                    var networkCards = kvp.Value;
                     <RadzenTabsItem Text="@networkType.ToString()">
-                        <CardList Data="@networks" OnSelectedChange="@(_ => OnNetworkChange())" @bind-SelectedItems="@AppState.Storage.SelectedNetworks"/>
+                        <CardList Data="@networkCards" OnSelectedChange="@(_ => OnNetworkChange())" @bind-SelectedItems="@AppState.Storage.SelectedNetworks"/>
                     </RadzenTabsItem>
                 }
             }
