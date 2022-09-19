@@ -36,7 +36,16 @@
                         {
                             var namePart = property.Name != null ? $"{property.Name}: " : string.Empty;
                             var valueStyle = property.ValueColor != null ? $"color: {property.ValueColor}" : string.Empty;
-                            <div style="font-size: .8em">@namePart<text style="@valueStyle">@property.Value</text></div>
+                            <div style="font-size: .8em">@namePart<text style="@valueStyle">
+                                @if (property.IsValueLink)
+                                {
+                                    <RadzenLink Icon="open_in_new" Path="@property.Value" Text="@property.Value" Target="_blank" />
+                                }
+                                else
+                                {
+                                    @property.Value
+                                }
+                            </text></div>
                         }
                     }
                     <div>

@@ -38,6 +38,7 @@ public partial class UploadLocationsPage : BasicComponent
                 {
                     Name = "Location",
                     Value = uploadLocation.Location,
+                    IsValueLink = true,
                 },
                 new CardListItemProperty
                 {
