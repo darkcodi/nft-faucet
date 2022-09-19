@@ -34,7 +34,14 @@
                     {
                         if (!string.IsNullOrEmpty(property?.Value))
                         {
-                            <div style="font-size: .8em">@property.Name: @property.Value</div>
+                            if (!string.IsNullOrEmpty(property.Name))
+                            {
+                                <div style="font-size: .8em">@property.Name: @property.Value</div>
+                            }
+                            else
+                            {
+                                <div style="font-size: .8em">@property.Value</div>
+                            }
                         }
                     }
                     <div>

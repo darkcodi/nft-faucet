@@ -37,7 +37,7 @@ public class InfuraUploader : IUploader
         }
         else
         {
-            properties.Add(new CardListItemProperty {Name = "Initialized", Value = "NO"});
+            properties.Add(new CardListItemProperty {Name = "Configured", Value = "NO"});
         }
 
         return properties.ToArray();
