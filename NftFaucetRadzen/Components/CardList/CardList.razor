@@ -34,14 +34,9 @@
                     {
                         if (!string.IsNullOrEmpty(property?.Value))
                         {
-                            if (!string.IsNullOrEmpty(property.Name))
-                            {
-                                <div style="font-size: .8em">@property.Name: @property.Value</div>
-                            }
-                            else
-                            {
-                                <div style="font-size: .8em">@property.Value</div>
-                            }
+                            var namePart = property.Name != null ? $"{property.Name}: " : string.Empty;
+                            var valueStyle = property.ValueColor != null ? $"color: {property.ValueColor}" : string.Empty;
+                            <div style="font-size: .8em">@namePart<text style="@valueStyle">@property.Value</text></div>
                         }
                     }
                     <div>

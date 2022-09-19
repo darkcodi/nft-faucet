@@ -37,11 +37,7 @@ public partial class CreateUploadPage : BasicComponent
             Id = uploader.Id,
             ImageLocation = uploader.ImageName != null ? "./images/" + uploader.ImageName : null,
             Header = uploader.Name,
-            Properties = uploader.GetProperties().Select(x => new CardListItemProperty
-            {
-                Name = x.Name,
-                Value = x.Value,
-            }).ToArray(),
+            Properties = uploader.GetProperties(),
             IsDisabled = !uploader.IsSupported,
             SelectionIcon = uploader.IsConfigured ? CardListItemSelectionIcon.Checkmark : CardListItemSelectionIcon.Warning,
             Badges = new[]
