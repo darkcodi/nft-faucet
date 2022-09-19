@@ -39,7 +39,7 @@ public partial class UploadLocationsPage : BasicComponent
                 {
                     Name = "Location",
                     Value = uploadLocation.Location,
-                    IsValueLink = true,
+                    Link = uploadLocation.Location,
                 },
                 new CardListItemProperty
                 {
