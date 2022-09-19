@@ -9,5 +9,6 @@ public interface ICrustPinApiClient
     public string Auth { get; set; }
 
     [Post("psa/pins")]
-    Task PinFile([Body] PinRequest request);
+    [AllowAnyStatusCode]
+    Task<HttpResponseMessage> PinFile([Body] PinRequest request);
 }

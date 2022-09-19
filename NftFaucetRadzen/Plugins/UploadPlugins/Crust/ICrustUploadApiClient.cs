@@ -10,5 +10,6 @@ public interface ICrustUploadApiClient
     public string Auth { get; set; }
 
     [Post("api/v0/add")]
-    Task<UploadResponse> UploadFile([Body] MultipartContent content, [Query("pin")] bool pin = true);
+    [AllowAnyStatusCode]
+    Task<Response<UploadResponse>> UploadFile([Body] MultipartContent content, [Query("pin")] bool pin = true);
 }

@@ -30,18 +30,33 @@ public class CrustUploader : IUploader
         var uploadClient = RestClient.For<ICrustUploadApiClient>();
         var authHeader = GetAuthHeader();
         uploadClient.Auth = authHeader;
-        var response = await uploadClient.UploadFile(fileUploadRequest);
+
+        using var uploadFileResponse = await uploadClient.UploadFile(fileUploadRequest);
+        if (!uploadFileResponse.ResponseMessage.IsSuccessStatusCode)
+        {
+            return Result.Failure<Uri>($"Status: {(int) uploadFileResponse.ResponseMessage.StatusCode}. Reason: {uploadFileResponse.ResponseMessage.ReasonPhrase}");
+        }
+
+        var uploadResponse = uploadFileResponse.GetContent();
+        if (string.IsNullOrEmpty(uploadResponse?.Hash))
+        {
+            return Result.Failure<Uri>($"Unexpected response: {uploadFileResponse.StringContent}");
+        }
 
         var pinningClient = RestClient.For<ICrustPinApiClient>();
         pinningClient.Auth = authHeader;
         var pinRequest = new PinRequest
         {
-            cid = response.Hash,
+            cid = uploadResponse.Hash,
             name = token.Image.FileName,
         };
-        await pinningClient.PinFile(pinRequest);
+        using var pinningResponse = await pinningClient.PinFile(pinRequest);
+        if (!pinningResponse.IsSuccessStatusCode)
+        {
+            return Result.Failure<Uri>($"Status: {(int) pinningResponse.StatusCode}. Reason: {pinningResponse.ReasonPhrase}");
+        }
 
-        return new Uri("https://gw.crustapps.net/ipfs/" + response.Hash);
+        return new Uri("https://gw.crustapps.net/ipfs/" + uploadResponse.Hash);
     }
 
     private MultipartContent ToMultipartContent(string fileName, string fileType, string fileData)

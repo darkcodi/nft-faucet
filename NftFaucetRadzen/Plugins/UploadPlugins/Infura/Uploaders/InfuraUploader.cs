@@ -86,7 +86,7 @@ public class InfuraUploader : IUploader
         }
 
         var apiClient = GetInfuraClient(projectId, projectSecret);
-        var versionResponse = await apiClient.GetVersion();
+        using var versionResponse = await apiClient.GetVersion();
         if (!versionResponse.ResponseMessage.IsSuccessStatusCode)
         {
             return Result.Failure<Uri>($"Status: {(int) versionResponse.ResponseMessage.StatusCode}. Reason: {versionResponse.ResponseMessage.ReasonPhrase}");
@@ -137,7 +137,7 @@ public class InfuraUploader : IUploader
     {
         var apiClient = GetInfuraClient(ProjectId, ProjectSecret);
         var fileUploadRequest = ToMultipartContent(token.Image.FileName, token.Image.FileType, token.Image.FileData);
-        var response = await apiClient.UploadFile(fileUploadRequest);
+        using var response = await apiClient.UploadFile(fileUploadRequest);
         if (!response.ResponseMessage.IsSuccessStatusCode)
         {
             return Result.Failure<Uri>($"Status: {(int) response.ResponseMessage.StatusCode}. Reason: {response.ResponseMessage.ReasonPhrase}");
