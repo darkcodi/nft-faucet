@@ -7,8 +7,8 @@
     <CardList Data="@UploaderCards" @bind-SelectedItems="@SelectedUploaderIds"/>
     <div class="row">
         <div class="col-md-12 text-right">
-            <RadzenButton Click="@(args => DialogService.Close())" ButtonStyle="ButtonStyle.Secondary" Text="Cancel" Style="width: 120px" Class="mr-1"/>
-            <RadzenButton Click="@(async args => await OnSavePressed())" Disabled="@(SelectedUploader == null || !SelectedUploader.IsConfigured)" Text="Upload" Style="width: 120px"/>
+            <RadzenButton Text="Cancel" Click="@(args => DialogService.Close())" ButtonStyle="ButtonStyle.Secondary" Disabled="IsUploading" Style="width: 120px" Class="mr-1"/>
+            <RadzenButton Text="Upload" Icon="eject" BusyText="Uploading..." IsBusy=@IsUploading Click="@(async args => await OnSavePressed())" Disabled="@(SelectedUploader == null || !SelectedUploader.IsConfigured)" Style="width: 180px"/>
         </div>
     </div>
 </RadzenContent>

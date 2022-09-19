@@ -22,6 +22,7 @@ public partial class CreateUploadPage : BasicComponent
     private Guid[] SelectedUploaderIds { get; set; }
     private IUploader SelectedUploader => AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == SelectedUploaderIds?.FirstOrDefault());
     private Result<Uri>? FileLocation { get; set; }
+    private bool IsUploading { get; set; }
 
     private void RefreshCards()
     {
@@ -69,7 +70,14 @@ public partial class CreateUploadPage : BasicComponent
 
     private async Task OnSavePressed()
     {
+        IsUploading = true;
+        RefreshMediator.NotifyStateHasChangedSafe();
+
         FileLocation = await SelectedUploader.Upload(Token);
+
+        IsUploading = false;
+        RefreshMediator.NotifyStateHasChangedSafe();
+
         if (FileLocation.Value.IsSuccess)
         {
             NotificationService.Notify(NotificationSeverity.Success, "Upload succeeded", FileLocation.Value.Value.OriginalString);
