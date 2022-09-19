@@ -12,27 +12,27 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="networks" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="networks" style=@(SelectedNetworkName != null ? "color: lime;" : string.Empty) Match="NavLinkMatch.All">
                 <span class="oi oi-bolt" aria-hidden="true"></span> @("Network" + (SelectedNetworkName != null ? $" [{SelectedNetworkName}]" : string.Empty))
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="providers" >
+            <NavLink class="nav-link" href="providers" style=@(SelectedProviderName != null ? $"color: {(AppState.SelectedProvider.IsConfigured ? "lime" : "#FBBD08")};" : string.Empty)>
                 <span class="oi oi-key" aria-hidden="true"></span> @("Provider" + (SelectedProviderName != null ? $" [{SelectedProviderName}]" : string.Empty))
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="contracts" >
+            <NavLink class="nav-link" href="contracts" style=@(SelectedContractName != null ? "color: lime;" : string.Empty)>
                 <span class="oi oi-script" aria-hidden="true"></span> @("Contract" + (SelectedContractName != null ? $" [{SelectedContractName}]" : string.Empty))
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="tokens" >
+            <NavLink class="nav-link" href="tokens" style=@(SelectedTokenName != null ? "color: lime;" : string.Empty)>
                 <span class="oi oi-aperture" aria-hidden="true"></span> @("Token" + (SelectedTokenName != null ? $" [{SelectedTokenName}]" : string.Empty))
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="uploads" >
+            <NavLink class="nav-link" href="uploads" style=@(SelectedUploadName != null ? "color: lime;" : string.Empty)>
                 <span class="oi oi-cloud-upload" aria-hidden="true"></span> @("Upload" + (SelectedUploadName != null ? $" [{SelectedUploadName}]" : string.Empty))
             </NavLink>
         </div>
