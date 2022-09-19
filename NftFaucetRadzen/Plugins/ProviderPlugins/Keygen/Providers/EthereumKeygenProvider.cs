@@ -19,7 +19,6 @@ public class EthereumKeygenProvider : IProvider
     public CardListItemProperty[] GetProperties()
         => new CardListItemProperty[]
         {
-            new CardListItemProperty{ Name = "Private key", Value = Key?.PrivateKey ?? "<null>" },
             new CardListItemProperty{ Name = "Address", Value = Key?.Address ?? "<null>" },
         };
 
