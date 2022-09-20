@@ -1,6 +1,8 @@
 using CSharpFunctionalExtensions;
+using Ethereum.MetaMask.Blazor;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
+using NftFaucetRadzen.Services;
 
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Metamask.Providers;
 
@@ -11,33 +13,116 @@ public class MetamaskProvider : IProvider
     public string ShortName { get; } = "Metamask";
     public string ImageName { get; } = "metamask_fox.svg";
     public bool IsSupported { get; } = true;
-    public bool IsConfigured { get; private set; }
+    public bool IsConfigured => IsMetamaskAvailable && IsSiteConnected && !string.IsNullOrEmpty(Address);
+
+    private IMetaMaskService MetaMaskService { get; set; }
+    private RefreshMediator RefreshMediator { get; set; }
+
+    private bool IsMetamaskAvailable { get; set; }
+    private bool IsSiteConnected { get; set; }
+    private string Address { get; set; }
+    private string ChainId { get; set; }
+
+    public async Task InitializeAsync(IServiceProvider serviceProvider)
+    {
+        MetaMaskService = serviceProvider.GetRequiredService<IMetaMaskService>();
+        RefreshMediator = serviceProvider.GetRequiredService<RefreshMediator>();
+
+        IsMetamaskAvailable = await MetaMaskService.IsMetaMaskAvailableAsync();
+        if (IsMetamaskAvailable)
+        {
+            IsSiteConnected = await MetaMaskService.IsSiteConnectedAsync();
+        }
+
+        if (IsSiteConnected)
+        {
+            Address = await MetaMaskService.GetSelectedAccountAsync();
+            ChainId = await MetaMaskService.GetSelectedChainAsync();
+        }
+    }
 
     public CardListItemProperty[] GetProperties()
-        => new CardListItemProperty[]
+    {
+        var list = new List<CardListItemProperty>(3)
         {
-            new CardListItemProperty{ Name = "Installed", Value = "YES" },
-            new CardListItemProperty{ Name = "Connected", Value = IsConfigured ? "YES" : "NO" },
+            new CardListItemProperty
+            {
+                Name = "Installed", Value = IsMetamaskAvailable ? "YES" : "NO",
+                ValueColor = IsMetamaskAvailable ? "green" : "red"
+            },
+            new CardListItemProperty
+            {
+                Name = "Connected", Value = IsSiteConnected ? "YES" : "NO",
+                ValueColor = IsSiteConnected ? "green" : "red"
+            },
         };
+        if (!string.IsNullOrEmpty(Address))
+        {
+            list.Add(new CardListItemProperty
+            {
+                Name = "Address",
+                Value = Address,
+            });
+        }
+        
+        return list.ToArray();
+    }
 
     public CardListItemConfiguration GetConfiguration()
-        => new CardListItemConfiguration
+    {
+        var addressInput = new CardListItemConfigurationObject
         {
-            Objects = new[]
+            Type = CardListItemConfigurationObjectType.Input,
+            Name = "Address",
+            Placeholder = "<null>",
+            Value = Address,
+            IsDisabled = true,
+        };
+        var chainInput = new CardListItemConfigurationObject
+        {
+            Type = CardListItemConfigurationObjectType.Input,
+            Name = "ChainId",
+            Placeholder = "<null>",
+            Value = ChainId,
+            IsDisabled = true,
+        };
+        var connectButton = new CardListItemConfigurationObject
+        {
+            Type = CardListItemConfigurationObjectType.Button,
+            Name = "Connect",
+            ClickAction = async () =>
             {
-                new CardListItemConfigurationObject
+                var address = await MetaMaskService.ConnectAsync();
+                if (!string.IsNullOrEmpty(address))
                 {
-                    Type = CardListItemConfigurationObjectType.Button,
-                    Name = "Connect",
-                    ClickAction = () => { },
+                    IsSiteConnected = true;
+                    Address = address;
+                    addressInput.Value = Address;
+                    ChainId = await MetaMaskService.GetSelectedChainAsync();
+                    chainInput.Value = ChainId;
                 }
+                else
+                {
+                    IsSiteConnected = false;
+                    Address = null;
+                    addressInput.Value = null;
+                    ChainId = null;
+                    chainInput.Value = null;
+                }
+
+                RefreshMediator.NotifyStateHasChangedSafe();
             },
+        };
+        return new CardListItemConfiguration
+        {
+            Objects = new[] { addressInput, chainInput, connectButton },
             ConfigureAction = objects =>
             {
-                IsConfigured = true;
+                // IsConfigured = true;
                 return Task.FromResult(Result.Success());
             },
         };
+    }
 
     public bool IsNetworkSupported(INetwork network)
         => network?.Type == NetworkType.Ethereum;

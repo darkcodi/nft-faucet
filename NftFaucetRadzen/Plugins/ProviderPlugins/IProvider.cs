@@ -12,6 +12,7 @@ public interface IProvider
     public bool IsSupported { get; }
     public bool IsConfigured { get; }
 
+    public Task InitializeAsync(IServiceProvider serviceProvider);
     public CardListItemProperty[] GetProperties();
     public CardListItemConfiguration GetConfiguration();
     public bool IsNetworkSupported(INetwork network);

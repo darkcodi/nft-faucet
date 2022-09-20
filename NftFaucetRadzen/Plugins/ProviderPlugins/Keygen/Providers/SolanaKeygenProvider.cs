@@ -16,6 +16,9 @@ public class SolanaKeygenProvider : IProvider
     public bool IsConfigured { get; private set; }
     public SolanaKey Key { get; private set; }
 
+    public Task InitializeAsync(IServiceProvider serviceProvider)
+        => Task.CompletedTask;
+
     public Task Configure(CardListItemConfigurationObject[] items)
     {
         Key = SolanaKey.GenerateNew();

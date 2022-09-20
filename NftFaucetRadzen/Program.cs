@@ -1,3 +1,4 @@
+using Ethereum.MetaMask.Blazor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using NftFaucetRadzen;
@@ -23,5 +24,6 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
+builder.Services.AddMetaMaskBlazor();
 
 await builder.Build().RunAsync();

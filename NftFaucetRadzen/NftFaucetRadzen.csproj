@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="Cryptography.ECDSA.Secp256K1" Version="1.1.3" />
         <PackageReference Include="CSharpFunctionalExtensions" Version="2.33.2" />
+        <PackageReference Include="Ethereum.MetaMask.Blazor" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
         <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />

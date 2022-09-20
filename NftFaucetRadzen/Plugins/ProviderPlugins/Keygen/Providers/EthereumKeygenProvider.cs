@@ -16,6 +16,9 @@ public class EthereumKeygenProvider : IProvider
     public bool IsConfigured { get; private set; }
     public EthereumKey Key { get; private set; }
 
+    public Task InitializeAsync(IServiceProvider serviceProvider)
+        => Task.CompletedTask;
+
     public CardListItemProperty[] GetProperties()
         => new CardListItemProperty[]
         {

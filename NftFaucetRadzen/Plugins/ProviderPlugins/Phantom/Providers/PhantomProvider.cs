@@ -13,6 +13,9 @@ public class PhantomProvider : IProvider
     public bool IsSupported { get; } = true;
     public bool IsConfigured { get; private set; }
 
+    public Task InitializeAsync(IServiceProvider serviceProvider)
+        => Task.CompletedTask;
+
     public CardListItemProperty[] GetProperties()
         => new CardListItemProperty[]
         {
