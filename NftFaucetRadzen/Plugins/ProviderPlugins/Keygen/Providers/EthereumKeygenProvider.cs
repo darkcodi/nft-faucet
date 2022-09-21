@@ -76,4 +76,9 @@ public class EthereumKeygenProvider : IProvider
 
     public Task<string> GetAddress()
         => Task.FromResult(Key.Address);
+
+    public Task<Result<string>> Mint(MintRequest mintRequest)
+    {
+        throw new NotImplementedException();
+    }
 }

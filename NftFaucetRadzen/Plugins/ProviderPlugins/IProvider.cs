@@ -1,4 +1,6 @@
+using CSharpFunctionalExtensions;
 using NftFaucetRadzen.Components.CardList;
+using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 
 namespace NftFaucetRadzen.Plugins.ProviderPlugins;
@@ -17,4 +19,5 @@ public interface IProvider
     public CardListItemConfiguration GetConfiguration();
     public bool IsNetworkSupported(INetwork network);
     public Task<string> GetAddress();
+    public Task<Result<string>> Mint(MintRequest mintRequest);
 }

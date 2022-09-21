@@ -77,6 +77,6 @@
                <RadzenNumeric TValue="int" Min="1" Max="100000" @bind-Value="@AppState.Storage.TokenAmount" Class="w-100" />
             </div>
         }
-        <RadzenButton Text="Mint" />
+        <RadzenButton Text="Mint" Click="@(async () => await Mint())" />
     }
 </RadzenContent>

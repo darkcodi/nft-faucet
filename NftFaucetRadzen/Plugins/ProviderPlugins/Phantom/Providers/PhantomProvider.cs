@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using NftFaucetRadzen.Components.CardList;
+using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Phantom.Providers;
@@ -47,4 +48,9 @@ public class PhantomProvider : IProvider
 
     public Task<string> GetAddress()
         => throw new NotImplementedException();
+
+    public Task<Result<string>> Mint(MintRequest mintRequest)
+    {
+        throw new NotImplementedException();
+    }
 }

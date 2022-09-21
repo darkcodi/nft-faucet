@@ -1,4 +1,5 @@
 using NftFaucetRadzen.Components;
+using NftFaucetRadzen.Models;
 
 namespace NftFaucetRadzen.Pages;
 
@@ -18,5 +19,13 @@ public partial class MintPage : BasicComponent
         {
             AppState.Storage.DestinationAddress = await AppState.SelectedProvider.GetAddress();
         }
+    }
+
+    private async Task Mint()
+    {
+        var mintRequest = new MintRequest(AppState.SelectedNetwork, AppState.SelectedProvider,
+            AppState.SelectedContract, AppState.SelectedToken, AppState.SelectedUploadLocation,
+            AppState.Storage.DestinationAddress, AppState.Storage.TokenAmount);
+        await AppState.SelectedProvider.Mint(mintRequest);
     }
 }

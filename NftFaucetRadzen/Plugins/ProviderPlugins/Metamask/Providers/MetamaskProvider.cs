@@ -1,8 +1,11 @@
 using CSharpFunctionalExtensions;
 using Ethereum.MetaMask.Blazor;
 using NftFaucetRadzen.Components.CardList;
+using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Models.Function;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 using NftFaucetRadzen.Services;
+using NftFaucetRadzen.Utils;
 
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Metamask.Providers;
 
@@ -129,4 +132,49 @@ public class MetamaskProvider : IProvider
 
     public async Task<string> GetAddress()
         => Address ?? await MetaMaskService.GetSelectedAccountAsync();
+
+    public async Task<Result<string>> Mint(MintRequest mintRequest)
+    {
+        if (mintRequest.Network.Type != NetworkType.Ethereum)
+        {
+            throw new InvalidOperationException("Invalid network type for this provider");
+        }
+
+        switch (mintRequest.Contract.Type)
+        {
+            case ContractType.Erc721:
+            {
+                return await ResultWrapper.Wrap(async () =>
+                {
+                    var contractAddress = mintRequest.Contract.Address;
+                    var transfer = new Erc721MintFunction
+                    {
+                        To = mintRequest.DestinationAddress,
+                        Uri = mintRequest.UploadLocation.Location,
+                    };
+                    var data = transfer.Encode();
+                    var transactionHash = await MetaMaskService.SendTransactionAsync(contractAddress, 0, data);
+                    return transactionHash;
+                });
+            }
+            case ContractType.Erc1155:
+            {
+                return await ResultWrapper.Wrap(async () =>
+                {
+                    var contractAddress = mintRequest.Contract.Address;
+                    var transfer = new Erc1155MintFunction
+                    {
+                        To = mintRequest.DestinationAddress,
+                        Amount = mintRequest.TokensAmount,
+                        Uri = mintRequest.UploadLocation.Location,
+                    };
+                    var data = transfer.Encode();
+                    var transactionHash = await MetaMaskService.SendTransactionAsync(contractAddress, 0, data);
+                    return transactionHash;
+                });
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
 }
