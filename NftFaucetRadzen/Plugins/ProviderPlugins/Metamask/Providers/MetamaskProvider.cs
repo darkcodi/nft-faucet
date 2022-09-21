@@ -154,6 +154,11 @@ public class MetamaskProvider : IProvider
                     };
                     var data = transfer.Encode();
                     var transactionHash = await MetaMaskService.SendTransactionAsync(contractAddress, 0, data);
+                    if (string.IsNullOrEmpty(transactionHash))
+                    {
+                        throw new Exception("Operation was cancelled or RPC node failure");
+                    }
+
                     return transactionHash;
                 });
             }
@@ -170,6 +175,11 @@ public class MetamaskProvider : IProvider
                     };
                     var data = transfer.Encode();
                     var transactionHash = await MetaMaskService.SendTransactionAsync(contractAddress, 0, data);
+                    if (string.IsNullOrEmpty(transactionHash))
+                    {
+                        throw new Exception("Operation was cancelled or RPC node failure");
+                    }
+
                     return transactionHash;
                 });
             }
