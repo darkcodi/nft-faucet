@@ -77,6 +77,11 @@ public class EthereumKeygenProvider : IProvider
     public Task<string> GetAddress()
         => Task.FromResult(Key.Address);
 
+    public Task<long> GetBalance()
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<bool> EnsureNetworkMatches(INetwork network)
         => Task.FromResult(network.Type == NetworkType.Ethereum);
 

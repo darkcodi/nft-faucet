@@ -49,6 +49,11 @@ public class PhantomProvider : IProvider
     public Task<string> GetAddress()
         => throw new NotImplementedException();
 
+    public Task<long> GetBalance()
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<bool> EnsureNetworkMatches(INetwork network)
     {
         throw new NotImplementedException();

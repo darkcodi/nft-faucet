@@ -1,12 +1,16 @@
+using CSharpFunctionalExtensions;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Utils;
 using Radzen;
 
 namespace NftFaucetRadzen.Pages;
 
 public partial class MintPage : BasicComponent
 {
+    private string SourceAddress { get; set; }
     private bool NetworkMatches { get; set; }
+    private bool BalanceIsZero { get; set; } = true;
     private bool IsReadyToMint => AppState != null &&
                                   AppState.SelectedNetwork != null &&
                                   AppState.SelectedProvider != null &&
@@ -14,21 +18,30 @@ public partial class MintPage : BasicComponent
                                   AppState.SelectedContract != null &&
                                   AppState.SelectedToken != null &&
                                   AppState.SelectedUploadLocation != null &&
-                                  NetworkMatches;
+                                  !string.IsNullOrEmpty(SourceAddress) &&
+                                  NetworkMatches &&
+                                  !BalanceIsZero;
 
     protected override async Task OnInitializedAsync()
     {
         if (AppState?.SelectedProvider?.IsConfigured ?? false)
         {
-            AppState.Storage.DestinationAddress = await AppState.SelectedProvider.GetAddress();
+            SourceAddress = await ResultWrapper.Wrap(() => AppState.SelectedProvider.GetAddress()).Match(x => x, _ => null);
+            AppState.Storage.DestinationAddress = SourceAddress;
+            if (string.IsNullOrEmpty(SourceAddress))
+            {
+                BalanceIsZero = true;
+            }
+            else
+            {
+                var balance = await ResultWrapper.Wrap(() => AppState.SelectedProvider.GetBalance()).Match(x => x, _ => 0);
+                BalanceIsZero = balance == 0;
+            }
+            if (AppState.SelectedNetwork != null)
+            {
+                NetworkMatches = await ResultWrapper.Wrap(() => AppState.SelectedProvider.EnsureNetworkMatches(AppState.SelectedNetwork)).Match(x => x, _ => false);
+            }
         }
-
-        if (AppState?.SelectedProvider != null &&
-            AppState.SelectedProvider.IsConfigured &&
-            AppState.SelectedNetwork != null)
-        {
-            NetworkMatches = await AppState.SelectedProvider.EnsureNetworkMatches(AppState.SelectedNetwork);
-        } 
     }
 
     private async Task Mint()

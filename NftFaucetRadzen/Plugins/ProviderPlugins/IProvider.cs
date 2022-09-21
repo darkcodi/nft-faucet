@@ -19,6 +19,7 @@ public interface IProvider
     public CardListItemConfiguration GetConfiguration();
     public bool IsNetworkSupported(INetwork network);
     public Task<string> GetAddress();
+    public Task<long> GetBalance();
     public Task<bool> EnsureNetworkMatches(INetwork network);
     public Task<Result<string>> Mint(MintRequest mintRequest);
 }

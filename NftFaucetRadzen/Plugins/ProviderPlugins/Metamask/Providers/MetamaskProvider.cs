@@ -133,6 +133,9 @@ public class MetamaskProvider : IProvider
     public async Task<string> GetAddress()
         => Address ?? await MetaMaskService.GetSelectedAccountAsync();
 
+    public async Task<long> GetBalance()
+        => (long) await MetaMaskService.GetBalanceAsync();
+
     public async Task<bool> EnsureNetworkMatches(INetwork network)
         => network.Type == NetworkType.Ethereum && network.ChainId != null && network.ChainId == await GetChainId();
 
