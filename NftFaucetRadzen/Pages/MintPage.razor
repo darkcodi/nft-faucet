@@ -1,4 +1,5 @@
 @page "/mint"
+@using NftFaucetRadzen.Plugins.NetworkPlugins
 @inherits BasicComponent
 
 <PageTitle>Mint</PageTitle>
@@ -65,6 +66,17 @@
     </p>
     @if (IsReadyToMint)
     {
+        <div class="mb-4">
+            <h4>Destination address</h4>
+            <RadzenTextBox Placeholder="<null>" @bind-Value="@AppState.Storage.DestinationAddress" Class="w-100"/>
+        </div>
+        if (AppState!.SelectedContract!.Type == ContractType.Erc1155)
+        {
+            <div class="mb-4">
+                <h4>Tokens amount</h4>
+               <RadzenNumeric TValue="int" Min="1" Max="100000" @bind-Value="@AppState.Storage.TokenAmount" Class="w-100" />
+            </div>
+        }
         <RadzenButton Text="Mint" />
     }
 </RadzenContent>

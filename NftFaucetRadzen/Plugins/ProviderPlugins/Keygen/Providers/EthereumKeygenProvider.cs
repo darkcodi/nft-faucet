@@ -73,4 +73,7 @@ public class EthereumKeygenProvider : IProvider
 
     public bool IsNetworkSupported(INetwork network)
         => network?.Type == NetworkType.Ethereum;
+
+    public Task<string> GetAddress()
+        => Task.FromResult(Key.Address);
 }

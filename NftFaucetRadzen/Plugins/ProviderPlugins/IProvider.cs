@@ -16,4 +16,5 @@ public interface IProvider
     public CardListItemProperty[] GetProperties();
     public CardListItemConfiguration GetConfiguration();
     public bool IsNetworkSupported(INetwork network);
+    public Task<string> GetAddress();
 }

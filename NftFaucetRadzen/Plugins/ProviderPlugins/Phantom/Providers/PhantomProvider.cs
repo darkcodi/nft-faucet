@@ -44,4 +44,7 @@ public class PhantomProvider : IProvider
 
     public bool IsNetworkSupported(INetwork network)
         => network?.Type == NetworkType.Solana;
+
+    public Task<string> GetAddress()
+        => throw new NotImplementedException();
 }

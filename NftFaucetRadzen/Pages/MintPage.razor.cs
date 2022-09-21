@@ -11,4 +11,12 @@ public partial class MintPage : BasicComponent
                                   AppState.SelectedContract != null &&
                                   AppState.SelectedToken != null &&
                                   AppState.SelectedUploadLocation != null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AppState?.SelectedProvider?.IsConfigured ?? false)
+        {
+            AppState.Storage.DestinationAddress = await AppState.SelectedProvider.GetAddress();
+        }
+    }
 }

@@ -126,4 +126,7 @@ public class MetamaskProvider : IProvider
 
     public bool IsNetworkSupported(INetwork network)
         => network?.Type == NetworkType.Ethereum;
+
+    public async Task<string> GetAddress()
+        => Address ?? await MetaMaskService.GetSelectedAccountAsync();
 }

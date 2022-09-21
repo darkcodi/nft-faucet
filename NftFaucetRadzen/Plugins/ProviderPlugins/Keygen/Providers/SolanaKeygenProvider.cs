@@ -89,4 +89,7 @@ public class SolanaKeygenProvider : IProvider
 
     public bool IsNetworkSupported(INetwork network)
         => network?.Type == NetworkType.Solana;
+
+    public Task<string> GetAddress()
+        => Task.FromResult(Key.Address);
 }

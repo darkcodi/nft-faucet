@@ -19,4 +19,6 @@ public class StateStorage
     public Guid[] SelectedContracts { get; set; }
     public Guid[] SelectedTokens { get; set; }
     public Guid[] SelectedUploadLocations { get; set; }
+    public string DestinationAddress { get; set; }
+    public int TokenAmount { get; set; } = 1;
 }
