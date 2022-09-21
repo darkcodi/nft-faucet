@@ -1,5 +1,6 @@
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Models;
+using Radzen;
 
 namespace NftFaucetRadzen.Pages;
 
@@ -26,6 +27,14 @@ public partial class MintPage : BasicComponent
         var mintRequest = new MintRequest(AppState.SelectedNetwork, AppState.SelectedProvider,
             AppState.SelectedContract, AppState.SelectedToken, AppState.SelectedUploadLocation,
             AppState.Storage.DestinationAddress, AppState.Storage.TokenAmount);
-        await AppState.SelectedProvider.Mint(mintRequest);
+        var result = await AppState.SelectedProvider.Mint(mintRequest);
+        if (result.IsSuccess)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Minting finished", result.Value);
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Failed to mint", result.Error);
+        }
     }
 }
