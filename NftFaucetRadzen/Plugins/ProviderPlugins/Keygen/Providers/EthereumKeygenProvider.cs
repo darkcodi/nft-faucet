@@ -77,6 +77,9 @@ public class EthereumKeygenProvider : IProvider
     public Task<string> GetAddress()
         => Task.FromResult(Key.Address);
 
+    public Task<bool> EnsureNetworkMatches(INetwork network)
+        => Task.FromResult(network.Type == NetworkType.Ethereum);
+
     public Task<Result<string>> Mint(MintRequest mintRequest)
     {
         throw new NotImplementedException();

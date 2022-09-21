@@ -133,6 +133,21 @@ public class MetamaskProvider : IProvider
     public async Task<string> GetAddress()
         => Address ?? await MetaMaskService.GetSelectedAccountAsync();
 
+    public async Task<bool> EnsureNetworkMatches(INetwork network)
+        => network.Type == NetworkType.Ethereum && network.ChainId != null && network.ChainId == await GetChainId();
+
+    private async Task<ulong?> GetChainId()
+    {
+        var chainHex = await MetaMaskService.GetSelectedChainAsync();
+        if (string.IsNullOrEmpty(chainHex) || chainHex == "0x")
+        {
+            return null;
+        }
+
+        var chainId = (ulong) Convert.ToInt64(chainHex, 16);
+        return chainId;
+    }
+
     public async Task<Result<string>> Mint(MintRequest mintRequest)
     {
         if (mintRequest.Network.Type != NetworkType.Ethereum)

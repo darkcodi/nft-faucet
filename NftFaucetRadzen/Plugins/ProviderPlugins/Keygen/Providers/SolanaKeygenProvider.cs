@@ -93,6 +93,9 @@ public class SolanaKeygenProvider : IProvider
     public Task<string> GetAddress()
         => Task.FromResult(Key.Address);
 
+    public Task<bool> EnsureNetworkMatches(INetwork network)
+        => Task.FromResult(network.Type == NetworkType.Solana);
+
     public Task<Result<string>> Mint(MintRequest mintRequest)
     {
         throw new NotImplementedException();

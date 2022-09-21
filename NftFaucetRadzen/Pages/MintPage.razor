@@ -26,7 +26,10 @@
         {
             @:<text style="color: red;">NOT CONFIGURED</text>
         }
-        else
+        else if (!NetworkMatches)
+        {
+            @:<text style="color: red;">NETWORK MISMATCH</text>
+        } else
         {
             @:<text style="color: green;">OK</text>
         }

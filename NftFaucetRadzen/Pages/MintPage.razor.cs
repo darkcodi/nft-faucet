@@ -6,13 +6,15 @@ namespace NftFaucetRadzen.Pages;
 
 public partial class MintPage : BasicComponent
 {
+    private bool NetworkMatches { get; set; }
     private bool IsReadyToMint => AppState != null &&
                                   AppState.SelectedNetwork != null &&
                                   AppState.SelectedProvider != null &&
                                   AppState.SelectedProvider.IsConfigured &&
                                   AppState.SelectedContract != null &&
                                   AppState.SelectedToken != null &&
-                                  AppState.SelectedUploadLocation != null;
+                                  AppState.SelectedUploadLocation != null &&
+                                  NetworkMatches;
 
     protected override async Task OnInitializedAsync()
     {
@@ -20,6 +22,13 @@ public partial class MintPage : BasicComponent
         {
             AppState.Storage.DestinationAddress = await AppState.SelectedProvider.GetAddress();
         }
+
+        if (AppState?.SelectedProvider != null &&
+            AppState.SelectedProvider.IsConfigured &&
+            AppState.SelectedNetwork != null)
+        {
+            NetworkMatches = await AppState.SelectedProvider.EnsureNetworkMatches(AppState.SelectedNetwork);
+        } 
     }
 
     private async Task Mint()

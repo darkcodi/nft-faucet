@@ -49,6 +49,11 @@ public class PhantomProvider : IProvider
     public Task<string> GetAddress()
         => throw new NotImplementedException();
 
+    public Task<bool> EnsureNetworkMatches(INetwork network)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<Result<string>> Mint(MintRequest mintRequest)
     {
         throw new NotImplementedException();
