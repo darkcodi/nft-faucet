@@ -1,7 +1,15 @@
+using System.Numerics;
 using CSharpFunctionalExtensions;
+using Nethereum.Hex.HexTypes;
+using Nethereum.JsonRpc.Client;
+using Nethereum.RPC.Eth.DTOs;
+using Nethereum.RPC.TransactionTypes;
 using Nethereum.Web3;
+using Nethereum.Web3.Accounts;
+using Nethereum.Web3.Accounts.Managed;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Models.Function;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 using NftFaucetRadzen.Utils;
 
@@ -92,8 +100,57 @@ public class EthereumKeygenProvider : IProvider
     public Task<bool> EnsureNetworkMatches(INetwork network)
         => Task.FromResult(network.Type == NetworkType.Ethereum);
 
-    public Task<Result<string>> Mint(MintRequest mintRequest)
+    public async Task<Result<string>> Mint(MintRequest mintRequest)
     {
-        throw new NotImplementedException();
+        if (mintRequest.Network.Type != NetworkType.Ethereum)
+        {
+            throw new InvalidOperationException("Invalid network type for this provider");
+        }
+
+        Function transfer =
+            mintRequest.Contract.Type switch
+            {
+                ContractType.Erc721 => new Erc721MintFunction
+                {
+                    To = mintRequest.DestinationAddress,
+                    Uri = mintRequest.UploadLocation.Location,
+                },
+                ContractType.Erc1155 => new Erc1155MintFunction
+                {
+                    To = mintRequest.DestinationAddress,
+                    Amount = mintRequest.TokensAmount,
+                    Uri = mintRequest.UploadLocation.Location,
+                },
+                _ => throw new ArgumentOutOfRangeException(),
+            };
+
+        return await ResultWrapper.Wrap(async () =>
+        {
+            var data = transfer.Encode();
+            var client = new RpcClient(mintRequest.Network.PublicRpcUrl);
+            var account = new Account(Key.PrivateKey);
+            var transactionManager = new AccountSignerTransactionManager(client, account);
+            var txInput = new TransactionInput
+            {
+                From = Key.Address,
+                To = mintRequest.Contract.Address,
+                Data = data,
+                ChainId = new HexBigInteger(new BigInteger(mintRequest.Network.ChainId!.Value)),
+                Type = new HexBigInteger(TransactionType.EIP1559.AsByte()),
+            };
+            txInput.Nonce = await transactionManager.GetNonceAsync(txInput);
+            var fee1559 = await transactionManager.CalculateFee1559Async();
+            txInput.MaxFeePerGas = new HexBigInteger(fee1559.MaxFeePerGas!.Value);
+            txInput.MaxPriorityFeePerGas = new HexBigInteger(fee1559.MaxPriorityFeePerGas!.Value);
+            txInput.Gas = await transactionManager.EstimateGasAsync(txInput);
+            txInput.Gas = new HexBigInteger(new BigInteger((long)txInput.Gas.Value * 1.3));
+            var transactionHash = await transactionManager.SendTransactionAsync(txInput);
+            if (string.IsNullOrEmpty(transactionHash))
+            {
+                throw new Exception("Operation was cancelled or RPC node failure");
+            }
+
+            return transactionHash;
+        });
     }
 }
