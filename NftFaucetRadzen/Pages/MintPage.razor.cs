@@ -28,13 +28,13 @@ public partial class MintPage : BasicComponent
         {
             SourceAddress = await ResultWrapper.Wrap(() => AppState.SelectedProvider.GetAddress()).Match(x => x, _ => null);
             AppState.Storage.DestinationAddress = SourceAddress;
-            if (string.IsNullOrEmpty(SourceAddress))
+            if (string.IsNullOrEmpty(SourceAddress) || AppState.SelectedNetwork == null)
             {
                 BalanceIsZero = true;
             }
             else
             {
-                var balance = await ResultWrapper.Wrap(() => AppState.SelectedProvider.GetBalance()).Match(x => x, _ => 0);
+                var balance = await ResultWrapper.Wrap(() => AppState.SelectedProvider.GetBalance(AppState.SelectedNetwork)).Match(x => x, _ => 0);
                 BalanceIsZero = balance == 0;
             }
             if (AppState.SelectedNetwork != null)

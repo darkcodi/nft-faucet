@@ -14,5 +14,6 @@ public class KilnNetwork : INetwork
     public bool IsDeprecated { get; } = true;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
+    public Uri PublicRpcUrl { get; } = null;
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

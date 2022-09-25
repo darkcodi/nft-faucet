@@ -14,5 +14,6 @@ public class SepoliaNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
+    public Uri PublicRpcUrl { get; } = null;
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

@@ -16,6 +16,7 @@ public class RopstenNetwork : INetwork
     public bool IsDeprecated { get; } = true;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
+    public Uri PublicRpcUrl { get; } = new Uri("https://ethereum-ropsten-rpc.allthatnode.com");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

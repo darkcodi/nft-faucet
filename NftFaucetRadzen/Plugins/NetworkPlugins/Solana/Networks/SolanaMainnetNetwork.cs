@@ -14,5 +14,6 @@ public class SolanaMainnetNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Solana;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
+    public Uri PublicRpcUrl { get; } = new Uri("https://api.mainnet-beta.solana.com");
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

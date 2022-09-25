@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace NftFaucetRadzen.Plugins.NetworkPlugins.Solana.Networks;
 
 public class SolanaDevnetNetwork : INetwork
@@ -16,6 +14,7 @@ public class SolanaDevnetNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Solana;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
+    public Uri PublicRpcUrl { get; } = new Uri("https://api.devnet.solana.com");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

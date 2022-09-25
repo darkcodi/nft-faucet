@@ -3,6 +3,7 @@ using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
 using NftFaucetRadzen.Utils;
+using Solnet.Rpc;
 
 namespace NftFaucetRadzen.Plugins.ProviderPlugins.Keygen.Providers;
 
@@ -91,11 +92,20 @@ public class SolanaKeygenProvider : IProvider
         => network?.Type == NetworkType.Solana;
 
     public Task<string> GetAddress()
-        => Task.FromResult(Key.Address);
+        => Task.FromResult(Key?.Address);
 
-    public Task<long> GetBalance()
+    public async Task<long?> GetBalance(INetwork network)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(Key?.Address))
+            return null;
+
+        var rpcClient = ClientFactory.GetClient(network.PublicRpcUrl.OriginalString);
+        var balanceResult = await rpcClient.GetBalanceAsync(Key.Address);
+        if (!balanceResult.WasSuccessful || balanceResult.Result == null)
+            return null;
+
+        var balance = (long) balanceResult.Result.Value;
+        return balance;
     }
 
     public Task<bool> EnsureNetworkMatches(INetwork network)

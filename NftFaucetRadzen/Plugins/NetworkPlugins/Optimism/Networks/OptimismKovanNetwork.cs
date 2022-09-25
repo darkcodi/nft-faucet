@@ -13,9 +13,10 @@ public class OptimismKovanNetwork : INetwork
     public string ImageName { get; } = "optimism-black.svg";
     public bool IsSupported { get; } = true;
     public bool IsTestnet { get; } = true;
-    public bool IsDeprecated { get; } = false;
+    public bool IsDeprecated { get; } = true;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Optimism;
+    public Uri PublicRpcUrl { get; } = new Uri("https://mainnet.optimism.io");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

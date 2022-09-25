@@ -16,6 +16,7 @@ public class BscTestnetNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Bsc;
+    public Uri PublicRpcUrl { get; } = new Uri("https://data-seed-prebsc-1-s1.binance.org:8545/");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

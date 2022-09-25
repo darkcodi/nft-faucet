@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using Nethereum.Web3;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Plugins.NetworkPlugins;
@@ -75,11 +76,17 @@ public class EthereumKeygenProvider : IProvider
         => network?.Type == NetworkType.Ethereum;
 
     public Task<string> GetAddress()
-        => Task.FromResult(Key.Address);
+        => Task.FromResult(Key?.Address);
 
-    public Task<long> GetBalance()
+    public async Task<long?> GetBalance(INetwork network)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(Key?.Address))
+            return null;
+
+        var web3 = new Web3(network.PublicRpcUrl.OriginalString);
+        var hexBalance = await web3.Eth.GetBalance.SendRequestAsync(Key.Address);
+        var balance = (long) hexBalance.Value;
+        return balance;
     }
 
     public Task<bool> EnsureNetworkMatches(INetwork network)

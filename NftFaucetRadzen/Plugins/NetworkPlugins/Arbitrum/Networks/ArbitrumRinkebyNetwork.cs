@@ -16,6 +16,7 @@ public class ArbitrumRinkebyNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Arbitrum;
+    public Uri PublicRpcUrl { get; } = new Uri("https://rinkeby.arbitrum.io/rpc");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

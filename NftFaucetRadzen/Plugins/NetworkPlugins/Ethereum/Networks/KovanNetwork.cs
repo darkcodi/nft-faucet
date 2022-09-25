@@ -16,7 +16,8 @@ public class KovanNetwork : INetwork
     public bool IsDeprecated { get; } = true;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
-    
+    public Uri PublicRpcUrl { get; } = new Uri("https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
+
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {
         new Contract

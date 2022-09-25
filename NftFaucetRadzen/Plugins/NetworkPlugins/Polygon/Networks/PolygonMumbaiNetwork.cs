@@ -16,6 +16,7 @@ public class PolygonMumbaiNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
+    public Uri PublicRpcUrl { get; } = new Uri("https://rpc-mumbai.maticvigil.com");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

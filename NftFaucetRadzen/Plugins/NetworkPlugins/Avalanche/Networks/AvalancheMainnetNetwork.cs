@@ -14,5 +14,6 @@ public class AvalancheMainnetNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Avalanche;
+    public Uri PublicRpcUrl { get; } = null;
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

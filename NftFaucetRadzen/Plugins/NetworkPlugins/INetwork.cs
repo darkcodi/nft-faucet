@@ -14,5 +14,6 @@ public interface INetwork
     public bool IsDeprecated { get; }
     public NetworkType Type { get; }
     public NetworkSubtype SubType { get; }
+    public Uri PublicRpcUrl { get; }
     public IReadOnlyCollection<IContract> DeployedContracts { get; }
 }

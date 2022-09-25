@@ -16,6 +16,7 @@ public class AvalancheFujiNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Avalanche;
+    public Uri PublicRpcUrl { get; } = new Uri("https://api.avax-test.network/ext/bc/C/rpc");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

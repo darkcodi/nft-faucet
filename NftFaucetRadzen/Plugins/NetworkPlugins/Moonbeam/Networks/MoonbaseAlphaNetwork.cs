@@ -16,6 +16,7 @@ public class MoonbaseAlphaNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Moonbase;
+    public Uri PublicRpcUrl { get; } = new Uri("https://moonbase-alpha.public.blastapi.io");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

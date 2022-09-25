@@ -16,6 +16,7 @@ public class GoerliNetwork : INetwork
     public bool IsDeprecated { get; } = false;
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
+    public Uri PublicRpcUrl { get; } = new Uri("https://ethereum-goerli-rpc.allthatnode.com");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {
