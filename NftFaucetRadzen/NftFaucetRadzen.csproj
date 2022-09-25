@@ -19,7 +19,7 @@
         <PackageReference Include="Nethereum.Web3" Version="4.8.0" />
         <PackageReference Include="Radzen.Blazor" Version="3.20.4" />
         <PackageReference Include="RestEase" Version="1.5.7" />
-        <PackageReference Include="Solana.Metaplex" Version="1.3.0" />
+        <PackageReference Include="Solana.Metaplex" Version="1.2.0" />
     </ItemGroup>
 
     <ItemGroup>
