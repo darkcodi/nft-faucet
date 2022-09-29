@@ -68,6 +68,16 @@ public class InitializationService
             }
             await provider.SetState(providerState.State);
         }
+        var uploaderStates = await _stateRepository.LoadUploaderStates();
+        foreach (var uploaderState in uploaderStates)
+        {
+            var uploader = _appState.PluginStorage.Uploaders.FirstOrDefault(x => x.Id == uploaderState.Id);
+            if (uploader == null)
+            {
+                continue;
+            }
+            await uploader.SetState(uploaderState.State);
+        }
     }
 
     private void ValidatePluginsData()

@@ -157,6 +157,32 @@ public class InfuraUploader : IUploader
         return new Uri("ipfs://" + uploadResponse.Hash);
     }
 
+    public Task<string> GetState()
+    {
+        var parts = new string[]
+        {
+            ProjectId,
+            ProjectSecret,
+            DedicatedGatewayUrl?.OriginalString,
+        };
+        var state = string.Join("<|>", parts);
+        return Task.FromResult(state);
+    }
+
+    public Task SetState(string state)
+    {
+        if (string.IsNullOrEmpty(state))
+            return Task.CompletedTask;
+
+        var parts = state.Split("<|>");
+        ProjectId = parts[0];
+        ProjectSecret = parts[1];
+        var gatewayUrl = parts[2];
+        DedicatedGatewayUrl = string.IsNullOrEmpty(gatewayUrl) ? null : new Uri(gatewayUrl);
+        IsConfigured = true;
+        return Task.CompletedTask;
+    }
+
     private static IInfuraIpfsApiClient GetInfuraClient(string projectId, string projectSecret, string gatewayUrl = DefaultGatewayUrl)
     {
         var uploadClient = RestClient.For<IInfuraIpfsApiClient>(gatewayUrl);

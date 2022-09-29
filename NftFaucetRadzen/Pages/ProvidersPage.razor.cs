@@ -50,7 +50,10 @@ public partial class ProvidersPage : BasicComponent
                 {
                     var result = await configuration.ConfigureAction(x);
                     RefreshCards();
-                    await StateRepository.SaveProviderState(provider);
+                    if (result.IsSuccess)
+                    {
+                        await StateRepository.SaveProviderState(provider);
+                    }
                     return result;
                 },
             },

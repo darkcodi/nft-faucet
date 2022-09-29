@@ -90,6 +90,16 @@ builder.Services.AddIndexedDB(dbStore =>
             new IndexSpec {Name = "state", KeyPath = "state", Auto = false},
         }
     });
+
+    dbStore.Stores.Add(new StoreSchema
+    {
+        Name = "UploaderStates",
+        PrimaryKey = new IndexSpec { Name = "id", KeyPath = "id", Auto = true },
+        Indexes = new List<IndexSpec>
+        {
+            new IndexSpec {Name = "state", KeyPath = "state", Auto = false},
+        }
+    });
 });
 
 var app = builder.Build();

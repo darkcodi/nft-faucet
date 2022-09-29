@@ -59,6 +59,12 @@ public class CrustUploader : IUploader
         return new Uri("https://gw.crustapps.net/ipfs/" + uploadResponse.Hash);
     }
 
+    public Task<string> GetState()
+        => Task.FromResult(string.Empty);
+
+    public Task SetState(string state)
+        => Task.CompletedTask;
+
     private MultipartContent ToMultipartContent(string fileName, string fileType, byte[] fileData)
     {
         var content = new MultipartFormDataContent();

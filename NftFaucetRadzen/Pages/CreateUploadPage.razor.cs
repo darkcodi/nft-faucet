@@ -55,10 +55,14 @@ public partial class CreateUploadPage : BasicComponent
                 : new CardListItemConfiguration
                 {
                     Objects = configuration.Objects,
-                    ConfigureAction = x =>
+                    ConfigureAction = async x =>
                     {
-                        var result = configuration.ConfigureAction(x);
+                        var result = await configuration.ConfigureAction(x);
                         RefreshCards();
+                        if (result.IsSuccess)
+                        {
+                            await StateRepository.SaveUploaderState(uploader);
+                        }
                         return result;
                     },
                 },

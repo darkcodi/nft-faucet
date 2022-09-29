@@ -2,6 +2,7 @@ using NftFaucetRadzen.Models.Dto;
 using NftFaucetRadzen.Models.State;
 using NftFaucetRadzen.Plugins;
 using NftFaucetRadzen.Plugins.ProviderPlugins;
+using NftFaucetRadzen.Plugins.UploadPlugins;
 using TG.Blazor.IndexedDB;
 
 namespace NftFaucetRadzen.Services;
@@ -14,6 +15,7 @@ public class StateRepository
     private const string TokensStoreName = "Tokens";
     private const string UploadLocationsStoreName = "UploadLocations";
     private const string ProviderStatesStoreName = "ProviderStates";
+    private const string UploaderStatesStoreName = "UploaderStates";
 
     public StateRepository(IndexedDBManager dbManager, Mapper mapper)
     {
@@ -121,6 +123,40 @@ public class StateRepository
         };
 
         var existingStateDto = await _dbManager.GetRecordById<Guid, ProviderStateDto>(ProviderStatesStoreName, stateDto.Id);
+        if (existingStateDto == null)
+        {
+            await _dbManager.AddRecord(record);
+        }
+        else
+        {
+            await _dbManager.UpdateRecord(record);
+        }
+    }
+
+    public async Task<UploaderStateDto[]> LoadUploaderStates()
+    {
+        var existingUploaderStates = await _dbManager.GetRecords<UploaderStateDto>(UploaderStatesStoreName);
+        if (existingUploaderStates == null || existingUploaderStates.Count == 0)
+            return Array.Empty<UploaderStateDto>();
+
+        return existingUploaderStates.ToArray();
+    }
+    
+    public async Task SaveUploaderState(IUploader uploader)
+    {
+        var state = await uploader.GetState();
+        var stateDto = new UploaderStateDto
+        {
+            Id = uploader.Id,
+            State = state,
+        };
+        var record = new StoreRecord<UploaderStateDto>
+        {
+            Storename = UploaderStatesStoreName,
+            Data = stateDto,
+        };
+
+        var existingStateDto = await _dbManager.GetRecordById<Guid, UploaderStateDto>(UploaderStatesStoreName, stateDto.Id);
         if (existingStateDto == null)
         {
             await _dbManager.AddRecord(record);
