@@ -10,7 +10,6 @@ public partial class TokensPage : BasicComponent
 {
     protected override void OnInitialized()
     {
-        // ToDo: Add loading from IndexedDB
         RefreshCards();
     }
 

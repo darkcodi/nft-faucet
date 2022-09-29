@@ -10,7 +10,6 @@ public partial class UploadLocationsPage : BasicComponent
 {
     protected override void OnInitialized()
     {
-        // ToDo: Add loading from IndexedDB
         RefreshCards();
     }
 
