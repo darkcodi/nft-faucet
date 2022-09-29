@@ -32,6 +32,17 @@ public class Mapper
             ImageFileSize = token.Image?.FileSize,
         };
 
+    public UploadLocationDto ToDto(ITokenUploadLocation uploadLocation)
+        => uploadLocation == null ? null : new UploadLocationDto
+        {
+            Id = uploadLocation.Id,
+            TokenId = uploadLocation.TokenId,
+            Name = uploadLocation.Name,
+            Location = uploadLocation.Location,
+            CreatedAt = uploadLocation.CreatedAt,
+            UploaderId = uploadLocation.UploaderId,
+        };
+
     public ScopedAppState ToDomain(AppStateDto appStateDto)
         => appStateDto == null ? null : new ScopedAppState
         {
@@ -61,6 +72,17 @@ public class Mapper
                 FileData = tokenDto.ImageFileData,
                 FileSize = tokenDto.ImageFileSize ?? 0,
             },
+        };
+
+    public ITokenUploadLocation ToDomain(UploadLocationDto uploadLocationDto)
+        => uploadLocationDto == null ? null : new TokenUploadLocation
+        {
+            Id = uploadLocationDto.Id,
+            TokenId = uploadLocationDto.TokenId,
+            Name = uploadLocationDto.Name,
+            Location = uploadLocationDto.Location,
+            CreatedAt = uploadLocationDto.CreatedAt,
+            UploaderId = uploadLocationDto.UploaderId,
         };
 
     private Guid[] ToGuidArray(Guid? guid) => guid == null ? Array.Empty<Guid>() : new[] {guid.Value};

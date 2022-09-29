@@ -79,5 +79,12 @@ public partial class UploadLocationsPage : BasicComponent
         AppState.UserStorage.SelectedUploadLocations = new[] { uploadLocation.Id };
         RefreshCards();
         RefreshMediator.NotifyStateHasChangedSafe();
+        await StateRepository.SaveUploadLocation(uploadLocation);
+        await SaveAppState();
+    }
+
+    private async Task OnUploadLocationChange()
+    {
+        await SaveAppState();
     }
 }

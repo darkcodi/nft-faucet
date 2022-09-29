@@ -45,6 +45,7 @@ public class InitializationService
     {
         await _stateRepository.LoadAppState(_appState);
         _appState.UserStorage.Tokens = (await _stateRepository.LoadTokens()).ToList();
+        _appState.UserStorage.UploadLocations = (await _stateRepository.LoadUploadLocations()).ToList();
     }
 
     private void ValidatePluginsData()

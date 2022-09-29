@@ -11,6 +11,7 @@ public class StateRepository
     private readonly Mapper _mapper;
     private const string AppStateStoreName = "AppState";
     private const string TokensStoreName = "Tokens";
+    private const string UploadLocationsStoreName = "UploadLocations";
 
     public StateRepository(IndexedDBManager dbManager, Mapper mapper)
     {
@@ -72,6 +73,35 @@ public class StateRepository
             return Array.Empty<IToken>();
 
         return existingTokens.Select(_mapper.ToDomain).ToArray();
+    }
+
+    public async Task SaveUploadLocation(ITokenUploadLocation uploadLocation)
+    {
+        var uploadLocationDto = _mapper.ToDto(uploadLocation) ?? new UploadLocationDto();
+        var record = new StoreRecord<UploadLocationDto>
+        {
+            Storename = UploadLocationsStoreName,
+            Data = uploadLocationDto,
+        };
+
+        var existingUploadLocationDto = await _dbManager.GetRecordById<Guid, TokenDto>(UploadLocationsStoreName, uploadLocationDto.Id);
+        if (existingUploadLocationDto == null)
+        {
+            await _dbManager.AddRecord(record);
+        }
+        else
+        {
+            await _dbManager.UpdateRecord(record);
+        }
+    }
+
+    public async Task<ITokenUploadLocation[]> LoadUploadLocations()
+    {
+        var existingUploadLocations = await _dbManager.GetRecords<UploadLocationDto>(UploadLocationsStoreName);
+        if (existingUploadLocations == null || existingUploadLocations.Count == 0)
+            return Array.Empty<ITokenUploadLocation>();
+
+        return existingUploadLocations.Select(_mapper.ToDomain).ToArray();
     }
 
     private async Task<T> GetFirst<T>(string storeName)
