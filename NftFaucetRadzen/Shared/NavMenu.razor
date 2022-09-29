@@ -13,27 +13,62 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="networks" style=@(SelectedNetworkName != null ? "color: lime;" : string.Empty) Match="NavLinkMatch.All">
-                <span class="oi oi-bolt" aria-hidden="true"></span> @("Network" + (SelectedNetworkName != null ? $" [{SelectedNetworkName}]" : string.Empty))
+                <span class="oi oi-bolt" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Network</span>
+                    @if (SelectedNetworkName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedNetworkName</span>
+                    }
+                </div>
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="providers" style=@(SelectedProviderName != null ? $"color: {(AppState.SelectedProvider.IsConfigured ? "lime" : "#FBBD08")};" : string.Empty)>
-                <span class="oi oi-key" aria-hidden="true"></span> @("Provider" + (SelectedProviderName != null ? $" [{SelectedProviderName}]" : string.Empty))
+                <span class="oi oi-key" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Provider</span>
+                    @if (SelectedProviderName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedProviderName</span>
+                    }
+                </div>
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="contracts" style=@(SelectedContractName != null ? "color: lime;" : string.Empty)>
-                <span class="oi oi-script" aria-hidden="true"></span> @("Contract" + (SelectedContractName != null ? $" [{SelectedContractName}]" : string.Empty))
+                <span class="oi oi-script" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Contract</span>
+                    @if (SelectedContractName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedContractName</span>
+                    }
+                </div>
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="tokens" style=@(SelectedTokenName != null ? "color: lime;" : string.Empty)>
-                <span class="oi oi-aperture" aria-hidden="true"></span> @("Token" + (SelectedTokenName != null ? $" [{SelectedTokenName}]" : string.Empty))
+                <span class="oi oi-aperture" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Token</span>
+                    @if (SelectedTokenName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedTokenName</span>
+                    }
+                </div>
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="uploads" style=@(SelectedUploadName != null ? "color: lime;" : string.Empty)>
-                <span class="oi oi-cloud-upload" aria-hidden="true"></span> @("Upload" + (SelectedUploadName != null ? $" [{SelectedUploadName}]" : string.Empty))
+                <span class="oi oi-cloud-upload" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Upload</span>
+                    @if (SelectedUploadName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedUploadName</span>
+                    }
+                </div>
             </NavLink>
         </div>
         <div class="nav-item px-3">
