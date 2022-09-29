@@ -5,7 +5,7 @@ using NftFaucetRadzen.Plugins;
 
 namespace NftFaucetRadzen.Pages;
 
-public partial class CreateTokenPage : BasicComponent
+public partial class CreateTokenDialog : BasicComponent
 {
     private NewFileModel Model { get; set; } = new NewFileModel();
     private bool ModelIsValid => IsValid();

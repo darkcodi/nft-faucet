@@ -61,7 +61,7 @@ public partial class UploadLocationsPage : BasicComponent
 
     private async Task OpenCreateUploadDialog()
     {
-        var uploadLocation = (ITokenUploadLocation) await DialogService.OpenAsync<CreateUploadPage>("Create new upload",
+        var uploadLocation = (ITokenUploadLocation) await DialogService.OpenAsync<CreateUploadDialog>("Create new upload",
             new Dictionary<string, object>
             {
                 { "Token", AppState.SelectedToken }, 

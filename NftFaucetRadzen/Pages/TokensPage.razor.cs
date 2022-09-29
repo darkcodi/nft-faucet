@@ -43,7 +43,7 @@ public partial class TokensPage : BasicComponent
 
     private async Task OpenCreateTokenDialog()
     {
-        var token = (IToken) await DialogService.OpenAsync<CreateTokenPage>("Create new token",
+        var token = (IToken) await DialogService.OpenAsync<CreateTokenDialog>("Create new token",
             new Dictionary<string, object>(),
             new DialogOptions() { Width = "700px", Height = "570px", Resizable = true, Draggable = true });
 

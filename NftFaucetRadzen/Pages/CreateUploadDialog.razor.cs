@@ -10,7 +10,7 @@ using Radzen;
 
 namespace NftFaucetRadzen.Pages;
 
-public partial class CreateUploadPage : BasicComponent
+public partial class CreateUploadDialog : BasicComponent
 {
     [Parameter] public IToken Token { get; set; }
 
