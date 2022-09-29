@@ -8,7 +8,6 @@ public class ScopedAppState
 {
     public PluginStateStorage PluginStorage { get; private set; } = new();
     public UserStateStorage UserStorage { get; private set; } = new();
-    public bool IsUserStorageLoaded { get; private set; } = false;
 
     public INetwork SelectedNetwork => PluginStorage?.Networks?.FirstOrDefault(x => x.Id == UserStorage?.SelectedNetworks?.FirstOrDefault());
     public IProvider SelectedProvider => PluginStorage?.Providers?.FirstOrDefault(x => x.Id == UserStorage?.SelectedProviders?.FirstOrDefault());
@@ -19,6 +18,5 @@ public class ScopedAppState
     public void LoadUserStorage(UserStateStorage userStorage)
     {
         UserStorage = userStorage ?? new();
-        IsUserStorageLoaded = true;
     }
 }

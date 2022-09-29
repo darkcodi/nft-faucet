@@ -21,6 +21,7 @@ builder.Services.AddSingleton(settings);
 builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 builder.Services.AddSingleton<PluginLoader>();
 builder.Services.AddSingleton<Mapper>();
+builder.Services.AddScoped<InitializationService>();
 builder.Services.AddScoped<StateRepository>();
 builder.Services.AddScoped<ScopedAppState>();
 builder.Services.AddScoped<RefreshMediator>();
@@ -52,4 +53,7 @@ builder.Services.AddIndexedDB(dbStore =>
     });
 });
 
-await builder.Build().RunAsync();
+var app = builder.Build();
+var initializationService = app.Services.GetRequiredService<InitializationService>();
+await initializationService.Initialize();
+await app.RunAsync();
