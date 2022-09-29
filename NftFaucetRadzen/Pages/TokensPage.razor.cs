@@ -1,3 +1,4 @@
+using ByteSizeLib;
 using NftFaucetRadzen.Components;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Plugins;
@@ -32,6 +33,11 @@ public partial class TokensPage : BasicComponent
                 {
                     Name = "Description",
                     Value = token.Description,
+                },
+                new CardListItemProperty
+                {
+                    Name = "Size",
+                    Value = ByteSize.FromBytes(token.Image.FileSize).ToString(),
                 },
             },
         };
