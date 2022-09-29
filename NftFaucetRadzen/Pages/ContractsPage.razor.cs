@@ -58,4 +58,9 @@ public partial class ContractsPage : BasicComponent
                 new CardListItemBadge {Style = BadgeStyle.Light, Text = contract.Type.ToString()},
             }.Where(x => x != null).ToArray(),
         };
+
+    private async Task OnContractChange()
+    {
+        await SaveAppState();
+    }
 }

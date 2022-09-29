@@ -27,7 +27,7 @@ public partial class MintPage : BasicComponent
         if (AppState?.SelectedProvider?.IsConfigured ?? false)
         {
             SourceAddress = await ResultWrapper.Wrap(() => AppState.SelectedProvider.GetAddress()).Match(x => x, _ => null);
-            AppState.Storage.DestinationAddress = SourceAddress;
+            AppState.UserStorage.DestinationAddress = SourceAddress;
             if (string.IsNullOrEmpty(SourceAddress) || AppState.SelectedNetwork == null)
             {
                 BalanceIsZero = true;
@@ -48,7 +48,7 @@ public partial class MintPage : BasicComponent
     {
         var mintRequest = new MintRequest(AppState.SelectedNetwork, AppState.SelectedProvider,
             AppState.SelectedContract, AppState.SelectedToken, AppState.SelectedUploadLocation,
-            AppState.Storage.DestinationAddress, AppState.Storage.TokenAmount);
+            AppState.UserStorage.DestinationAddress, AppState.UserStorage.TokenAmount);
         var result = await AppState.SelectedProvider.Mint(mintRequest);
         if (result.IsSuccess)
         {

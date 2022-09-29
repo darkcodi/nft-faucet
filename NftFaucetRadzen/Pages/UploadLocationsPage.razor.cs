@@ -18,8 +18,8 @@ public partial class UploadLocationsPage : BasicComponent
 
     private void RefreshCards()
     {
-        var selectedTokenId = AppState?.Storage?.SelectedTokens?.FirstOrDefault();
-        UploadCards = AppState?.Storage?.UploadLocations?.Where(x => x.TokenId == selectedTokenId).Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
+        var selectedTokenId = AppState?.UserStorage?.SelectedTokens?.FirstOrDefault();
+        UploadCards = AppState?.UserStorage?.UploadLocations?.Where(x => x.TokenId == selectedTokenId).Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
     }
 
     private CardListItem MapCardListItem(ITokenUploadLocation uploadLocation)
@@ -51,7 +51,7 @@ public partial class UploadLocationsPage : BasicComponent
 
     private string GetUploaderImageLocation(Guid uploaderId)
     {
-        var uploader = AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == uploaderId);
+        var uploader = AppState?.PluginStorage?.Uploaders?.FirstOrDefault(x => x.Id == uploaderId);
         if (uploader == null)
         {
             return null;
@@ -74,9 +74,9 @@ public partial class UploadLocationsPage : BasicComponent
             return;
         }
 
-        AppState.Storage.UploadLocations ??= new List<ITokenUploadLocation>();
-        AppState.Storage.UploadLocations.Add(uploadLocation);
-        AppState.Storage.SelectedUploadLocations = new[] { uploadLocation.Id };
+        AppState.UserStorage.UploadLocations ??= new List<ITokenUploadLocation>();
+        AppState.UserStorage.UploadLocations.Add(uploadLocation);
+        AppState.UserStorage.SelectedUploadLocations = new[] { uploadLocation.Id };
         RefreshCards();
         RefreshMediator.NotifyStateHasChangedSafe();
     }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Models.State;
 using NftFaucetRadzen.Options;
 using NftFaucetRadzen.Services;
 using Radzen;
@@ -32,6 +33,9 @@ public abstract class BasicComponent : ComponentBase
     [Inject]
     protected Settings Settings { get; set; }
 
+    [Inject]
+    protected StateRepository StateRepository { get; set; }
+
     protected override void OnInitialized()
     {
         RefreshMediator.StateChanged += async () => await InvokeAsync(StateHasChangedSafe);
@@ -47,5 +51,10 @@ public abstract class BasicComponent : ComponentBase
         {
             // ignored
         }
+    }
+
+    protected async Task SaveAppState()
+    {
+        await StateRepository.SaveAppState(AppState);
     }
 }

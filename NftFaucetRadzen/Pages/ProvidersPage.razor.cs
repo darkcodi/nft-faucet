@@ -13,7 +13,7 @@ public partial class ProvidersPage : BasicComponent
 
     protected override async Task OnInitializedAsync()
     {
-        Providers = AppState.Storage.Providers.Where(x => AppState.SelectedNetwork != null && x.IsNetworkSupported(AppState.SelectedNetwork)).ToArray();
+        Providers = AppState.PluginStorage.Providers.Where(x => AppState.SelectedNetwork != null && x.IsNetworkSupported(AppState.SelectedNetwork)).ToArray();
         foreach (var provider in Providers)
         {
             await provider.InitializeAsync(ServiceProvider);
@@ -63,5 +63,10 @@ public partial class ProvidersPage : BasicComponent
                 },
             },
         };
+    }
+
+    private async Task OnProviderChange()
+    {
+        await SaveAppState();
     }
 }

@@ -10,6 +10,6 @@
     }
     else
     {
-        <CardList Data="@ProviderCards" @bind-SelectedItems="@AppState.Storage.SelectedProviders" />
+        <CardList Data="@ProviderCards" OnSelectedChange="@(async _ => await OnProviderChange())" @bind-SelectedItems="@AppState.UserStorage.SelectedProviders" />
     }
 </RadzenContent>

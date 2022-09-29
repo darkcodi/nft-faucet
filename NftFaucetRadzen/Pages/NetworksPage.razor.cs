@@ -9,7 +9,7 @@ public partial class NetworksPage : BasicComponent
 {
     protected override void OnInitialized()
     {
-        Networks = AppState.Storage.Networks
+        Networks = AppState.PluginStorage.Networks
             .GroupBy(x => x.SubType)
             .ToDictionary(x => x.Key, x => x.OrderBy(v => v.Order ?? int.MaxValue).Select(MapCardListItem).ToArray());
     }
@@ -39,15 +39,17 @@ public partial class NetworksPage : BasicComponent
             }.Where(x => x != null).ToArray(),
         };
 
-    private void OnNetworkChange()
+    private async Task OnNetworkChange()
     {
         var currentNetwork = AppState.SelectedNetwork;
-        AppState.Storage.SelectedContracts = Array.Empty<Guid>();
+        AppState.UserStorage.SelectedContracts = Array.Empty<Guid>();
 
         var currentProvider = AppState.SelectedProvider;
         if (currentNetwork == null || (currentProvider != null && !currentProvider.IsNetworkSupported(currentNetwork)))
         {
-            AppState.Storage.SelectedProviders = Array.Empty<Guid>();
+            AppState.UserStorage.SelectedProviders = Array.Empty<Guid>();
         }
+
+        await SaveAppState();
     }
 }

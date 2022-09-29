@@ -17,7 +17,7 @@ public partial class TokensPage : BasicComponent
 
     private void RefreshCards()
     {
-        TokenCards = AppState?.Storage?.Tokens?.Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
+        TokenCards = AppState?.UserStorage?.Tokens?.Select(MapCardListItem).ToArray() ?? Array.Empty<CardListItem>();
     }
 
     private CardListItem MapCardListItem(IToken token)
@@ -47,16 +47,16 @@ public partial class TokensPage : BasicComponent
             return;
         }
 
-        AppState.Storage.Tokens ??= new List<IToken>();
-        AppState.Storage.Tokens.Add(token);
-        AppState.Storage.SelectedTokens = new[] { token.Id };
-        AppState.Storage.SelectedUploadLocations = Array.Empty<Guid>();
+        AppState.UserStorage.Tokens ??= new List<IToken>();
+        AppState.UserStorage.Tokens.Add(token);
+        AppState.UserStorage.SelectedTokens = new[] { token.Id };
+        AppState.UserStorage.SelectedUploadLocations = Array.Empty<Guid>();
         RefreshCards();
         RefreshMediator.NotifyStateHasChangedSafe();
     }
 
     private void OnTokenChange()
     {
-        AppState.Storage.SelectedUploadLocations = Array.Empty<Guid>();
+        AppState.UserStorage.SelectedUploadLocations = Array.Empty<Guid>();
     }
 }

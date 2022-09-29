@@ -14,6 +14,6 @@
             <RadzenButton Text="Deploy New" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"
                           Click="@(() => NotificationService.Notify(NotificationSeverity.Warning, "NOT IMPLEMENTED", "Will be implemented later"))" />
         </div>
-        <CardList Data="@ContractCards" @bind-SelectedItems="@AppState.Storage.SelectedContracts" />
+        <CardList Data="@ContractCards" OnSelectedChange="@(async _ => await OnContractChange())" @bind-SelectedItems="@AppState.UserStorage.SelectedContracts" />
     }
 </RadzenContent>

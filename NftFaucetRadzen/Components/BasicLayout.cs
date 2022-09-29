@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using NftFaucetRadzen.Extensions;
-using NftFaucetRadzen.Models;
+using NftFaucetRadzen.Models.State;
 using NftFaucetRadzen.Services;
 
 namespace NftFaucetRadzen.Components;
@@ -19,10 +19,15 @@ public abstract class BasicLayout : LayoutComponentBase
     [Inject]
     protected PluginLoader PluginLoader { get; set; }
 
-    protected override void OnInitialized()
+    [Inject]
+    protected StateRepository StateRepository { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
         LoadDataFromPlugins();
+        await LoadDataFromIndexedDb();
         RefreshMediator.StateChanged += async () => await InvokeAsync(StateHasChangedSafe);
+        RefreshMediator.NotifyStateHasChangedSafe();
     }
 
     protected void StateHasChangedSafe()
@@ -39,16 +44,16 @@ public abstract class BasicLayout : LayoutComponentBase
 
     private void LoadDataFromPlugins()
     {
-        var isFirstRun = AppState.Storage.Networks == null &&
-                         AppState.Storage.Providers == null &&
-                         AppState.Storage.Uploaders == null &&
-                         AppState.Storage.Contracts == null;
+        var isFirstRun = AppState.PluginStorage.Networks == null &&
+                         AppState.PluginStorage.Providers == null &&
+                         AppState.PluginStorage.Uploaders == null &&
+                         AppState.PluginStorage.Contracts == null;
 
         PluginLoader.EnsurePluginsLoaded();
-        AppState.Storage.Networks ??= PluginLoader.NetworkPlugins.SelectMany(x => x.Networks).Where(x => x != null).ToArray();
-        AppState.Storage.Providers ??= PluginLoader.ProviderPlugins.SelectMany(x => x.Providers).Where(x => x != null).ToArray();
-        AppState.Storage.Uploaders ??= PluginLoader.UploadPlugins.SelectMany(x => x.Uploaders).Where(x => x != null).ToArray();
-        AppState.Storage.Contracts ??= AppState.Storage.Networks.SelectMany(x => x.DeployedContracts).Where(x => x != null).ToArray();
+        AppState.PluginStorage.Networks ??= PluginLoader.NetworkPlugins.SelectMany(x => x.Networks).Where(x => x != null).ToArray();
+        AppState.PluginStorage.Providers ??= PluginLoader.ProviderPlugins.SelectMany(x => x.Providers).Where(x => x != null).ToArray();
+        AppState.PluginStorage.Uploaders ??= PluginLoader.UploadPlugins.SelectMany(x => x.Uploaders).Where(x => x != null).ToArray();
+        AppState.PluginStorage.Contracts ??= AppState.PluginStorage.Networks.SelectMany(x => x.DeployedContracts).Where(x => x != null).ToArray();
 
         if (isFirstRun)
         {
@@ -56,12 +61,20 @@ public abstract class BasicLayout : LayoutComponentBase
         }
     }
 
+    private async Task LoadDataFromIndexedDb()
+    {
+        if (AppState.IsUserStorageLoaded)
+            return;
+
+        await StateRepository.LoadAppState(AppState);
+    }
+
     private void ValidatePluginsData()
     {
-        var networkIds = AppState.Storage.Networks.Select(x => x.Id).ToArray();
-        var providerIds = AppState.Storage.Providers.Select(x => x.Id).ToArray();
-        var uploaderIds = AppState.Storage.Uploaders.Select(x => x.Id).ToArray();
-        var contractIds = AppState.Storage.Contracts.Select(x => x.Id).ToArray();
+        var networkIds = AppState.PluginStorage.Networks.Select(x => x.Id).ToArray();
+        var providerIds = AppState.PluginStorage.Providers.Select(x => x.Id).ToArray();
+        var uploaderIds = AppState.PluginStorage.Uploaders.Select(x => x.Id).ToArray();
+        var contractIds = AppState.PluginStorage.Contracts.Select(x => x.Id).ToArray();
 
         var networkIdDuplicates = networkIds.Duplicates().ToArray();
         if (networkIdDuplicates.Any())
@@ -94,35 +107,35 @@ public abstract class BasicLayout : LayoutComponentBase
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are plugin data items (networks/providers/uploaders/contracts) with same ids: {string.Join(", ", allIdDuplicates)}");
         }
 
-        var networkShortNames = AppState.Storage.Networks.Select(x => x.ShortName).Where(x => x != null).ToArray();
+        var networkShortNames = AppState.PluginStorage.Networks.Select(x => x.ShortName).Where(x => x != null).ToArray();
         var networkShortNameDuplicates = networkShortNames.Duplicates().ToArray();
         if (networkShortNameDuplicates.Any())
         {
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are networks with same short name: {string.Join(", ", networkShortNameDuplicates)}");
         }
 
-        var providerShortNames = AppState.Storage.Providers.Select(x => x.ShortName).Where(x => x != null).ToArray();
+        var providerShortNames = AppState.PluginStorage.Providers.Select(x => x.ShortName).Where(x => x != null).ToArray();
         var providerShortNameDuplicates = providerShortNames.Duplicates().ToArray();
         if (providerShortNameDuplicates.Any())
         {
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are providers with same short name: {string.Join(", ", providerShortNameDuplicates)}");
         }
 
-        var uploaderShortNames = AppState.Storage.Uploaders.Select(x => x.ShortName).Where(x => x != null).ToArray();
+        var uploaderShortNames = AppState.PluginStorage.Uploaders.Select(x => x.ShortName).Where(x => x != null).ToArray();
         var uploaderShortNameDuplicates = uploaderShortNames.Duplicates().ToArray();
         if (uploaderShortNameDuplicates.Any())
         {
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are uploaders with same short name: {string.Join(", ", uploaderShortNameDuplicates)}");
         }
 
-        var txHashes = AppState.Storage.Contracts.Select(x => x.DeploymentTxHash).Where(x => x != null).ToArray();
+        var txHashes = AppState.PluginStorage.Contracts.Select(x => x.DeploymentTxHash).Where(x => x != null).ToArray();
         var txHashDuplicates = txHashes.Duplicates().ToArray();
         if (txHashDuplicates.Any())
         {
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are contracts with same tx hash: {string.Join(", ", txHashDuplicates)}");
         }
 
-        var txDeploymentDates = AppState.Storage.Contracts.Select(x => x.DeployedAt).Where(x => x != null).ToArray();
+        var txDeploymentDates = AppState.PluginStorage.Contracts.Select(x => x.DeployedAt).Where(x => x != null).ToArray();
         var txDeploymentDateDuplicates = txDeploymentDates.Duplicates().ToArray();
         if (txDeploymentDateDuplicates.Any())
         {

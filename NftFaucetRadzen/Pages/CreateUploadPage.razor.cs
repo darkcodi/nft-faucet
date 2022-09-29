@@ -22,12 +22,12 @@ public partial class CreateUploadPage : BasicComponent
 
     private CardListItem[] UploaderCards { get; set; }
     private Guid[] SelectedUploaderIds { get; set; }
-    private IUploader SelectedUploader => AppState?.Storage?.Uploaders?.FirstOrDefault(x => x.Id == SelectedUploaderIds?.FirstOrDefault());
+    private IUploader SelectedUploader => AppState?.PluginStorage?.Uploaders?.FirstOrDefault(x => x.Id == SelectedUploaderIds?.FirstOrDefault());
     private bool IsUploading { get; set; }
 
     private void RefreshCards()
     {
-        UploaderCards = AppState.Storage.Uploaders.Select(MapCardListItem).ToArray();
+        UploaderCards = AppState.PluginStorage.Uploaders.Select(MapCardListItem).ToArray();
     }
 
     private CardListItem MapCardListItem(IUploader uploader)
