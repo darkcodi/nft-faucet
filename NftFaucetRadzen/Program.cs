@@ -51,6 +51,22 @@ builder.Services.AddIndexedDB(dbStore =>
             new IndexSpec {Name = "tokenAmount", KeyPath = "tokenAmount", Auto = false},
         }
     });
+
+    dbStore.Stores.Add(new StoreSchema
+    {
+        Name = "Tokens",
+        PrimaryKey = new IndexSpec { Name = "id", KeyPath = "id", Auto = true },
+        Indexes = new List<IndexSpec>
+        {
+            new IndexSpec {Name = "name", KeyPath = "name", Auto = false},
+            new IndexSpec {Name = "description", KeyPath = "description", Auto = false},
+            new IndexSpec {Name = "createdAt", KeyPath = "createdAt", Auto = false},
+            new IndexSpec {Name = "imageFileName", KeyPath = "imageFileName", Auto = false},
+            new IndexSpec {Name = "imageFileType", KeyPath = "imageFileType", Auto = false},
+            new IndexSpec {Name = "imageFileData", KeyPath = "imageFileData", Auto = false},
+            new IndexSpec {Name = "imageFileSize", KeyPath = "imageFileSize", Auto = false},
+        }
+    });
 });
 
 var app = builder.Build();

@@ -59,10 +59,13 @@ public partial class TokensPage : BasicComponent
         AppState.UserStorage.SelectedUploadLocations = Array.Empty<Guid>();
         RefreshCards();
         RefreshMediator.NotifyStateHasChangedSafe();
+        await StateRepository.SaveToken(token);
+        await SaveAppState();
     }
 
-    private void OnTokenChange()
+    private async Task OnTokenChange()
     {
         AppState.UserStorage.SelectedUploadLocations = Array.Empty<Guid>();
+        await SaveAppState();
     }
 }

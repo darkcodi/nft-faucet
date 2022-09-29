@@ -44,6 +44,7 @@ public class InitializationService
     private async Task LoadDataFromIndexedDb()
     {
         await _stateRepository.LoadAppState(_appState);
+        _appState.UserStorage.Tokens = (await _stateRepository.LoadTokens()).ToList();
     }
 
     private void ValidatePluginsData()
