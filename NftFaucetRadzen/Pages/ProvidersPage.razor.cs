@@ -46,10 +46,11 @@ public partial class ProvidersPage : BasicComponent
             Configuration = configuration == null ? null : new CardListItemConfiguration
             {
                 Objects = configuration.Objects,
-                ConfigureAction = x =>
+                ConfigureAction = async x =>
                 {
-                    var result = configuration.ConfigureAction(x);
+                    var result = await configuration.ConfigureAction(x);
                     RefreshCards();
+                    await StateRepository.SaveProviderState(provider);
                     return result;
                 },
             },

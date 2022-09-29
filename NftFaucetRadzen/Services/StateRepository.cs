@@ -1,6 +1,7 @@
 using NftFaucetRadzen.Models.Dto;
 using NftFaucetRadzen.Models.State;
 using NftFaucetRadzen.Plugins;
+using NftFaucetRadzen.Plugins.ProviderPlugins;
 using TG.Blazor.IndexedDB;
 
 namespace NftFaucetRadzen.Services;
@@ -12,6 +13,7 @@ public class StateRepository
     private const string AppStateStoreName = "AppState";
     private const string TokensStoreName = "Tokens";
     private const string UploadLocationsStoreName = "UploadLocations";
+    private const string ProviderStatesStoreName = "ProviderStates";
 
     public StateRepository(IndexedDBManager dbManager, Mapper mapper)
     {
@@ -102,6 +104,40 @@ public class StateRepository
             return Array.Empty<ITokenUploadLocation>();
 
         return existingUploadLocations.Select(_mapper.ToDomain).ToArray();
+    }
+
+    public async Task SaveProviderState(IProvider provider)
+    {
+        var state = await provider.GetState();
+        var stateDto = new ProviderStateDto
+        {
+            Id = provider.Id,
+            State = state,
+        };
+        var record = new StoreRecord<ProviderStateDto>
+        {
+            Storename = ProviderStatesStoreName,
+            Data = stateDto,
+        };
+
+        var existingStateDto = await _dbManager.GetRecordById<Guid, ProviderStateDto>(ProviderStatesStoreName, stateDto.Id);
+        if (existingStateDto == null)
+        {
+            await _dbManager.AddRecord(record);
+        }
+        else
+        {
+            await _dbManager.UpdateRecord(record);
+        }
+    }
+
+    public async Task<ProviderStateDto[]> LoadProviderStates()
+    {
+        var existingProviderStates = await _dbManager.GetRecords<ProviderStateDto>(ProviderStatesStoreName);
+        if (existingProviderStates == null || existingProviderStates.Count == 0)
+            return Array.Empty<ProviderStateDto>();
+
+        return existingProviderStates.ToArray();
     }
 
     private async Task<T> GetFirst<T>(string storeName)

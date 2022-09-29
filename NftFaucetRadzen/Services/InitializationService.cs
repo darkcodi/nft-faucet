@@ -58,6 +58,16 @@ public class InitializationService
         await _stateRepository.LoadAppState(_appState);
         _appState.UserStorage.Tokens = (await _stateRepository.LoadTokens()).ToList();
         _appState.UserStorage.UploadLocations = (await _stateRepository.LoadUploadLocations()).ToList();
+        var providerStates = await _stateRepository.LoadProviderStates();
+        foreach (var providerState in providerStates)
+        {
+            var provider = _appState.PluginStorage.Providers.FirstOrDefault(x => x.Id == providerState.Id);
+            if (provider == null)
+            {
+                continue;
+            }
+            await provider.SetState(providerState.State);
+        }
     }
 
     private void ValidatePluginsData()

@@ -63,4 +63,10 @@ public class PhantomProvider : IProvider
     {
         throw new NotImplementedException();
     }
+
+    public Task<string> GetState()
+        => Task.FromResult(string.Empty);
+
+    public Task SetState(string state)
+        => Task.CompletedTask;
 }

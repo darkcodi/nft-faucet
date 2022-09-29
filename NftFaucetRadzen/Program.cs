@@ -2,7 +2,6 @@ using Ethereum.MetaMask.Blazor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using NftFaucetRadzen;
-using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Models.State;
 using NftFaucetRadzen.Options;
 using NftFaucetRadzen.Services;
@@ -79,6 +78,16 @@ builder.Services.AddIndexedDB(dbStore =>
             new IndexSpec {Name = "location", KeyPath = "location", Auto = false},
             new IndexSpec {Name = "createdAt", KeyPath = "createdAt", Auto = false},
             new IndexSpec {Name = "uploaderId", KeyPath = "uploaderId", Auto = false},
+        }
+    });
+
+    dbStore.Stores.Add(new StoreSchema
+    {
+        Name = "ProviderStates",
+        PrimaryKey = new IndexSpec { Name = "id", KeyPath = "id", Auto = true },
+        Indexes = new List<IndexSpec>
+        {
+            new IndexSpec {Name = "state", KeyPath = "state", Auto = false},
         }
     });
 });

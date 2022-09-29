@@ -22,4 +22,6 @@ public interface IProvider
     public Task<long?> GetBalance(INetwork network);
     public Task<bool> EnsureNetworkMatches(INetwork network);
     public Task<Result<string>> Mint(MintRequest mintRequest);
+    public Task<string> GetState();
+    public Task SetState(string state);
 }

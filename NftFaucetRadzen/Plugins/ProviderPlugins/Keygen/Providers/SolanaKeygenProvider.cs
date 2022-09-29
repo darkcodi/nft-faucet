@@ -193,6 +193,20 @@ public class SolanaKeygenProvider : IProvider
         return txResult.Result;
     }
 
+    public Task<string> GetState()
+        => Task.FromResult(Key.MnemonicPhrase);
+
+    public Task SetState(string state)
+    {
+        if (!string.IsNullOrEmpty(state))
+        {
+            Key = new SolanaKey(state);
+            IsConfigured = true;
+        }
+
+        return Task.CompletedTask;
+    }
+
     private PublicKey GetMetadataAddress(PublicKey mintAddress)
     {
         // PDA METADATA

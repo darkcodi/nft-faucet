@@ -6,7 +6,6 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.TransactionTypes;
 using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
-using Nethereum.Web3.Accounts.Managed;
 using NftFaucetRadzen.Components.CardList;
 using NftFaucetRadzen.Models;
 using NftFaucetRadzen.Models.Function;
@@ -152,5 +151,19 @@ public class EthereumKeygenProvider : IProvider
 
             return transactionHash;
         });
+    }
+
+    public Task<string> GetState()
+        => Task.FromResult(Key.PrivateKey);
+
+    public Task SetState(string state)
+    {
+        if (!string.IsNullOrEmpty(state))
+        {
+            Key = new EthereumKey(state);
+            IsConfigured = true;
+        }
+
+        return Task.CompletedTask;
     }
 }

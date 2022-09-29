@@ -211,4 +211,10 @@ public class MetamaskProvider : IProvider
                 throw new ArgumentOutOfRangeException();
         }
     }
+
+    public Task<string> GetState()
+        => Task.FromResult(string.Empty);
+
+    public Task SetState(string state)
+        => Task.CompletedTask;
 }
