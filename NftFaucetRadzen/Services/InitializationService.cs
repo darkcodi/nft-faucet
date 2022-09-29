@@ -8,18 +8,30 @@ public class InitializationService
     private readonly ScopedAppState _appState;
     private readonly PluginLoader _pluginLoader;
     private readonly StateRepository _stateRepository;
+    private readonly IServiceProvider _serviceProvider;
 
-    public InitializationService(ScopedAppState appState, PluginLoader pluginLoader, StateRepository stateRepository)
+    public InitializationService(ScopedAppState appState, PluginLoader pluginLoader, StateRepository stateRepository, IServiceProvider serviceProvider)
     {
         _appState = appState;
         _pluginLoader = pluginLoader;
         _stateRepository = stateRepository;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task Initialize()
     {
         LoadDataFromPlugins();
         await LoadDataFromIndexedDb();
+        await InitializeProviders();
+    }
+
+    private async Task InitializeProviders()
+    {
+        var providers = _appState.PluginStorage.Providers.Where(x => _appState.SelectedNetwork != null && x.IsNetworkSupported(_appState.SelectedNetwork)).ToArray();
+        foreach (var provider in providers)
+        {
+            await provider.InitializeAsync(_serviceProvider);
+        }
     }
 
     private void LoadDataFromPlugins()
