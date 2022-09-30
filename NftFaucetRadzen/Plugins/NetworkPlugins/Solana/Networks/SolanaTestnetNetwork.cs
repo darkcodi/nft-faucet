@@ -15,6 +15,7 @@ public class SolanaTestnetNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Solana;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
     public Uri PublicRpcUrl { get; } = new Uri("https://api.testnet.solana.com");
+    public Uri ExplorerUrl { get; } = new Uri("https://explorer.solana.com/?cluster=testnet");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

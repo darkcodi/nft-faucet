@@ -15,5 +15,6 @@ public class CustomNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
     public Uri PublicRpcUrl { get; } = null;
+    public Uri ExplorerUrl { get; } = null;
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

@@ -83,8 +83,11 @@ else if (State == MintingState.CheckingNetwork)
         <p>
             <text style="font-weight: bold;">Token minted!</text>
             <br/>
+            <br/>
+            <br/>
             <text style="font-weight: bold;">Transaction hash: </text>
-            <text style="color: green;">@TransactionHash</text>
+            <br/>
+            <RadzenLink Icon="open_in_new" Path="@(new Uri(AppState.SelectedNetwork.ExplorerUrl, "tx/" + TransactionHash).ToString())" Text="@TransactionHash" Target="_blank"/>
         </p>
         <div style="display: flex; justify-content: end;">
             <RadzenButton Click="@(async (args) => await Close())" Text="Close" Disabled="@(!string.IsNullOrEmpty(ProgressBarText))" />

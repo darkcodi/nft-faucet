@@ -15,5 +15,6 @@ public class EthereumMainnetNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
     public Uri PublicRpcUrl { get; } = null;
+    public Uri ExplorerUrl { get; } = new Uri("https://etherscan.io/");
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

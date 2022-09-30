@@ -15,5 +15,6 @@ public class SolanaMainnetNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Solana;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
     public Uri PublicRpcUrl { get; } = new Uri("https://api.mainnet-beta.solana.com");
+    public Uri ExplorerUrl { get; } = new Uri("https://explorer.solana.com");
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

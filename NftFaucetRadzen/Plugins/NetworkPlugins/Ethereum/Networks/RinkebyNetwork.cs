@@ -17,6 +17,7 @@ public class RinkebyNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
     public Uri PublicRpcUrl { get; } = new Uri("https://ethereum-rinkeby-rpc.allthatnode.com");
+    public Uri ExplorerUrl { get; } = new Uri("https://rinkeby.etherscan.io/");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

@@ -17,6 +17,7 @@ public class GoerliNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
     public Uri PublicRpcUrl { get; } = new Uri("https://ethereum-goerli-rpc.allthatnode.com");
+    public Uri ExplorerUrl { get; } = new Uri("https://goerli.etherscan.io/");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

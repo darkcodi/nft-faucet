@@ -15,5 +15,6 @@ public class PolygonMainnetNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
     public Uri PublicRpcUrl { get; } = null;
+    public Uri ExplorerUrl { get; } = new Uri("https://polygonscan.com/");
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

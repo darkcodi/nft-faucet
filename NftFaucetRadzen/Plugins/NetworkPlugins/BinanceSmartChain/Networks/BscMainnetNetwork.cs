@@ -15,5 +15,6 @@ public class BscMainnetNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Bsc;
     public Uri PublicRpcUrl { get; } = null;
+    public Uri ExplorerUrl { get; } = new Uri("https://bscscan.com/");
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

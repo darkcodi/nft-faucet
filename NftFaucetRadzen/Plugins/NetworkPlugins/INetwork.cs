@@ -15,5 +15,6 @@ public interface INetwork
     public NetworkType Type { get; }
     public NetworkSubtype SubType { get; }
     public Uri PublicRpcUrl { get; }
+    public Uri ExplorerUrl { get; }
     public IReadOnlyCollection<IContract> DeployedContracts { get; }
 }

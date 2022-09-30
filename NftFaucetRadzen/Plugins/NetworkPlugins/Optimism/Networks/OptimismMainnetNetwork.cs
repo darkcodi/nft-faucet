@@ -15,5 +15,6 @@ public class OptimismMainnetNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Optimism;
     public Uri PublicRpcUrl { get; } = null;
+    public Uri ExplorerUrl { get; } = new Uri("https://optimistic.etherscan.io/");
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
 }

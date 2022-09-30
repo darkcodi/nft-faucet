@@ -17,6 +17,7 @@ public class AvalancheFujiNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Avalanche;
     public Uri PublicRpcUrl { get; } = new Uri("https://api.avax-test.network/ext/bc/C/rpc");
+    public Uri ExplorerUrl { get; } = new Uri("https://testnet.snowtrace.io/");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

@@ -17,6 +17,7 @@ public class RopstenNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
     public Uri PublicRpcUrl { get; } = new Uri("https://ethereum-ropsten-rpc.allthatnode.com");
+    public Uri ExplorerUrl { get; } = new Uri("https://ropsten.etherscan.io/");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

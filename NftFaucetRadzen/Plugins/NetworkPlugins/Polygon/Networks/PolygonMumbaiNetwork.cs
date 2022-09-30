@@ -17,6 +17,7 @@ public class PolygonMumbaiNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
     public Uri PublicRpcUrl { get; } = new Uri("https://rpc-mumbai.maticvigil.com");
+    public Uri ExplorerUrl { get; } = new Uri("https://mumbai.polygonscan.com/");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

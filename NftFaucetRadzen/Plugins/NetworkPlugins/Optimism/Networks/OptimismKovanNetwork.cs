@@ -17,6 +17,7 @@ public class OptimismKovanNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Optimism;
     public Uri PublicRpcUrl { get; } = new Uri("https://mainnet.optimism.io");
+    public Uri ExplorerUrl { get; } = new Uri("https://kovan-optimistic.etherscan.io/");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

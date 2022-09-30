@@ -15,6 +15,7 @@ public class SolanaDevnetNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Solana;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
     public Uri PublicRpcUrl { get; } = new Uri("https://api.devnet.solana.com");
+    public Uri ExplorerUrl { get; } = new Uri("https://explorer.solana.com/?cluster=devnet");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {

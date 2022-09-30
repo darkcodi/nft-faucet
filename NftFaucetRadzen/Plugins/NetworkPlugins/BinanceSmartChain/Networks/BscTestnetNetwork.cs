@@ -17,6 +17,7 @@ public class BscTestnetNetwork : INetwork
     public NetworkType Type { get; } = NetworkType.Ethereum;
     public NetworkSubtype SubType { get; } = NetworkSubtype.Bsc;
     public Uri PublicRpcUrl { get; } = new Uri("https://data-seed-prebsc-1-s1.binance.org:8545/");
+    public Uri ExplorerUrl { get; } = new Uri("https://testnet.bscscan.com/");
 
     public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {
