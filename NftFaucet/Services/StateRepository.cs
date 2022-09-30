@@ -76,7 +76,7 @@ public class StateRepository
         if (existingTokens == null || existingTokens.Count == 0)
             return Array.Empty<IToken>();
 
-        return existingTokens.Select(_mapper.ToDomain).ToArray();
+        return existingTokens.Select(_mapper.ToDomain).Where(x => x != null).ToArray();
     }
 
     public async Task SaveUploadLocation(ITokenUploadLocation uploadLocation)

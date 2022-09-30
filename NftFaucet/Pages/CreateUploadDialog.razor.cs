@@ -74,24 +74,38 @@ public partial class CreateUploadDialog : BasicComponent
         IsUploading = true;
         RefreshMediator.NotifyStateHasChangedSafe();
 
-        var imageLocationResult = await SelectedUploader.Upload(Token.Image.FileName, Token.Image.FileType, Base64DataToBytes(Token.Image.FileData));
-        if (imageLocationResult.IsFailure)
+        var mainFileLocationResult = await SelectedUploader.Upload(Token.MainFile.FileName, Token.MainFile.FileType, Base64DataToBytes(Token.MainFile.FileData));
+        if (mainFileLocationResult.IsFailure)
         {
             IsUploading = false;
             RefreshMediator.NotifyStateHasChangedSafe();
-            NotificationService.Notify(NotificationSeverity.Error, "Uploading image failed", imageLocationResult.Error);
+            NotificationService.Notify(NotificationSeverity.Error, "Failed to upload main file", mainFileLocationResult.Error);
             return;
         }
+        var mainFileLocation = mainFileLocationResult.Value;
 
-        var imageLocation = imageLocationResult.Value;
-        var tokenMetadata = GenerateTokenMetadata(Token, imageLocation);
+        Uri coverFileLocation = null;
+        if (Token.CoverFile != null)
+        {
+            var coverFileLocationResult = await SelectedUploader.Upload(Token.CoverFile.FileName, Token.CoverFile.FileType, Base64DataToBytes(Token.CoverFile.FileData));
+            if (coverFileLocationResult.IsFailure)
+            {
+                IsUploading = false;
+                RefreshMediator.NotifyStateHasChangedSafe();
+                NotificationService.Notify(NotificationSeverity.Error, "Failed to upload cover file", coverFileLocationResult.Error);
+                return;
+            }
+            coverFileLocation = coverFileLocationResult.Value;
+        }
+
+        var tokenMetadata = GenerateTokenMetadata(Token, mainFileLocation, coverFileLocation);
         var tokenMetadataBytes = Encoding.UTF8.GetBytes(tokenMetadata);
         var tokenLocationResult = await SelectedUploader.Upload($"{Token.Id}.json", "application/json", tokenMetadataBytes);
         if (tokenLocationResult.IsFailure)
         {
             IsUploading = false;
             RefreshMediator.NotifyStateHasChangedSafe();
-            NotificationService.Notify(NotificationSeverity.Error, "Uploading metadata failed", tokenLocationResult.Error);
+            NotificationService.Notify(NotificationSeverity.Error, "Failed to upload metadata", tokenLocationResult.Error);
             return;
         }
 
@@ -117,13 +131,14 @@ public partial class CreateUploadDialog : BasicComponent
         return Convert.FromBase64String(encoded);
     }
 
-    private static string GenerateTokenMetadata(IToken token, Uri imageLocation)
+    private static string GenerateTokenMetadata(IToken token, Uri mainFileLocation, Uri coverFileLocation)
     {
         var tokenMetadata = new TokenMetadata
         {
             Name = token.Name,
             Description = token.Description,
-            Image = imageLocation.OriginalString,
+            Image = coverFileLocation != null ? coverFileLocation.OriginalString : mainFileLocation.OriginalString,
+            AnimationUrl = coverFileLocation != null ? mainFileLocation.OriginalString : null,
             ExternalUrl = "https://darkcodi.github.io/nft-faucet/",
         };
         var metadataJson = JsonConvert.SerializeObject(tokenMetadata, Formatting.Indented);

@@ -5,9 +5,21 @@
 
 <form onsubmit="@OnSavePressed">
     <div class="mb-4">
-        <h4>Image</h4>
-        <RadzenFileInput @bind-Value=@Model.FileData @bind-FileName=@Model.FileName @bind-FileSize=@Model.FileSize TValue="string" Class="w-100"/>
+        <h4>Main file</h4>
+        <RadzenFileInput Error="@OnMainFileError" @bind-Value=@Model.MainFileData @bind-FileName=@Model.MainFileName @bind-FileSize=@Model.MainFileSize TValue="string" Class="w-100"/>
     </div>
+
+    @if (!string.IsNullOrEmpty(Model.MainFileData) && !string.IsNullOrEmpty(Model.MainFileName) && Model.MainFileSize != null && Model.MainFileSize != 0)
+    {
+        var mainFileType = DetermineFileType(Model.MainFileName);
+        if (!mainFileType.StartsWith("image/") || mainFileType == "image/gif")
+        {
+            <div class="mb-4">
+                <h4>Cover</h4>
+                <RadzenFileInput Error="@OnCoverFileError" @bind-Value=@Model.CoverFileData @bind-FileName=@Model.CoverFileName @bind-FileSize=@Model.CoverFileSize TValue="string" Class="w-100"/>
+            </div>
+        }
+    }
 
     <div class="mb-4">
         <h4>Name</h4>

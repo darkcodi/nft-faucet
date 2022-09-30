@@ -33,7 +33,7 @@ builder.Services.AddMetaMaskBlazor();
 builder.Services.AddIndexedDB(dbStore =>
 {
     dbStore.DbName = "NftFaucet";
-    dbStore.Version = 1;
+    dbStore.Version = 2;
 
     dbStore.Stores.Add(new StoreSchema
     {
@@ -60,10 +60,14 @@ builder.Services.AddIndexedDB(dbStore =>
             new IndexSpec {Name = "name", KeyPath = "name", Auto = false},
             new IndexSpec {Name = "description", KeyPath = "description", Auto = false},
             new IndexSpec {Name = "createdAt", KeyPath = "createdAt", Auto = false},
-            new IndexSpec {Name = "imageFileName", KeyPath = "imageFileName", Auto = false},
-            new IndexSpec {Name = "imageFileType", KeyPath = "imageFileType", Auto = false},
-            new IndexSpec {Name = "imageFileData", KeyPath = "imageFileData", Auto = false},
-            new IndexSpec {Name = "imageFileSize", KeyPath = "imageFileSize", Auto = false},
+            new IndexSpec {Name = "mainFileName", KeyPath = "mainFileName", Auto = false},
+            new IndexSpec {Name = "mainFileType", KeyPath = "mainFileType", Auto = false},
+            new IndexSpec {Name = "mainFileData", KeyPath = "mainFileData", Auto = false},
+            new IndexSpec {Name = "mainFileSize", KeyPath = "mainFileSize", Auto = false},
+            new IndexSpec {Name = "coverFileName", KeyPath = "coverFileName", Auto = false},
+            new IndexSpec {Name = "coverFileType", KeyPath = "coverFileType", Auto = false},
+            new IndexSpec {Name = "coverFileData", KeyPath = "coverFileData", Auto = false},
+            new IndexSpec {Name = "coverFileSize", KeyPath = "coverFileSize", Auto = false},
         }
     });
 

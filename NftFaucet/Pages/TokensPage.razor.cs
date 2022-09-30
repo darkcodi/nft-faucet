@@ -21,25 +21,36 @@ public partial class TokensPage : BasicComponent
     }
 
     private CardListItem MapCardListItem(IToken token)
-        => new CardListItem
+    {
+        var properties = new List<CardListItemProperty>
+        {
+            new CardListItemProperty
+            {
+                Name = "Description",
+                Value = token.Description,
+            },
+        };
+        properties.Add(new CardListItemProperty
+        {
+            Name = token.CoverFile == null ? "Size" : "MF Size",
+            Value = ByteSize.FromBytes(token.MainFile.FileSize).ToString(),
+        });
+        if (token.CoverFile != null)
+        {
+            properties.Add(new CardListItemProperty
+            {
+                Name = "CF Size",
+                Value = ByteSize.FromBytes(token.CoverFile.FileSize).ToString(),
+            });
+        }
+        return new CardListItem
         {
             Id = token.Id,
             Header = token.Name,
-            ImageLocation = token.Image.FileData,
-            Properties = new[]
-            {
-                new CardListItemProperty
-                {
-                    Name = "Description",
-                    Value = token.Description,
-                },
-                new CardListItemProperty
-                {
-                    Name = "Size",
-                    Value = ByteSize.FromBytes(token.Image.FileSize).ToString(),
-                },
-            },
+            ImageLocation = token.CoverFile?.FileData ?? token.MainFile.FileData,
+            Properties = properties.ToArray(),
         };
+    }
 
     private async Task OpenCreateTokenDialog()
     {
