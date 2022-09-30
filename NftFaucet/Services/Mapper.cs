@@ -25,10 +25,14 @@ public class Mapper
             Name = token.Name,
             Description = token.Description,
             CreatedAt = token.CreatedAt,
-            ImageFileName = token.Image?.FileName,
-            ImageFileType = token.Image?.FileType,
-            ImageFileData = token.Image?.FileData,
-            ImageFileSize = token.Image?.FileSize,
+            MainFileName = token.MainFile?.FileName,
+            MainFileType = token.MainFile?.FileType,
+            MainFileData = token.MainFile?.FileData,
+            MainFileSize = token.MainFile?.FileSize,
+            CoverFileName = token.CoverFile?.FileName,
+            CoverFileType = token.CoverFile?.FileType,
+            CoverFileData = token.CoverFile?.FileData,
+            CoverFileSize = token.CoverFile?.FileSize,
         };
 
     public UploadLocationDto ToDto(ITokenUploadLocation uploadLocation)
@@ -58,18 +62,25 @@ public class Mapper
         };
 
     public IToken ToDomain(TokenDto tokenDto)
-        => tokenDto == null ? null : new Token
+        => tokenDto == null || string.IsNullOrEmpty(tokenDto.MainFileData) ? null : new Token
         {
             Id = tokenDto.Id,
             Name = tokenDto.Name,
             Description = tokenDto.Description,
             CreatedAt = tokenDto.CreatedAt,
-            Image = new TokenMedia
+            MainFile = new TokenMedia
             {
-                FileName = tokenDto.ImageFileName,
-                FileType = tokenDto.ImageFileType,
-                FileData = tokenDto.ImageFileData,
-                FileSize = tokenDto.ImageFileSize ?? 0,
+                FileName = tokenDto.MainFileName,
+                FileType = tokenDto.MainFileType,
+                FileData = tokenDto.MainFileData,
+                FileSize = tokenDto.MainFileSize ?? 0,
+            },
+            CoverFile = string.IsNullOrEmpty(tokenDto.CoverFileData) ? null : new TokenMedia
+            {
+                FileName = tokenDto.CoverFileName,
+                FileType = tokenDto.CoverFileType,
+                FileData = tokenDto.CoverFileData,
+                FileSize = tokenDto.CoverFileSize ?? 0,
             },
         };
 

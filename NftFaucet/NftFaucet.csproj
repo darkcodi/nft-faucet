@@ -18,7 +18,7 @@
         <PackageReference Include="Nethereum.ABI" Version="4.8.0" />
         <PackageReference Include="Nethereum.JsonRpc.Client" Version="4.8.0" />
         <PackageReference Include="Nethereum.Web3" Version="4.8.0" />
-        <PackageReference Include="Radzen.Blazor" Version="3.20.4" />
+        <PackageReference Include="Radzen.Blazor" Version="4.1.5" />
         <PackageReference Include="RestEase" Version="1.5.7" />
         <PackageReference Include="Solana.Metaplex" Version="1.2.0" />
         <PackageReference Include="TG.Blazor.IndexedDB" Version="1.5.0-preview" />

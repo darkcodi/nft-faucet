@@ -6,5 +6,6 @@ public class Token : IToken
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
-    public ITokenMedia Image { get; set; }
+    public ITokenMedia MainFile { get; set; }
+    public ITokenMedia CoverFile { get; set; }
 }

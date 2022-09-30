@@ -6,5 +6,6 @@ public interface IToken
     public string Name { get; }
     public string Description { get; }
     public DateTime CreatedAt { get; }
-    public ITokenMedia Image { get; }
+    public ITokenMedia MainFile { get; }
+    public ITokenMedia CoverFile { get; }
 }

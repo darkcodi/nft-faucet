@@ -2,6 +2,7 @@ using MimeTypes;
 using NftFaucet.Components;
 using NftFaucet.Models;
 using NftFaucet.Plugins;
+using Radzen;
 
 namespace NftFaucet.Pages;
 
@@ -21,14 +22,28 @@ public partial class CreateTokenDialog : BasicComponent
             Name = Model.Name,
             Description = Model.Description,
             CreatedAt = DateTime.Now,
-            Image = new TokenMedia
+            MainFile = new TokenMedia
             {
-                FileName = Model.FileName,
-                FileType = DetermineFileType(Model.FileName),
-                FileData = Model.FileData,
-                FileSize = Model.FileSize!.Value,
+                FileName = Model.MainFileName,
+                FileType = DetermineFileType(Model.MainFileName),
+                FileData = Model.MainFileData,
+                FileSize = Model.MainFileSize!.Value,
             },
         };
+
+        if (!string.IsNullOrEmpty(Model.CoverFileData) &&
+            !string.IsNullOrEmpty(Model.CoverFileName) &&
+            Model.CoverFileSize != null)
+        {
+            token.CoverFile = new TokenMedia
+            {
+                FileName = Model.CoverFileName,
+                FileType = DetermineFileType(Model.CoverFileName),
+                FileData = Model.CoverFileData,
+                FileSize = Model.CoverFileSize!.Value,
+            };
+        }
+        
         DialogService.Close(token);
     }
 
@@ -51,15 +66,34 @@ public partial class CreateTokenDialog : BasicComponent
         if (string.IsNullOrWhiteSpace(Model.Description))
             return false;
 
-        if (string.IsNullOrEmpty(Model.FileData))
+        if (string.IsNullOrEmpty(Model.MainFileData))
             return false;
 
-        if (string.IsNullOrEmpty(Model.FileName))
+        if (string.IsNullOrEmpty(Model.MainFileName))
             return false;
 
-        if (Model.FileSize is null or 0)
+        if (Model.MainFileSize is null or 0)
             return false;
 
         return true;
+    }
+
+    private void OnMainFileError(UploadErrorEventArgs args)
+    {
+        NotificationService.Notify(NotificationSeverity.Error, "File selection error", args.Message);
+        Model.MainFileData = null;
+        Model.MainFileName = null;
+        Model.MainFileSize = null;
+        Model.CoverFileData = null;
+        Model.CoverFileName = null;
+        Model.CoverFileSize = null;
+    }
+
+    private void OnCoverFileError(UploadErrorEventArgs args)
+    {
+        NotificationService.Notify(NotificationSeverity.Error, "File selection error", args.Message);
+        Model.CoverFileData = null;
+        Model.CoverFileName = null;
+        Model.CoverFileSize = null;
     }
 }
