@@ -26,34 +26,6 @@
         {
             @:<text style="color: red;">NOT CONFIGURED</text>
         }
-        else if (!NetworkMatches)
-        {
-            @:<text style="color: red;">NETWORK MISMATCH</text>
-        } else
-        {
-            @:<text style="color: green;">OK</text>
-        }
-    </p>
-    <p>
-        @if (string.IsNullOrEmpty(SourceAddress))
-        {
-            @:<text style="font-weight: bold;">Balance: </text>
-        }
-        else
-        {
-            @:<text style="font-weight: bold;">Balance</text>
-            @:<text> (@SourceAddress)</text>
-            @:<text style="font-weight: bold;">: </text>
-        }
-
-        @if (AppState?.SelectedProvider == null || !AppState.SelectedProvider.IsConfigured || string.IsNullOrEmpty(SourceAddress))
-        {
-            @:<text style="color: red;">UNKNOWN</text>
-        }
-        else if (BalanceIsZero)
-        {
-            @:<text style="color: red;">ZERO</text>
-        }
         else
         {
             @:<text style="color: green;">OK</text>

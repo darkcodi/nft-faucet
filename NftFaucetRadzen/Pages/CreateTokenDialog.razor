@@ -8,17 +8,17 @@
         <h4>Image</h4>
         <RadzenFileInput @bind-Value=@Model.FileData @bind-FileName=@Model.FileName @bind-FileSize=@Model.FileSize TValue="string" Class="w-100"/>
     </div>
-    
+
     <div class="mb-4">
         <h4>Name</h4>
         <RadzenTextBox Placeholder="YING #668" MaxLength="50" @bind-Value="@Model.Name" Class="w-100"/>
     </div>
-    
+
     <div class="mb-4">
         <h4>Description</h4>
         <RadzenTextArea Placeholder="YING, ecotype enterprises IP of Inkeverse and the avatar spokesperson for Inkeverse." MaxLength="250" @bind-Value="@Model.Description" Class="w-100"/>
     </div>
-    
+
     <div style="display: flex; justify-content: end;">
         <RadzenButton Click="@((args) => OnSavePressed())" Disabled="!ModelIsValid" Text="Save" Style="width: 120px"/>
     </div>

@@ -133,83 +133,58 @@ public class MetamaskProvider : IProvider
     public async Task<string> GetAddress()
         => Address ?? await MetaMaskService.GetSelectedAccountAsync();
 
-    public async Task<long?> GetBalance(INetwork network)
+    public async Task<Balance> GetBalance(INetwork network)
     {
         if (!IsConfigured)
             return null;
 
         var balance = (long) await MetaMaskService.GetBalanceAsync();
-        return balance;
-    }
-
-    public async Task<bool> EnsureNetworkMatches(INetwork network)
-        => network.Type == NetworkType.Ethereum && network.ChainId != null && network.ChainId == await GetChainId();
-
-    private async Task<ulong?> GetChainId()
-    {
-        var chainHex = await MetaMaskService.GetSelectedChainAsync();
-        if (string.IsNullOrEmpty(chainHex) || chainHex == "0x")
+        return new Balance
         {
-            return null;
-        }
-
-        var chainId = (ulong) Convert.ToInt64(chainHex, 16);
-        return chainId;
+            Amount = balance,
+            Currency = "wei",
+        };
     }
 
-    public async Task<Result<string>> Mint(MintRequest mintRequest)
+    public Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
+    {
+        var chainId = Convert.ToUInt64(ChainId, 16);
+        var matchingNetwork = allKnownNetworks.FirstOrDefault(x => x.ChainId != null && x.ChainId.Value == chainId);
+        return Task.FromResult(matchingNetwork);
+    }
+
+    public async Task<string> Mint(MintRequest mintRequest)
     {
         if (mintRequest.Network.Type != NetworkType.Ethereum)
         {
             throw new InvalidOperationException("Invalid network type for this provider");
         }
 
-        switch (mintRequest.Contract.Type)
+        Function transfer = mintRequest.Contract.Type switch
         {
-            case ContractType.Erc721:
+            ContractType.Erc721 => new Erc721MintFunction
             {
-                return await ResultWrapper.Wrap(async () =>
-                {
-                    var contractAddress = mintRequest.Contract.Address;
-                    var transfer = new Erc721MintFunction
-                    {
-                        To = mintRequest.DestinationAddress,
-                        Uri = mintRequest.UploadLocation.Location,
-                    };
-                    var data = transfer.Encode();
-                    var transactionHash = await MetaMaskService.SendTransactionAsync(contractAddress, 0, data);
-                    if (string.IsNullOrEmpty(transactionHash))
-                    {
-                        throw new Exception("Operation was cancelled or RPC node failure");
-                    }
-
-                    return transactionHash;
-                });
-            }
-            case ContractType.Erc1155:
+                To = mintRequest.DestinationAddress,
+                Uri = mintRequest.UploadLocation.Location,
+            },
+            ContractType.Erc1155 => new Erc1155MintFunction
             {
-                return await ResultWrapper.Wrap(async () =>
-                {
-                    var contractAddress = mintRequest.Contract.Address;
-                    var transfer = new Erc1155MintFunction
-                    {
-                        To = mintRequest.DestinationAddress,
-                        Amount = mintRequest.TokensAmount,
-                        Uri = mintRequest.UploadLocation.Location,
-                    };
-                    var data = transfer.Encode();
-                    var transactionHash = await MetaMaskService.SendTransactionAsync(contractAddress, 0, data);
-                    if (string.IsNullOrEmpty(transactionHash))
-                    {
-                        throw new Exception("Operation was cancelled or RPC node failure");
-                    }
+                To = mintRequest.DestinationAddress,
+                Amount = mintRequest.TokensAmount,
+                Uri = mintRequest.UploadLocation.Location,
+            },
+            _ => throw new ArgumentOutOfRangeException(),
+        };
 
-                    return transactionHash;
-                });
-            }
-            default:
-                throw new ArgumentOutOfRangeException();
+        var contractAddress = mintRequest.Contract.Address;
+        var data = transfer.Encode();
+        var transactionHash = await MetaMaskService.SendTransactionAsync(contractAddress, 0, data);
+        if (string.IsNullOrEmpty(transactionHash))
+        {
+            throw new Exception("Operation was cancelled or RPC node failure");
         }
+
+        return transactionHash;
     }
 
     public Task<string> GetState()

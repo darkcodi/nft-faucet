@@ -101,7 +101,7 @@ public class SolanaKeygenProvider : IProvider
     public Task<string> GetAddress()
         => Task.FromResult(Key?.Address);
 
-    public async Task<long?> GetBalance(INetwork network)
+    public async Task<Balance> GetBalance(INetwork network)
     {
         if (string.IsNullOrEmpty(Key?.Address))
             return null;
@@ -112,13 +112,24 @@ public class SolanaKeygenProvider : IProvider
             return null;
 
         var balance = (long) balanceResult.Result.Value;
-        return balance;
+        return new Balance
+        {
+            Amount = balance,
+            Currency = "lamport",
+        };
     }
 
-    public Task<bool> EnsureNetworkMatches(INetwork network)
-        => Task.FromResult(network.Type == NetworkType.Solana);
+    public Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
+    {
+        if (selectedNetwork != null && selectedNetwork.Type == NetworkType.Solana)
+            return Task.FromResult(selectedNetwork);
 
-    public async Task<Result<string>> Mint(MintRequest mintRequest)
+        var matchingNetwork = allKnownNetworks.FirstOrDefault(x => x.Type == NetworkType.Solana && x.IsSupported) ??
+                              allKnownNetworks.FirstOrDefault(x => x.Type == NetworkType.Solana);
+        return Task.FromResult(matchingNetwork);
+    }
+
+    public async Task<string> Mint(MintRequest mintRequest)
     {
         var client = ClientFactory.GetClient(mintRequest.Network.PublicRpcUrl.OriginalString);
         var rentExemption = await client.GetMinimumBalanceForRentExemptionAsync(TokenProgram.MintAccountDataSize);

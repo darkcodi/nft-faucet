@@ -49,7 +49,12 @@ public class PhantomProvider : IProvider
     public Task<string> GetAddress()
         => throw new NotImplementedException();
 
-    public Task<long?> GetBalance(INetwork network)
+    public Task<Balance> GetBalance(INetwork network)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
     {
         throw new NotImplementedException();
     }
@@ -59,7 +64,7 @@ public class PhantomProvider : IProvider
         throw new NotImplementedException();
     }
 
-    public Task<Result<string>> Mint(MintRequest mintRequest)
+    public Task<string> Mint(MintRequest mintRequest)
     {
         throw new NotImplementedException();
     }

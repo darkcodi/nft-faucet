@@ -85,7 +85,7 @@ public class EthereumKeygenProvider : IProvider
     public Task<string> GetAddress()
         => Task.FromResult(Key?.Address);
 
-    public async Task<long?> GetBalance(INetwork network)
+    public async Task<Balance> GetBalance(INetwork network)
     {
         if (string.IsNullOrEmpty(Key?.Address))
             return null;
@@ -93,13 +93,24 @@ public class EthereumKeygenProvider : IProvider
         var web3 = new Web3(network.PublicRpcUrl.OriginalString);
         var hexBalance = await web3.Eth.GetBalance.SendRequestAsync(Key.Address);
         var balance = (long) hexBalance.Value;
-        return balance;
+        return new Balance
+        {
+            Amount = balance,
+            Currency = "wei",
+        };
     }
 
-    public Task<bool> EnsureNetworkMatches(INetwork network)
-        => Task.FromResult(network.Type == NetworkType.Ethereum);
+    public Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
+    {
+        if (selectedNetwork != null && selectedNetwork.Type == NetworkType.Ethereum)
+            return Task.FromResult(selectedNetwork);
 
-    public async Task<Result<string>> Mint(MintRequest mintRequest)
+        var matchingNetwork = allKnownNetworks.FirstOrDefault(x => x.Type == NetworkType.Ethereum && x.IsSupported) ??
+            allKnownNetworks.FirstOrDefault(x => x.Type == NetworkType.Ethereum);
+        return Task.FromResult(matchingNetwork);
+    }
+
+    public async Task<string> Mint(MintRequest mintRequest)
     {
         if (mintRequest.Network.Type != NetworkType.Ethereum)
         {
@@ -123,34 +134,31 @@ public class EthereumKeygenProvider : IProvider
                 _ => throw new ArgumentOutOfRangeException(),
             };
 
-        return await ResultWrapper.Wrap(async () =>
+        var data = transfer.Encode();
+        var client = new RpcClient(mintRequest.Network.PublicRpcUrl);
+        var account = new Account(Key.PrivateKey);
+        var transactionManager = new AccountSignerTransactionManager(client, account);
+        var txInput = new TransactionInput
         {
-            var data = transfer.Encode();
-            var client = new RpcClient(mintRequest.Network.PublicRpcUrl);
-            var account = new Account(Key.PrivateKey);
-            var transactionManager = new AccountSignerTransactionManager(client, account);
-            var txInput = new TransactionInput
-            {
-                From = Key.Address,
-                To = mintRequest.Contract.Address,
-                Data = data,
-                ChainId = new HexBigInteger(new BigInteger(mintRequest.Network.ChainId!.Value)),
-                Type = new HexBigInteger(TransactionType.EIP1559.AsByte()),
-            };
-            txInput.Nonce = await transactionManager.GetNonceAsync(txInput);
-            var fee1559 = await transactionManager.CalculateFee1559Async();
-            txInput.MaxFeePerGas = new HexBigInteger(fee1559.MaxFeePerGas!.Value);
-            txInput.MaxPriorityFeePerGas = new HexBigInteger(fee1559.MaxPriorityFeePerGas!.Value);
-            txInput.Gas = await transactionManager.EstimateGasAsync(txInput);
-            txInput.Gas = new HexBigInteger(new BigInteger((long)txInput.Gas.Value * 1.3));
-            var transactionHash = await transactionManager.SendTransactionAsync(txInput);
-            if (string.IsNullOrEmpty(transactionHash))
-            {
-                throw new Exception("Operation was cancelled or RPC node failure");
-            }
+            From = Key.Address,
+            To = mintRequest.Contract.Address,
+            Data = data,
+            ChainId = new HexBigInteger(new BigInteger(mintRequest.Network.ChainId!.Value)),
+            Type = new HexBigInteger(TransactionType.EIP1559.AsByte()),
+        };
+        txInput.Nonce = await transactionManager.GetNonceAsync(txInput);
+        var fee1559 = await transactionManager.CalculateFee1559Async();
+        txInput.MaxFeePerGas = new HexBigInteger(fee1559.MaxFeePerGas!.Value);
+        txInput.MaxPriorityFeePerGas = new HexBigInteger(fee1559.MaxPriorityFeePerGas!.Value);
+        txInput.Gas = await transactionManager.EstimateGasAsync(txInput);
+        txInput.Gas = new HexBigInteger(new BigInteger((long)txInput.Gas.Value * 1.3));
+        var transactionHash = await transactionManager.SendTransactionAsync(txInput);
+        if (string.IsNullOrEmpty(transactionHash))
+        {
+            throw new Exception("Operation was cancelled or RPC node failure");
+        }
 
-            return transactionHash;
-        });
+        return transactionHash;
     }
 
     public Task<string> GetState()
