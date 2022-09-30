@@ -1,0 +1,19 @@
+@page "/contracts"
+@inherits BasicComponent
+
+<PageTitle>Contracts</PageTitle>
+<RadzenContent Container="main">
+    <RadzenHeading Size="H1" Text="Select contract" />
+    @if (AppState.SelectedNetwork == null)
+    {
+        <RadzenHeading Size="H3" Text="Please choose network first!" />
+    }
+    else
+    {
+        <div style="width: 100%; display: flex; flex-direction: row; justify-content: end;">
+            <RadzenButton Text="Deploy New" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"
+                          Click="@(() => NotificationService.Notify(NotificationSeverity.Warning, "NOT IMPLEMENTED", "Will be implemented later"))" />
+        </div>
+        <CardList Data="@ContractCards" OnSelectedChange="@(async _ => await OnContractChange())" @bind-SelectedItems="@AppState.UserStorage.SelectedContracts" />
+    }
+</RadzenContent>

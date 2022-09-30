@@ -1,0 +1,22 @@
+@page "/networks"
+@inherits BasicComponent
+
+<PageTitle>Networks</PageTitle>
+<RadzenContent Container="main">
+    <RadzenHeading Size="H1" Text="Select network" />
+    <RadzenTabs RenderMode="TabRenderMode.Client">
+        <Tabs>
+            @if (Networks != null)
+            {
+                foreach (var kvp in Networks.OrderBy(x => x.Key))
+                {
+                    var networkType = kvp.Key;
+                    var networkCards = kvp.Value;
+                    <RadzenTabsItem Text="@networkType.ToString()">
+                        <CardList Data="@networkCards" OnSelectedChange="@(async _ => await OnNetworkChange())" @bind-SelectedItems="@AppState.UserStorage.SelectedNetworks"/>
+                    </RadzenTabsItem>
+                }
+            }
+        </Tabs>
+    </RadzenTabs>
+</RadzenContent>

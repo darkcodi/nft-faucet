@@ -1,0 +1,20 @@
+@page "/tokens"
+@inherits BasicComponent
+
+<PageTitle>Tokens</PageTitle>
+<RadzenContent Container="main">
+    <RadzenHeading Size="H1" Text="Select or create a token to mint" />
+    <div style="width: 100%; display: flex; flex-direction: row; justify-content: end;">
+        <RadzenSplitButton Text="Import from..." Icon="backup" Style="margin-right: 1rem;" Click="@(() => NotificationService.Notify(NotificationSeverity.Warning, "NOT IMPLEMENTED", "Will be implemented later"))" >
+            <ChildContent>
+                <RadzenSplitButtonItem Text="OpenSea" Value="1" />
+                <RadzenSplitButtonItem Text="Rarible" Value="2" />
+                <RadzenSplitButtonItem Text="Nifty" Value="3" />
+                <RadzenSplitButtonItem Text="SuperRare" Value="4" />
+            </ChildContent>
+        </RadzenSplitButton>
+        <RadzenButton Text="Create New" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"
+                      Click="@OpenCreateTokenDialog"/>
+    </div>
+    <CardList Data="@TokenCards" OnSelectedChange="@(async _ => await OnTokenChange())" @bind-SelectedItems="@AppState.UserStorage.SelectedTokens" />
+</RadzenContent>

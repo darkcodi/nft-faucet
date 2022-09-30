@@ -1,0 +1,81 @@
+﻿@inherits BasicComponent
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid" style="padding: 0; justify-content: flex-start;">
+        <img src="icon.png" style="width: 2rem;"/>
+        <div class="navbar-brand">NFT Faucet</div>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="networks" style=@(SelectedNetworkName != null ? "color: lime;" : string.Empty) Match="NavLinkMatch.All">
+                <span class="oi oi-bolt" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Network</span>
+                    @if (SelectedNetworkName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedNetworkName</span>
+                    }
+                </div>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="providers" style=@(SelectedProviderName != null ? $"color: {(AppState.SelectedProvider.IsConfigured ? "lime" : "#FBBD08")};" : string.Empty)>
+                <span class="oi oi-key" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Provider</span>
+                    @if (SelectedProviderName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedProviderName</span>
+                    }
+                </div>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="contracts" style=@(SelectedContractName != null ? "color: lime;" : string.Empty)>
+                <span class="oi oi-script" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Contract</span>
+                    @if (SelectedContractName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedContractName</span>
+                    }
+                </div>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="tokens" style=@(SelectedTokenName != null ? "color: lime;" : string.Empty)>
+                <span class="oi oi-aperture" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Token</span>
+                    @if (SelectedTokenName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedTokenName</span>
+                    }
+                </div>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="uploads" style=@(SelectedUploadName != null ? "color: lime;" : string.Empty)>
+                <span class="oi oi-cloud-upload" aria-hidden="true"></span>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="line-height: 1rem; font-size: 1.1rem;">Upload</span>
+                    @if (SelectedUploadName != null)
+                    {
+                        <span style="line-height: 1rem; font-size: 0.7rem; color: #bbb;">@SelectedUploadName</span>
+                    }
+                </div>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="mint">
+                <span class="oi oi-pin" aria-hidden="true"></span> Mint
+            </NavLink>
+        </div>
+    </nav>
+</div>  

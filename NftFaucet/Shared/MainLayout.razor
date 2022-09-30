@@ -1,34 +1,18 @@
-﻿@using NftFaucet.Models.Enums
-@inherits MainLayoutComponent
+﻿@inherits BasicLayout
 
-<Layout Style="background-color: #FFFFFF; height: 100%;">
-    <Content Style="padding: 0 50px; display: flex; flex-direction: column;">
-        <PageHeader Class="create-nft-header">
-            <PageHeaderTitle>NFT Faucet</PageHeaderTitle>
-            <PageHeaderTags>
-                <Tag PresetColor="@PresetColor.Blue">Address: @(AppState.Storage.NetworkType == NetworkType.Ethereum ? AppState?.Metamask?.Address ?? "<null>" : "<null>")</Tag>
-                <Tag PresetColor="@ChainColor">@("Chain: " + (AppState.Storage.NetworkType == NetworkType.Ethereum ? AppState?.Metamask?.Network?.ToString() ?? "<unknown>" : AppState.Storage.NetworkChain.ToString()) + " (" + (AppState.Storage.NetworkType == NetworkType.Ethereum ? AppState?.Metamask?.ChainId.ToString() ?? "<null>" : "<null>") + ")")</Tag>
-            </PageHeaderTags>
-        </PageHeader>
-        <Steps Current="@(AppState.Navigation.CurrentStep - 1)" Type="navigation" Class="fix-alignment">
-            <Step Title="Select network type"/>
-            <Step Title="Specify token metadata"/>
-            <Step Title="Review metadata details"/>
-            <Step Title="Review mint details"/>
-            <Step Title="Wait for token minting"/>
-        </Steps>
-        <div style="flex-grow: 3;">
+<div class="page">
+    <div class="sidebar">
+        <NavMenu/>
+    </div>
+
+    <main>
+        <article class="content px-4">
             @Body
-        </div>
-        <Affix OffsetBottom="10">
-            <div style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; align-items: center;">
-                <Button Type="@ButtonType.Default" Size="large" Icon="arrow-left" Style="@BackButtonStyle" OnClick="@AppState.Navigation.GoBack">
-                    Back
-                </Button>
-                <Button Type="@ButtonType.Primary" Size="large" Icon="@ForwardButtonIcon" Style="@ForwardButtonStyle" OnClick="@AppState.Navigation.GoForward" Loading="@AppState.Storage.UploadIsInProgress">
-                    @ForwardButtonText
-                </Button>
-            </div>
-        </Affix>
-    </Content>
-</Layout>
+        </article>
+    </main>
+</div>
+
+<RadzenDialog/>
+<RadzenNotification/>
+<RadzenContextMenu/>
+<RadzenTooltip/>
