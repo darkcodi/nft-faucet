@@ -7,7 +7,7 @@
                             + (SelectedItems != null && SelectedItems.Contains(cardListItem.Id)
                                 ? (cardListItem.SelectionIcon == CardListItemSelectionIcon.Checkmark ? " box-checkmark" : " box-warning")
                                 : string.Empty))
-                    Style="width: 250px;" onclick="@(async () => await ToggleSelection(cardListItem))">
+                    Style="width: 250px; position: relative;" onclick="@(async () => await ToggleSelection(cardListItem))">
             <div class="d-flex flex-row align-items-center">
                 @if (SelectedItems != null && SelectedItems.Contains(cardListItem.Id))
                 {
