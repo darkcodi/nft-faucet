@@ -1,6 +1,7 @@
 using System.Numerics;
 using System.Text;
 using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 using NftFaucet.Components.CardList;
 using NftFaucet.Models;
 using NftFaucet.Plugins.NetworkPlugins;
@@ -137,9 +138,8 @@ public class SolanaKeygenProvider : IProvider
 
         var wallet = new Wallet(Key.MnemonicPhrase);
         var walletAddress = wallet.Account.PublicKey;
-        //var mintWallet = new Wallet(SolanaKey.GenerateNew().MnemonicPhrase);
-        var mint = wallet.GetAccount(1);
-        var mintAddress = mint.PublicKey;
+        var mintWallet = new Wallet(SolanaKey.GenerateNew().MnemonicPhrase);
+        var mint = mintWallet.GetAccount(0);
         var metadataAddress = GetMetadataAddress(mint.PublicKey);
         var masterEditionAddress = GetMasterEditionAddress(mint.PublicKey);
 
@@ -156,13 +156,23 @@ public class SolanaKeygenProvider : IProvider
         var destinationPublicKey = new PublicKey(mintRequest.DestinationAddress);
 
         var instructions = new List<TransactionInstruction>();
-        
+
         instructions.Add(SystemProgram.CreateAccount(walletAddress, mint, rentExemption.Result, TokenProgram.MintAccountDataSize, TokenProgram.ProgramIdKey));
         instructions.Add(TokenProgram.InitializeMint(mint, 0, walletAddress, walletAddress));
-        instructions.Add(AssociatedTokenAccountProgram.CreateAssociatedTokenAccount(walletAddress, destinationPublicKey, mint));
         var tokenBalanceAddress = AssociatedTokenAccountProgram.DeriveAssociatedTokenAccount(destinationPublicKey, mint);
+        var tokenBalanceAddressInfo = await client.GetAccountInfoAsync(tokenBalanceAddress);
+        if (!tokenBalanceAddressInfo.WasSuccessful)
+        {
+            throw new Exception("GetAccountInfo failed: " + (tokenBalanceAddressInfo.Reason ?? "<reason is null>"));
+        }
+
+        var tokenBalanceAddressExists = tokenBalanceAddressInfo.Result.Value != null;
+        if (!tokenBalanceAddressExists)
+        {
+            instructions.Add(AssociatedTokenAccountProgram.CreateAssociatedTokenAccount(walletAddress, destinationPublicKey, mint));
+        }
         instructions.Add(TokenProgram.MintTo(mint, tokenBalanceAddress, (ulong)mintRequest.TokensAmount, walletAddress));
-        
+
         instructions.Add(MetadataProgram.CreateMetadataAccount(
             metadataAddress,
             mint,
@@ -191,16 +201,24 @@ public class SolanaKeygenProvider : IProvider
 
         instructions.ForEach(x => txBuilder.AddInstruction(x));
 
-        var tx = txBuilder.Build(new List<Account> { wallet.Account, mint });
+        var signers = new List<Account> {wallet.Account, mint};
+        var tx = txBuilder.Build(signers);
         var simulationResult = await client.SimulateTransactionAsync(tx);
+        if (!simulationResult.WasSuccessful)
+        {
+            throw new Exception("Simulation failed: " + (simulationResult.Reason ?? "<reason is null>"));
+        }
         var isSimulationSuccessful = simulationResult.ErrorData == null;
-
         if (!isSimulationSuccessful)
         {
             throw new Exception("Transaction simulation failed. Try again.");
         }
 
         var txResult = await client.SendTransactionAsync(tx);
+        if (!txResult.WasSuccessful)
+        {
+            throw new Exception(txResult.RawRpcResponse);
+        }
 
         return txResult.Result;
     }
