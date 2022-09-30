@@ -5,7 +5,7 @@
 
 <form onsubmit="@OnSavePressed">
     <div class="mb-4">
-        <h4>Main file</h4>
+        <RadzenText TextStyle="TextStyle.H6" Style="display: inline;">Main file</RadzenText><text style="color: red"> *</text>
         <RadzenFileInput Error="@OnMainFileError" @bind-Value=@Model.MainFileData @bind-FileName=@Model.MainFileName @bind-FileSize=@Model.MainFileSize TValue="string" Class="w-100"/>
     </div>
 
@@ -15,19 +15,19 @@
         if (!mainFileType.StartsWith("image/") || mainFileType == "image/gif")
         {
             <div class="mb-4">
-                <h4>Cover</h4>
+                <RadzenText TextStyle="TextStyle.H6" Style="display: inline;">Cover file</RadzenText>
                 <RadzenFileInput Error="@OnCoverFileError" @bind-Value=@Model.CoverFileData @bind-FileName=@Model.CoverFileName @bind-FileSize=@Model.CoverFileSize TValue="string" Class="w-100"/>
             </div>
         }
     }
 
     <div class="mb-4">
-        <h4>Name</h4>
+        <RadzenText TextStyle="TextStyle.H6" Style="display: inline;">Name</RadzenText><text style="color: red"> *</text>
         <RadzenTextBox Placeholder="YING #668" MaxLength="50" @bind-Value="@Model.Name" Class="w-100"/>
     </div>
 
     <div class="mb-4">
-        <h4>Description</h4>
+        <RadzenText TextStyle="TextStyle.H6" Style="display: inline;">Description</RadzenText><text style="color: red"> *</text>
         <RadzenTextArea Placeholder="YING, ecotype enterprises IP of Inkeverse and the avatar spokesperson for Inkeverse." MaxLength="250" @bind-Value="@Model.Description" Class="w-100"/>
     </div>
 
