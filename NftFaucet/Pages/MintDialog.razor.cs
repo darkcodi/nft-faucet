@@ -1,3 +1,4 @@
+using System.Numerics;
 using NftFaucet.Components;
 using NftFaucet.Models;
 using NftFaucet.Plugins.NetworkPlugins;
@@ -15,6 +16,7 @@ public partial class MintDialog : BasicComponent
     private string SourceAddress { get; set; }
     private Balance Balance { get; set; }
     private string TransactionHash { get; set; }
+    private string GetBalanceError { get; set; }
     private string SendTransactionError { get; set; }
 
     protected override Task OnInitializedAsync()
@@ -89,9 +91,14 @@ public partial class MintDialog : BasicComponent
             return task1.Result;
         });
         Balance = balanceResult.IsSuccess ? balanceResult.Value : null;
-        var amount = Math.Max(Balance?.Amount ?? 0, 0);
+        GetBalanceError = balanceResult.IsFailure ? balanceResult.Error : null;
+        var amount = Balance?.Amount ?? BigInteger.Zero;
+        if (amount < BigInteger.Zero)
+        {
+            amount = BigInteger.Zero;
+        }
 
-        if (amount != 0)
+        if (amount != BigInteger.Zero)
         {
             SendTransaction();
         }

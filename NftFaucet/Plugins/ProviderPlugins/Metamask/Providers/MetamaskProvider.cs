@@ -137,7 +137,7 @@ public class MetamaskProvider : IProvider
         if (!IsConfigured)
             return null;
 
-        var balance = (long) await MetaMaskService.GetBalanceAsync();
+        var balance = await MetaMaskService.GetBalanceAsync();
         return new Balance
         {
             Amount = balance,

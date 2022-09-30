@@ -50,6 +50,10 @@ else if (State == MintingState.CheckingNetwork)
                 {
                     @(Balance.Amount + " " + Balance.Currency)
                 }
+                else if (!string.IsNullOrEmpty(GetBalanceError))
+                {
+                    @GetBalanceError
+                }
                 else
                 {
                     @:&lt;unknown&gt;

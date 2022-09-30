@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Text;
 using CSharpFunctionalExtensions;
 using NftFaucet.Components.CardList;
@@ -111,7 +112,7 @@ public class SolanaKeygenProvider : IProvider
         if (!balanceResult.WasSuccessful || balanceResult.Result == null)
             return null;
 
-        var balance = (long) balanceResult.Result.Value;
+        var balance = new BigInteger(balanceResult.Result.Value);
         return new Balance
         {
             Amount = balance,

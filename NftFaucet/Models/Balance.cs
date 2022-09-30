@@ -1,7 +1,9 @@
+using System.Numerics;
+
 namespace NftFaucet.Models;
 
 public class Balance
 {
-    public decimal Amount { get; set; }
+    public BigInteger Amount { get; set; }
     public string Currency { get; set; }
 }

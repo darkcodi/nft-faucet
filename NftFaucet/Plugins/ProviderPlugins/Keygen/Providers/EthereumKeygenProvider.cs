@@ -92,7 +92,7 @@ public class EthereumKeygenProvider : IProvider
 
         var web3 = new Web3(network.PublicRpcUrl.OriginalString);
         var hexBalance = await web3.Eth.GetBalance.SendRequestAsync(Key.Address);
-        var balance = (long) hexBalance.Value;
+        var balance = hexBalance.Value;
         return new Balance
         {
             Amount = balance,
