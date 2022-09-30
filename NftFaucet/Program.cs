@@ -33,7 +33,7 @@ builder.Services.AddMetaMaskBlazor();
 builder.Services.AddIndexedDB(dbStore =>
 {
     dbStore.DbName = "NftFaucet";
-    dbStore.Version = 2;
+    dbStore.Version = 1;
 
     dbStore.Stores.Add(new StoreSchema
     {
