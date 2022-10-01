@@ -3,11 +3,6 @@
 
 It's a WASM web-application that allows you to mint ERC-721 and ERC-1155 tokens to any specified address from supported networks.
 
-## Requirements
-- installed [Metamask](https://metamask.io/download/) extension
-- some test ETH (or MATIC or other network's base asset) to pay for a blockchain transaction fee  
-  (faucets: [Ropsten](https://faucet.egorfine.com/), [Mumbai](https://mumbaifaucet.com/), etc.)
-
 ## Demo
 Go to https://darkcodi.github.io/nft-faucet/
 
