@@ -14,6 +14,7 @@ public class MetamaskProvider : IProvider
     public string Name { get; } = "Metamask";
     public string ShortName { get; } = "Metamask";
     public string ImageName { get; } = "metamask_fox.svg";
+    public bool IsInitialized { get; private set; }
     public bool IsSupported { get; } = true;
     public bool IsConfigured => IsMetamaskAvailable && IsSiteConnected && !string.IsNullOrEmpty(Address);
 
@@ -41,6 +42,8 @@ public class MetamaskProvider : IProvider
             Address = await MetaMaskService.GetSelectedAccountAsync();
             ChainId = await MetaMaskService.GetSelectedChainAsync();
         }
+
+        IsInitialized = true;
     }
 
     public CardListItemProperty[] GetProperties()

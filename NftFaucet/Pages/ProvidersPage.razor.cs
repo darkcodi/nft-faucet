@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using NftFaucet.Components;
 using NftFaucet.Components.CardList;
 using NftFaucet.Plugins.ProviderPlugins;
@@ -7,12 +8,21 @@ namespace NftFaucet.Pages;
 
 public partial class ProvidersPage : BasicComponent
 {
-    protected override void OnInitialized()
+    [Inject]
+    public IServiceProvider ServiceProvider { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
         Providers = AppState.PluginStorage.Providers.Where(x => AppState.SelectedNetwork != null && x.IsNetworkSupported(AppState.SelectedNetwork)).ToArray();
+        foreach (var provider in Providers)
+        {
+            if (!provider.IsInitialized)
+            {
+                await provider.InitializeAsync(ServiceProvider);
+            }
+        }
         RefreshCards();
         RefreshMediator.NotifyStateHasChangedSafe();
-        base.OnInitialized();
     }
 
     private IProvider[] Providers { get; set; }

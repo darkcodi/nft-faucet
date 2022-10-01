@@ -11,6 +11,7 @@ public class PhantomProvider : IProvider
     public string Name { get; } = "Phantom";
     public string ShortName { get; } = "Phantom";
     public string ImageName { get; } = "phantom.svg";
+    public bool IsInitialized { get; } = true;
     public bool IsSupported { get; } = false;
     public bool IsConfigured { get; private set; }
 

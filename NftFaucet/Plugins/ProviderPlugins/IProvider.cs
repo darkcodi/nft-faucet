@@ -10,6 +10,7 @@ public interface IProvider
     public string Name { get; }
     public string ShortName { get; }
     public string ImageName { get; }
+    public bool IsInitialized { get; }
     public bool IsSupported { get; }
     public bool IsConfigured { get; }
 
