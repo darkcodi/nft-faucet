@@ -2,6 +2,50 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet", "NftFaucet\NftFaucet.csproj", "{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.Plugins", "NftFaucet.Plugins\NftFaucet.Plugins.csproj", "{CF83F0DB-41CD-46AA-8696-8351E098986D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{926C18AE-808E-4E77-985F-4EF54792D523}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetworkPlugins", "NetworkPlugins", "{E29C020E-A3FD-4756-ACB3-3828F915EB40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProviderPlugins", "ProviderPlugins", "{9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UploadPlugins", "UploadPlugins", "{5FA46262-EDA0-43BB-A1E5-57F50AD7EE00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.EthereumKeygen", "plugins\provider-plugins\NftFaucet.ProviderPlugins.EthereumKeygen\NftFaucet.ProviderPlugins.EthereumKeygen.csproj", "{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.Domain", "NftFaucet.Domain\NftFaucet.Domain.csproj", "{384ECEAB-40B1-4F22-AFBD-F710B935E23A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.Metamask", "plugins\provider-plugins\NftFaucet.ProviderPlugins.Metamask\NftFaucet.ProviderPlugins.Metamask.csproj", "{3028C0A8-073A-4160-92C7-34D148F1D19C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.SolanaKeygen", "plugins\provider-plugins\NftFaucet.ProviderPlugins.SolanaKeygen\NftFaucet.ProviderPlugins.SolanaKeygen.csproj", "{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.Phantom", "plugins\provider-plugins\NftFaucet.ProviderPlugins.Phantom\NftFaucet.ProviderPlugins.Phantom.csproj", "{D6522592-0719-479F-AD8E-D58D4D7B207C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.UploadPlugins.Crust", "plugins\upload-plugins\NftFaucet.UploadPlugins.Crust\NftFaucet.UploadPlugins.Crust.csproj", "{BA56B8D0-B2BD-4170-9D95-D2A1ED29E334}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.UploadPlugins.Infura", "plugins\upload-plugins\NftFaucet.UploadPlugins.Infura\NftFaucet.UploadPlugins.Infura.csproj", "{3F51D52C-3A40-4206-9715-02425786B485}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.UploadPlugins.NftStorage", "plugins\upload-plugins\NftFaucet.UploadPlugins.NftStorage\NftFaucet.UploadPlugins.NftStorage.csproj", "{F0F74D75-68EC-4B56-897E-7292A05B963B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.NetworkPlugins.Arbitrum", "plugins\network-plugins\NftFaucet.NetworkPlugins.Arbitrum\NftFaucet.NetworkPlugins.Arbitrum.csproj", "{66ABDC2E-3BA0-42C8-B726-AD3B6B7EBE8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.NetworkPlugins.Avalanche", "plugins\network-plugins\NftFaucet.NetworkPlugins.Avalanche\NftFaucet.NetworkPlugins.Avalanche.csproj", "{6E6362FA-C9A4-4C92-886F-E9510E58B5D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.NetworkPlugins.BinanceSmartChain", "plugins\network-plugins\NftFaucet.NetworkPlugins.BinanceSmartChain\NftFaucet.NetworkPlugins.BinanceSmartChain.csproj", "{D2DDEA7F-38E7-4DE8-9E65-BC2C6393230B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.NetworkPlugins.Ethereum", "plugins\network-plugins\NftFaucet.NetworkPlugins.Ethereum\NftFaucet.NetworkPlugins.Ethereum.csproj", "{16E3361F-E94A-40AA-9DBD-04FBC17EF883}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.NetworkPlugins.Moonbeam", "plugins\network-plugins\NftFaucet.NetworkPlugins.Moonbeam\NftFaucet.NetworkPlugins.Moonbeam.csproj", "{445C33D6-CB12-4C7C-B77F-3A8E785A14BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.NetworkPlugins.Optimism", "plugins\network-plugins\NftFaucet.NetworkPlugins.Optimism\NftFaucet.NetworkPlugins.Optimism.csproj", "{5EAB42A1-4C5B-407A-AE4E-34F608365760}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.NetworkPlugins.Polygon", "plugins\network-plugins\NftFaucet.NetworkPlugins.Polygon\NftFaucet.NetworkPlugins.Polygon.csproj", "{DD751505-81EC-4B8D-B2A5-FB246DCB68E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.NetworkPlugins.Solana", "plugins\network-plugins\NftFaucet.NetworkPlugins.Solana\NftFaucet.NetworkPlugins.Solana.csproj", "{A2EE3F83-C57C-48B1-A5FE-E573284B6661}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.Infrastructure", "NftFaucet.Infrastructure\NftFaucet.Infrastructure.csproj", "{06949AF1-D775-4E6B-A309-C358B05F4D50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +56,97 @@ Global
 		{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E113DAEE-A1E4-4BE2-8CDA-6E06245A471A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF83F0DB-41CD-46AA-8696-8351E098986D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF83F0DB-41CD-46AA-8696-8351E098986D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF83F0DB-41CD-46AA-8696-8351E098986D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF83F0DB-41CD-46AA-8696-8351E098986D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{384ECEAB-40B1-4F22-AFBD-F710B935E23A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{384ECEAB-40B1-4F22-AFBD-F710B935E23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{384ECEAB-40B1-4F22-AFBD-F710B935E23A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{384ECEAB-40B1-4F22-AFBD-F710B935E23A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3028C0A8-073A-4160-92C7-34D148F1D19C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3028C0A8-073A-4160-92C7-34D148F1D19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3028C0A8-073A-4160-92C7-34D148F1D19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3028C0A8-073A-4160-92C7-34D148F1D19C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6522592-0719-479F-AD8E-D58D4D7B207C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6522592-0719-479F-AD8E-D58D4D7B207C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6522592-0719-479F-AD8E-D58D4D7B207C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6522592-0719-479F-AD8E-D58D4D7B207C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA56B8D0-B2BD-4170-9D95-D2A1ED29E334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA56B8D0-B2BD-4170-9D95-D2A1ED29E334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA56B8D0-B2BD-4170-9D95-D2A1ED29E334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA56B8D0-B2BD-4170-9D95-D2A1ED29E334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F51D52C-3A40-4206-9715-02425786B485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F51D52C-3A40-4206-9715-02425786B485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F51D52C-3A40-4206-9715-02425786B485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F51D52C-3A40-4206-9715-02425786B485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0F74D75-68EC-4B56-897E-7292A05B963B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F74D75-68EC-4B56-897E-7292A05B963B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F74D75-68EC-4B56-897E-7292A05B963B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F74D75-68EC-4B56-897E-7292A05B963B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66ABDC2E-3BA0-42C8-B726-AD3B6B7EBE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66ABDC2E-3BA0-42C8-B726-AD3B6B7EBE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66ABDC2E-3BA0-42C8-B726-AD3B6B7EBE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66ABDC2E-3BA0-42C8-B726-AD3B6B7EBE8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E6362FA-C9A4-4C92-886F-E9510E58B5D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E6362FA-C9A4-4C92-886F-E9510E58B5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E6362FA-C9A4-4C92-886F-E9510E58B5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E6362FA-C9A4-4C92-886F-E9510E58B5D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2DDEA7F-38E7-4DE8-9E65-BC2C6393230B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2DDEA7F-38E7-4DE8-9E65-BC2C6393230B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2DDEA7F-38E7-4DE8-9E65-BC2C6393230B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2DDEA7F-38E7-4DE8-9E65-BC2C6393230B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16E3361F-E94A-40AA-9DBD-04FBC17EF883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16E3361F-E94A-40AA-9DBD-04FBC17EF883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16E3361F-E94A-40AA-9DBD-04FBC17EF883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16E3361F-E94A-40AA-9DBD-04FBC17EF883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445C33D6-CB12-4C7C-B77F-3A8E785A14BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445C33D6-CB12-4C7C-B77F-3A8E785A14BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445C33D6-CB12-4C7C-B77F-3A8E785A14BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445C33D6-CB12-4C7C-B77F-3A8E785A14BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EAB42A1-4C5B-407A-AE4E-34F608365760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EAB42A1-4C5B-407A-AE4E-34F608365760}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EAB42A1-4C5B-407A-AE4E-34F608365760}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EAB42A1-4C5B-407A-AE4E-34F608365760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD751505-81EC-4B8D-B2A5-FB246DCB68E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD751505-81EC-4B8D-B2A5-FB246DCB68E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD751505-81EC-4B8D-B2A5-FB246DCB68E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD751505-81EC-4B8D-B2A5-FB246DCB68E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2EE3F83-C57C-48B1-A5FE-E573284B6661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2EE3F83-C57C-48B1-A5FE-E573284B6661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2EE3F83-C57C-48B1-A5FE-E573284B6661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2EE3F83-C57C-48B1-A5FE-E573284B6661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06949AF1-D775-4E6B-A309-C358B05F4D50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06949AF1-D775-4E6B-A309-C358B05F4D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06949AF1-D775-4E6B-A309-C358B05F4D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06949AF1-D775-4E6B-A309-C358B05F4D50}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E29C020E-A3FD-4756-ACB3-3828F915EB40} = {926C18AE-808E-4E77-985F-4EF54792D523}
+		{9DE3CDEC-37AE-4FB0-B115-984EB47F57C5} = {926C18AE-808E-4E77-985F-4EF54792D523}
+		{5FA46262-EDA0-43BB-A1E5-57F50AD7EE00} = {926C18AE-808E-4E77-985F-4EF54792D523}
+		{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5} = {9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}
+		{3028C0A8-073A-4160-92C7-34D148F1D19C} = {9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}
+		{D6522592-0719-479F-AD8E-D58D4D7B207C} = {9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}
+		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9} = {9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}
+		{BA56B8D0-B2BD-4170-9D95-D2A1ED29E334} = {5FA46262-EDA0-43BB-A1E5-57F50AD7EE00}
+		{3F51D52C-3A40-4206-9715-02425786B485} = {5FA46262-EDA0-43BB-A1E5-57F50AD7EE00}
+		{F0F74D75-68EC-4B56-897E-7292A05B963B} = {5FA46262-EDA0-43BB-A1E5-57F50AD7EE00}
+		{66ABDC2E-3BA0-42C8-B726-AD3B6B7EBE8C} = {E29C020E-A3FD-4756-ACB3-3828F915EB40}
+		{6E6362FA-C9A4-4C92-886F-E9510E58B5D5} = {E29C020E-A3FD-4756-ACB3-3828F915EB40}
+		{D2DDEA7F-38E7-4DE8-9E65-BC2C6393230B} = {E29C020E-A3FD-4756-ACB3-3828F915EB40}
+		{16E3361F-E94A-40AA-9DBD-04FBC17EF883} = {E29C020E-A3FD-4756-ACB3-3828F915EB40}
+		{445C33D6-CB12-4C7C-B77F-3A8E785A14BB} = {E29C020E-A3FD-4756-ACB3-3828F915EB40}
+		{5EAB42A1-4C5B-407A-AE4E-34F608365760} = {E29C020E-A3FD-4756-ACB3-3828F915EB40}
+		{DD751505-81EC-4B8D-B2A5-FB246DCB68E4} = {E29C020E-A3FD-4756-ACB3-3828F915EB40}
+		{A2EE3F83-C57C-48B1-A5FE-E573284B6661} = {E29C020E-A3FD-4756-ACB3-3828F915EB40}
 	EndGlobalSection
 EndGlobal

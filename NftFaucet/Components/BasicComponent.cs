@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Components;
-using NftFaucet.Models.State;
+using NftFaucet.Infrastructure.Models.State;
+using NftFaucet.Infrastructure.Repositories;
+using NftFaucet.Infrastructure.Services;
 using NftFaucet.Options;
-using NftFaucet.Services;
 using Radzen;
 
 namespace NftFaucet.Components;
@@ -33,7 +34,7 @@ public abstract class BasicComponent : ComponentBase
     protected Settings Settings { get; set; }
 
     [Inject]
-    protected StateRepository StateRepository { get; set; }
+    protected IStateRepository StateRepository { get; set; }
 
     protected override void OnInitialized()
     {

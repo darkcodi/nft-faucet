@@ -1,7 +1,6 @@
 using MimeTypes;
 using NftFaucet.Components;
-using NftFaucet.Models;
-using NftFaucet.Plugins;
+using NftFaucet.Domain.Models;
 using Radzen;
 
 namespace NftFaucet.Pages;
@@ -95,5 +94,17 @@ public partial class CreateTokenDialog : BasicComponent
         Model.CoverFileData = null;
         Model.CoverFileName = null;
         Model.CoverFileSize = null;
+    }
+
+    private class NewFileModel
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string MainFileData { get; set; }
+        public string MainFileName { get; set; }
+        public long? MainFileSize { get; set; }
+        public string CoverFileData { get; set; }
+        public string CoverFileName { get; set; }
+        public long? CoverFileSize { get; set; }
     }
 }

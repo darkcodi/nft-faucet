@@ -1,16 +1,17 @@
-using NftFaucet.Extensions;
-using NftFaucet.Models.State;
+using NftFaucet.Infrastructure.Extensions;
+using NftFaucet.Infrastructure.Models.State;
+using NftFaucet.Infrastructure.Repositories;
 
 namespace NftFaucet.Services;
 
-public class InitializationService
+public class InitializationService : IInitializationService
 {
     private readonly ScopedAppState _appState;
     private readonly PluginLoader _pluginLoader;
-    private readonly StateRepository _stateRepository;
+    private readonly IStateRepository _stateRepository;
     private readonly IServiceProvider _serviceProvider;
 
-    public InitializationService(ScopedAppState appState, PluginLoader pluginLoader, StateRepository stateRepository, IServiceProvider serviceProvider)
+    public InitializationService(ScopedAppState appState, PluginLoader pluginLoader, IStateRepository stateRepository, IServiceProvider serviceProvider)
     {
         _appState = appState;
         _pluginLoader = pluginLoader;
@@ -41,10 +42,9 @@ public class InitializationService
                          _appState.PluginStorage.Uploaders == null &&
                          _appState.PluginStorage.Contracts == null;
 
-        _pluginLoader.EnsurePluginsLoaded();
         _appState.PluginStorage.Networks ??= _pluginLoader.NetworkPlugins.SelectMany(x => x.Networks).Where(x => x != null).ToArray();
-        _appState.PluginStorage.Providers ??= _pluginLoader.ProviderPlugins.SelectMany(x => x.Providers).Where(x => x != null).ToArray();
-        _appState.PluginStorage.Uploaders ??= _pluginLoader.UploadPlugins.SelectMany(x => x.Uploaders).Where(x => x != null).ToArray();
+        _appState.PluginStorage.Providers ??= _pluginLoader.ProviderPlugins.Where(x => x != null).ToArray();
+        _appState.PluginStorage.Uploaders ??= _pluginLoader.UploadPlugins.Where(x => x != null).ToArray();
         _appState.PluginStorage.Contracts ??= _appState.PluginStorage.Networks.SelectMany(x => x.DeployedContracts).Where(x => x != null).ToArray();
 
         if (isFirstRun)

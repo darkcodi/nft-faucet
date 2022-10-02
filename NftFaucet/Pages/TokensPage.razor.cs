@@ -1,7 +1,7 @@
 using ByteSizeLib;
 using NftFaucet.Components;
 using NftFaucet.Components.CardList;
-using NftFaucet.Plugins;
+using NftFaucet.Domain.Models.Abstraction;
 using Radzen;
 
 namespace NftFaucet.Pages;

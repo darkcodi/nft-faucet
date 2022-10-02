@@ -1,36 +1,48 @@
-using System.Reflection;
-using NftFaucet.Plugins.NetworkPlugins;
-using NftFaucet.Plugins.ProviderPlugins;
-using NftFaucet.Plugins.UploadPlugins;
+using NftFaucet.NetworkPlugins.Arbitrum;
+using NftFaucet.NetworkPlugins.Avalanche;
+using NftFaucet.NetworkPlugins.BinanceSmartChain;
+using NftFaucet.NetworkPlugins.Ethereum;
+using NftFaucet.NetworkPlugins.Moonbeam;
+using NftFaucet.NetworkPlugins.Optimism;
+using NftFaucet.NetworkPlugins.Polygon;
+using NftFaucet.NetworkPlugins.Solana;
+using NftFaucet.Plugins.Models.Abstraction;
+using NftFaucet.ProviderPlugins.EthereumKeygen;
+using NftFaucet.ProviderPlugins.Metamask;
+using NftFaucet.ProviderPlugins.Phantom;
+using NftFaucet.ProviderPlugins.SolanaKeygen;
+using NftFaucet.UploadPlugins.Crust;
+using NftFaucet.UploadPlugins.Infura;
+using NftFaucet.UploadPlugins.NftStorage;
 
 namespace NftFaucet.Services;
 
 public class PluginLoader
 {
-    public IReadOnlyCollection<INetworkPlugin> NetworkPlugins { get; private set; }
-    public IReadOnlyCollection<IProviderPlugin> ProviderPlugins { get; private set; }
-    public IReadOnlyCollection<IUploadPlugin> UploadPlugins { get; private set; }
-
-    public bool ArePluginsLoaded { get; private set; }
-
-    public void EnsurePluginsLoaded()
+    public IReadOnlyCollection<INetworkPlugin> NetworkPlugins { get; } = new INetworkPlugin[]
     {
-        if (ArePluginsLoaded)
-        {
-            return;
-        }
+        new EthereumNetworkPlugin(),
+        new PolygonNetworkPlugin(),
+        new BscNetworkPlugin(),
+        new OptimismNetworkPlugin(),
+        new MoonbeamNetworkPlugin(),
+        new ArbitrumNetworkPlugin(),
+        new AvalancheNetworkPlugin(),
+        new SolanaNetworkPlugin(),
+    };
 
-        var assembly = Assembly.GetExecutingAssembly();
-        var allTypes = assembly.GetTypes();
-        
-        var networkPluginTypes = allTypes.Where(x => x.IsClass && typeof(INetworkPlugin).IsAssignableFrom(x)).ToArray();
-        var providerPluginTypes = allTypes.Where(x => x.IsClass && typeof(IProviderPlugin).IsAssignableFrom(x)).ToArray();
-        var uploadPluginTypes = allTypes.Where(x => x.IsClass && typeof(IUploadPlugin).IsAssignableFrom(x)).ToArray();
+    public IReadOnlyCollection<IProvider> ProviderPlugins { get; } = new IProvider[]
+    {
+        new MetamaskProvider(),
+        new EthereumKeygenProvider(),
+        new PhantomProvider(),
+        new SolanaKeygenProvider(),
+    };
 
-        NetworkPlugins = networkPluginTypes.Select(x => (INetworkPlugin) Activator.CreateInstance(x)).ToArray();
-        ProviderPlugins = providerPluginTypes.Select(x => (IProviderPlugin) Activator.CreateInstance(x)).ToArray();
-        UploadPlugins = uploadPluginTypes.Select(x => (IUploadPlugin) Activator.CreateInstance(x)).ToArray();
-
-        ArePluginsLoaded = true;
-    }
+    public IReadOnlyCollection<IUploader> UploadPlugins { get; } = new IUploader[]
+    {
+        new InfuraUploader(),
+        new NftStorageUploader(),
+        new CrustUploader(),
+    };
 }

@@ -9,5 +9,5 @@ public class CardListItem
     public CardListItemSelectionIcon SelectionIcon { get; set; }
     public CardListItemProperty[] Properties { get; set; } = Array.Empty<CardListItemProperty>();
     public CardListItemBadge[] Badges { get; set; } = Array.Empty<CardListItemBadge>();
-    public CardListItemConfiguration Configuration { get; set; }
+    public CardListItemButton[] Buttons { get; set; } = Array.Empty<CardListItemButton>();
 }

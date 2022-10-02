@@ -1,10 +1,13 @@
 using Ethereum.MetaMask.Blazor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using NftFaucet.Models.State;
 using NftFaucet.Options;
 using NftFaucet.Services;
 using NftFaucet;
+using NftFaucet.Domain.Services;
+using NftFaucet.Infrastructure.Models.State;
+using NftFaucet.Infrastructure.Repositories;
+using NftFaucet.Infrastructure.Services;
 using Radzen;
 using TG.Blazor.IndexedDB;
 
@@ -20,14 +23,18 @@ builder.Services.AddSingleton(settings);
 builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 builder.Services.AddSingleton<PluginLoader>();
 builder.Services.AddSingleton<Mapper>();
-builder.Services.AddScoped<InitializationService>();
-builder.Services.AddScoped<StateRepository>();
+builder.Services.AddScoped<ITokenMetadataGenerator, TokenMetadataGenerator>();
+builder.Services.AddScoped<IInitializationService, InitializationService>();
+builder.Services.AddScoped<IStateRepository, StateRepository>();
 builder.Services.AddScoped<ScopedAppState>();
 builder.Services.AddScoped<RefreshMediator>();
+
+// add Radzen components
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
+
 builder.Services.AddMetaMaskBlazor();
 
 builder.Services.AddIndexedDB(dbStore =>
@@ -107,6 +114,6 @@ builder.Services.AddIndexedDB(dbStore =>
 });
 
 var app = builder.Build();
-var initializationService = app.Services.GetRequiredService<InitializationService>();
+var initializationService = app.Services.GetRequiredService<IInitializationService>();
 await initializationService.Initialize();
 await app.RunAsync();

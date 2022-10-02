@@ -1,6 +1,6 @@
 using CSharpFunctionalExtensions;
 using NftFaucet.Components;
-using NftFaucet.Utils;
+using NftFaucet.Domain.Utils;
 using Radzen;
 
 namespace NftFaucet.Pages;

@@ -9,19 +9,10 @@
 
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
-        <PackageReference Include="Cryptography.ECDSA.Secp256K1" Version="1.1.3" />
-        <PackageReference Include="CSharpFunctionalExtensions" Version="2.33.2" />
-        <PackageReference Include="Ethereum.MetaMask.Blazor" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
         <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
-        <PackageReference Include="Nethereum.ABI" Version="4.8.0" />
-        <PackageReference Include="Nethereum.JsonRpc.Client" Version="4.8.0" />
-        <PackageReference Include="Nethereum.Web3" Version="4.8.0" />
         <PackageReference Include="Radzen.Blazor" Version="4.1.5" />
-        <PackageReference Include="RestEase" Version="1.5.7" />
-        <PackageReference Include="Solana.Metaplex" Version="1.2.0" />
-        <PackageReference Include="TG.Blazor.IndexedDB" Version="1.5.0-preview" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,7 +22,23 @@
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+      <ProjectReference Include="..\NftFaucet.Infrastructure\NftFaucet.Infrastructure.csproj" />
+      <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Arbitrum\NftFaucet.NetworkPlugins.Arbitrum.csproj" />
+      <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Avalanche\NftFaucet.NetworkPlugins.Avalanche.csproj" />
+      <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.BinanceSmartChain\NftFaucet.NetworkPlugins.BinanceSmartChain.csproj" />
+      <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Ethereum\NftFaucet.NetworkPlugins.Ethereum.csproj" />
+      <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Moonbeam\NftFaucet.NetworkPlugins.Moonbeam.csproj" />
+      <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Optimism\NftFaucet.NetworkPlugins.Optimism.csproj" />
+      <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Polygon\NftFaucet.NetworkPlugins.Polygon.csproj" />
+      <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Solana\NftFaucet.NetworkPlugins.Solana.csproj" />
+      <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.EthereumKeygen\NftFaucet.ProviderPlugins.EthereumKeygen.csproj" />
+      <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.Metamask\NftFaucet.ProviderPlugins.Metamask.csproj" />
+      <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.Phantom\NftFaucet.ProviderPlugins.Phantom.csproj" />
+      <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.SolanaKeygen\NftFaucet.ProviderPlugins.SolanaKeygen.csproj" />
+      <ProjectReference Include="..\NftFaucet.Plugins\NftFaucet.Plugins.csproj" />
+      <ProjectReference Include="..\plugins\upload-plugins\NftFaucet.UploadPlugins.Crust\NftFaucet.UploadPlugins.Crust.csproj" />
+      <ProjectReference Include="..\plugins\upload-plugins\NftFaucet.UploadPlugins.Infura\NftFaucet.UploadPlugins.Infura.csproj" />
+      <ProjectReference Include="..\plugins\upload-plugins\NftFaucet.UploadPlugins.NftStorage\NftFaucet.UploadPlugins.NftStorage.csproj" />
     </ItemGroup>
 
 </Project>

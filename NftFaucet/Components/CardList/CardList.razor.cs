@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using NftFaucet.Pages;
 using Radzen;
 
 namespace NftFaucet.Components.CardList;
@@ -37,21 +38,5 @@ public partial class CardList : BasicComponent
         await SelectedItemsChanged.InvokeAsync(SelectedItems);
         await OnSelectedChange.InvokeAsync(SelectedItems);
         RefreshMediator.NotifyStateHasChangedSafe();
-    }
-
-    protected async Task OpenItemConfigurationDialog(CardListItem item)
-    {
-        var result = (bool?) await DialogService.OpenAsync<CardListItemConfigurationDialog>("Configuration",
-            new Dictionary<string, object>
-            {
-                { "CardListItemId", item.Id },
-                { "CardListItem", item },
-            },
-            new DialogOptions() {Width = "700px", Height = "570px", Resizable = true, Draggable = true});
-
-        if (result != null && result.Value)
-        {
-            RefreshMediator.NotifyStateHasChangedSafe();
-        }
     }
 }

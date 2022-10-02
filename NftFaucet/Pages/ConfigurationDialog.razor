@@ -1,0 +1,36 @@
+@page "/configuration"
+@using NftFaucet.Plugins.Models
+@using NftFaucet.Plugins.Models.Enums
+@inherits BasicComponent
+
+<PageTitle>Configuration</PageTitle>
+
+<form onsubmit="@OnSavePressed">
+    @foreach (var configurationItem in ConfigurationItems ?? Array.Empty<ConfigurationItem>())
+    {
+        switch (configurationItem.DisplayType)
+        {
+            case UiDisplayType.Input:
+            {
+                <div class="mb-4">
+                    <h4>@configurationItem.Name</h4>
+                    <RadzenTextBox Placeholder=@configurationItem.Placeholder @bind-Value="@configurationItem.Value" Disabled="@configurationItem.IsDisabled" Class="w-100"/>
+                </div>
+                break;
+            }
+            case UiDisplayType.Button:
+            {
+                <div class="mb-4">
+                    <RadzenButton Text="@configurationItem.Name" Click="@(() => configurationItem.ClickAction())" Disabled="@configurationItem.IsDisabled" Class="w-100"/>
+                </div>
+                break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    <div style="display: flex; justify-content: end;">
+        <RadzenButton Click="@((args) => OnSavePressed())" Text="Save" Style="width: 120px"/>
+    </div>
+</form>

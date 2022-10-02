@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\NftFaucet.Plugins\NftFaucet.Plugins.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Ethereum.MetaMask.Blazor" Version="1.0.0" />
+    </ItemGroup>
+
+</Project>

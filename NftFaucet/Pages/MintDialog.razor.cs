@@ -1,8 +1,9 @@
 using System.Numerics;
 using NftFaucet.Components;
-using NftFaucet.Models;
-using NftFaucet.Plugins.NetworkPlugins;
-using NftFaucet.Utils;
+using NftFaucet.Domain.Models;
+using NftFaucet.Domain.Models.Abstraction;
+using NftFaucet.Domain.Utils;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.Pages;
 
@@ -149,5 +150,14 @@ public partial class MintDialog : BasicComponent
     private async Task Close()
     {
         DialogService.Close(TransactionHash);
+    }
+
+    private enum MintingState
+    {
+        CheckingNetwork,
+        CheckingAddress,
+        CheckingBalance,
+        SendingTransaction,
+        Done,
     }
 }

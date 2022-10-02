@@ -1,7 +1,7 @@
 using System.Globalization;
 using NftFaucet.Components;
 using NftFaucet.Components.CardList;
-using NftFaucet.Plugins.NetworkPlugins;
+using NftFaucet.Domain.Models.Abstraction;
 using Radzen;
 
 namespace NftFaucet.Pages;

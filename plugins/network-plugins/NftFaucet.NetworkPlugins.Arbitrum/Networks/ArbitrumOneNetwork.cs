@@ -1,0 +1,23 @@
+using NftFaucet.Domain.Models.Abstraction;
+using NftFaucet.Domain.Models.Enums;
+
+namespace NftFaucet.NetworkPlugins.Arbitrum.Networks;
+
+public class ArbitrumOneNetwork : INetwork
+{
+    public Guid Id { get; } = Guid.Parse("4f0be8b9-dda1-4598-88b9-d4ba77f4c30e");
+    public string Name { get; } = "Arbitrum One";
+    public string ShortName { get; } = "Arbitrum";
+    public ulong? ChainId { get; } = 42161;
+    public int? Order { get; } = 1;
+    public string Currency { get; } = "ETH";
+    public string ImageName { get; } = "arbitrum.svg";
+    public bool IsSupported { get; } = false;
+    public bool IsTestnet { get; } = false;
+    public bool IsDeprecated { get; } = false;
+    public NetworkType Type { get; } = NetworkType.Ethereum;
+    public NetworkSubtype SubType { get; } = NetworkSubtype.Arbitrum;
+    public Uri PublicRpcUrl { get; } = null;
+    public Uri ExplorerUrl { get; } = new Uri("https://arbiscan.io/");
+    public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
+}

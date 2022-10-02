@@ -1,11 +1,14 @@
 using System.Text;
+using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
 using NftFaucet.Components;
 using NftFaucet.Components.CardList;
-using NftFaucet.Models;
-using NftFaucet.Plugins;
-using NftFaucet.Plugins.UploadPlugins;
+using NftFaucet.Domain.Models;
+using NftFaucet.Domain.Models.Abstraction;
+using NftFaucet.Domain.Services;
+using NftFaucet.Domain.Utils;
+using NftFaucet.Plugins.Models;
+using NftFaucet.Plugins.Models.Abstraction;
 using Radzen;
 
 namespace NftFaucet.Pages;
@@ -14,10 +17,12 @@ public partial class CreateUploadDialog : BasicComponent
 {
     [Parameter] public IToken Token { get; set; }
 
+    [Inject] public ITokenMetadataGenerator TokenMetadataGenerator { get; set; }
+
     protected override void OnInitialized()
     {
-        RefreshCards();
         base.OnInitialized();
+        RefreshCards();
     }
 
     private CardListItem[] UploaderCards { get; set; }
@@ -28,17 +33,18 @@ public partial class CreateUploadDialog : BasicComponent
     private void RefreshCards()
     {
         UploaderCards = AppState.PluginStorage.Uploaders.Select(MapCardListItem).ToArray();
+        RefreshMediator.NotifyStateHasChangedSafe();
     }
 
     private CardListItem MapCardListItem(IUploader uploader)
     {
-        var configuration = uploader.GetConfiguration();
+        var configurationItems = uploader.GetConfigurationItems();
         return new CardListItem
         {
             Id = uploader.Id,
             ImageLocation = uploader.ImageName != null ? "./images/" + uploader.ImageName : null,
             Header = uploader.Name,
-            Properties = uploader.GetProperties(),
+            Properties = uploader.GetProperties().Select(Map).ToArray(),
             IsDisabled = !uploader.IsSupported,
             SelectionIcon = uploader.IsConfigured ? CardListItemSelectionIcon.Checkmark : CardListItemSelectionIcon.Warning,
             Badges = new[]
@@ -50,22 +56,25 @@ public partial class CreateUploadDialog : BasicComponent
                     ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"}
                     : null,
             }.Where(x => x != null).ToArray(),
-            Configuration = configuration == null
-                ? null
-                : new CardListItemConfiguration
+            Buttons = configurationItems != null && configurationItems.Any()
+                ? new[]
                 {
-                    Objects = configuration.Objects,
-                    ConfigureAction = async x =>
+                    new CardListItemButton
                     {
-                        var result = await configuration.ConfigureAction(x);
-                        RefreshCards();
-                        if (result.IsSuccess)
+                        Icon = "build",
+                        Style = ButtonStyle.Secondary,
+                        Action = async () =>
                         {
-                            await StateRepository.SaveUploaderState(uploader);
+                            var result = await OpenConfigurationDialog(uploader);
+                            RefreshCards();
+                            if (result.IsSuccess)
+                            {
+                                await StateRepository.SaveUploaderState(uploader);
+                            }
                         }
-                        return result;
-                    },
-                },
+                    }
+                }
+                : Array.Empty<CardListItemButton>(),
         };
     }
 
@@ -74,7 +83,7 @@ public partial class CreateUploadDialog : BasicComponent
         IsUploading = true;
         RefreshMediator.NotifyStateHasChangedSafe();
 
-        var mainFileLocationResult = await SelectedUploader.Upload(Token.MainFile.FileName, Token.MainFile.FileType, Base64DataToBytes(Token.MainFile.FileData));
+        var mainFileLocationResult = await ResultWrapper.Wrap(() => SelectedUploader.Upload(Token.MainFile.FileName, Token.MainFile.FileType, Base64DataToBytes(Token.MainFile.FileData)));
         if (mainFileLocationResult.IsFailure)
         {
             IsUploading = false;
@@ -87,7 +96,7 @@ public partial class CreateUploadDialog : BasicComponent
         Uri coverFileLocation = null;
         if (Token.CoverFile != null)
         {
-            var coverFileLocationResult = await SelectedUploader.Upload(Token.CoverFile.FileName, Token.CoverFile.FileType, Base64DataToBytes(Token.CoverFile.FileData));
+            var coverFileLocationResult = await ResultWrapper.Wrap(() => SelectedUploader.Upload(Token.CoverFile.FileName, Token.CoverFile.FileType, Base64DataToBytes(Token.CoverFile.FileData)));
             if (coverFileLocationResult.IsFailure)
             {
                 IsUploading = false;
@@ -98,9 +107,9 @@ public partial class CreateUploadDialog : BasicComponent
             coverFileLocation = coverFileLocationResult.Value;
         }
 
-        var tokenMetadata = GenerateTokenMetadata(Token, mainFileLocation, coverFileLocation);
+        var tokenMetadata = TokenMetadataGenerator.GenerateTokenMetadata(Token, mainFileLocation, coverFileLocation);
         var tokenMetadataBytes = Encoding.UTF8.GetBytes(tokenMetadata);
-        var tokenLocationResult = await SelectedUploader.Upload($"{Token.Id}.json", "application/json", tokenMetadataBytes);
+        var tokenLocationResult = await ResultWrapper.Wrap(() => SelectedUploader.Upload($"{Token.Id}.json", "application/json", tokenMetadataBytes));
         if (tokenLocationResult.IsFailure)
         {
             IsUploading = false;
@@ -124,6 +133,33 @@ public partial class CreateUploadDialog : BasicComponent
         DialogService.Close(uploadLocation);
     }
 
+    private async Task<Result> OpenConfigurationDialog(IUploader uploader)
+    {
+        var configurationItems = uploader.GetConfigurationItems();
+        foreach (var configurationItem in configurationItems)
+        {
+            var prevClickHandler = configurationItem.ClickAction;
+            if (prevClickHandler != null)
+            {
+                configurationItem.ClickAction = () =>
+                {
+                    prevClickHandler();
+                    RefreshMediator.NotifyStateHasChangedSafe();
+                };
+            }
+        }
+
+        var result = (bool?) await DialogService.OpenAsync<ConfigurationDialog>("Configuration",
+            new Dictionary<string, object>
+            {
+                { nameof(ConfigurationDialog.ConfigurationItems), configurationItems },
+                { nameof(ConfigurationDialog.ConfigureAction), uploader.Configure },
+            },
+            new DialogOptions() {Width = "700px", Height = "570px", Resizable = true, Draggable = true});
+
+        return result != null && result.Value ? Result.Success() : Result.Failure("Operation cancelled");
+    }
+
     private static byte[] Base64DataToBytes(string fileData)
     {
         var index = fileData.IndexOf(';');
@@ -131,17 +167,12 @@ public partial class CreateUploadDialog : BasicComponent
         return Convert.FromBase64String(encoded);
     }
 
-    private static string GenerateTokenMetadata(IToken token, Uri mainFileLocation, Uri coverFileLocation)
-    {
-        var tokenMetadata = new TokenMetadata
+    private CardListItemProperty Map(Property model)
+        => model == null ? null : new CardListItemProperty
         {
-            Name = token.Name,
-            Description = token.Description,
-            Image = coverFileLocation != null ? coverFileLocation.OriginalString : mainFileLocation.OriginalString,
-            AnimationUrl = coverFileLocation != null ? mainFileLocation.OriginalString : null,
-            ExternalUrl = "https://darkcodi.github.io/nft-faucet/",
+            Name = model.Name,
+            Value = model.Value,
+            ValueColor = model.ValueColor,
+            Link = model.Link,
         };
-        var metadataJson = JsonConvert.SerializeObject(tokenMetadata, Formatting.Indented);
-        return metadataJson;
-    }
 }
