@@ -7,4 +7,5 @@ public interface INamedEntity
     public string ShortName { get; }
     public string ImageName { get; }
     public bool IsSupported { get; }
+    public bool IsDeprecated { get; }
 }

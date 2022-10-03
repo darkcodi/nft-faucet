@@ -8,7 +8,6 @@ public interface INetwork : INamedEntity, IEntityWithOrder
     public ulong? ChainId { get; }
     public string Currency { get; }
     public bool IsTestnet { get; }
-    public bool IsDeprecated { get; }
     public NetworkType Type { get; }
     public NetworkSubtype SubType { get; }
     public Uri PublicRpcUrl { get; }

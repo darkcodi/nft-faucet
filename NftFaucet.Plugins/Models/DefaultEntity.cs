@@ -10,6 +10,7 @@ public abstract class DefaultEntity : INamedEntity, IEntityWithOrder, IStateful,
     public abstract string ShortName { get; }
     public abstract string ImageName { get; }
     public virtual bool IsSupported { get; } = true;
+    public virtual bool IsDeprecated { get; } = false;
 
     public virtual int? Order { get; } = null;
 

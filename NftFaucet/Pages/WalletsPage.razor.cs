@@ -37,25 +37,24 @@ public partial class WalletsPage : BasicComponent
         WalletCards = Wallets.Select(MapCardListItem).ToArray();
     }
 
-    private CardListItem MapCardListItem(IWallet wallet)
+    private CardListItem MapCardListItem(IWallet model)
     {
-        var configurationItems = wallet.GetConfigurationItems();
+        var configurationItems = model.GetConfigurationItems();
         return new CardListItem
         {
-            Id = wallet.Id,
-            ImageLocation = wallet.ImageName != null ? "./images/" + wallet.ImageName : null,
-            Header = wallet.Name,
-            IsDisabled = !wallet.IsSupported,
-            Properties = wallet.GetProperties().Select(Map).ToArray(),
-            SelectionIcon = wallet.IsConfigured ? CardListItemSelectionIcon.Checkmark : CardListItemSelectionIcon.Warning,
+            Id = model.Id,
+            ImageLocation = model.ImageName != null ? "./images/" + model.ImageName : null,
+            Header = model.Name,
+            IsDisabled = !model.IsSupported,
+            Properties = model.GetProperties().Select(Map).ToArray(),
+            SelectionIcon = model.IsConfigured ? CardListItemSelectionIcon.Checkmark : CardListItemSelectionIcon.Warning,
             Badges = new[]
             {
-                (Settings?.RecommendedWallets?.Contains(wallet.Id) ?? false)
+                (Settings?.RecommendedWallets?.Contains(model.Id) ?? false)
                     ? new CardListItemBadge {Style = BadgeStyle.Success, Text = "Recommended"}
                     : null,
-                !wallet.IsSupported
-                    ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"}
-                    : null,
+                !model.IsSupported ? new CardListItemBadge { Style = BadgeStyle.Light, Text = "Not Supported" } : null,
+                model.IsDeprecated ? new CardListItemBadge { Style = BadgeStyle.Warning, Text = "Deprecated" } : null,
             }.Where(x => x != null).ToArray(),
             Buttons = configurationItems != null && configurationItems.Any()
                 ? new[]
@@ -66,11 +65,11 @@ public partial class WalletsPage : BasicComponent
                         Style = ButtonStyle.Secondary,
                         Action = async () =>
                         {
-                            var result = await OpenConfigurationDialog(wallet);
+                            var result = await OpenConfigurationDialog(model);
                             RefreshCards();
                             if (result.IsSuccess)
                             {
-                                await StateRepository.SaveWalletState(wallet);
+                                await StateRepository.SaveWalletState(model);
                             }
                         }
                     }

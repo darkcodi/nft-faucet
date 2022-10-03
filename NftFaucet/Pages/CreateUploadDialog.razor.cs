@@ -38,25 +38,24 @@ public partial class CreateUploadDialog : BasicComponent
         RefreshMediator.NotifyStateHasChangedSafe();
     }
 
-    private CardListItem MapCardListItem(IUploader uploader)
+    private CardListItem MapCardListItem(IUploader model)
     {
-        var configurationItems = uploader.GetConfigurationItems();
+        var configurationItems = model.GetConfigurationItems();
         return new CardListItem
         {
-            Id = uploader.Id,
-            ImageLocation = uploader.ImageName != null ? "./images/" + uploader.ImageName : null,
-            Header = uploader.Name,
-            Properties = uploader.GetProperties().Select(Map).ToArray(),
-            IsDisabled = !uploader.IsSupported,
-            SelectionIcon = uploader.IsConfigured ? CardListItemSelectionIcon.Checkmark : CardListItemSelectionIcon.Warning,
+            Id = model.Id,
+            ImageLocation = model.ImageName != null ? "./images/" + model.ImageName : null,
+            Header = model.Name,
+            Properties = model.GetProperties().Select(Map).ToArray(),
+            IsDisabled = !model.IsSupported,
+            SelectionIcon = model.IsConfigured ? CardListItemSelectionIcon.Checkmark : CardListItemSelectionIcon.Warning,
             Badges = new[]
             {
-                (Settings?.RecommendedUploaders?.Contains(uploader.Id) ?? false)
+                (Settings?.RecommendedUploaders?.Contains(model.Id) ?? false)
                     ? new CardListItemBadge {Style = BadgeStyle.Success, Text = "Recommended"}
                     : null,
-                !uploader.IsSupported
-                    ? new CardListItemBadge {Style = BadgeStyle.Light, Text = "Not Supported"}
-                    : null,
+                !model.IsSupported ? new CardListItemBadge { Style = BadgeStyle.Light, Text = "Not Supported" } : null,
+                model.IsDeprecated ? new CardListItemBadge { Style = BadgeStyle.Warning, Text = "Deprecated" } : null,
             }.Where(x => x != null).ToArray(),
             Buttons = configurationItems != null && configurationItems.Any()
                 ? new[]
@@ -67,11 +66,11 @@ public partial class CreateUploadDialog : BasicComponent
                         Style = ButtonStyle.Secondary,
                         Action = async () =>
                         {
-                            var result = await OpenConfigurationDialog(uploader);
+                            var result = await OpenConfigurationDialog(model);
                             RefreshCards();
                             if (result.IsSuccess)
                             {
-                                await StateRepository.SaveUploaderState(uploader);
+                                await StateRepository.SaveUploaderState(model);
                             }
                         }
                     }
