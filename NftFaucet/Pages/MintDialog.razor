@@ -90,7 +90,7 @@ else if (State == MintingState.CheckingNetwork)
             <RadzenLink Icon="open_in_new" Path="@(new Uri(AppState.SelectedNetwork.ExplorerUrl, "tx/" + TransactionHash).ToString())" Text="@TransactionHash" Target="_blank"/>
         </p>
         <div style="display: flex; justify-content: end;">
-            <RadzenButton Click="@(async (args) => await Close())" Text="Close" Disabled="@(!string.IsNullOrEmpty(ProgressBarText))" />
+            <RadzenButton Click="@((args) => Close())" Text="Close" Disabled="@(!string.IsNullOrEmpty(ProgressBarText))" />
         </div>
     </RadzenContent>
 }

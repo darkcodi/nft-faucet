@@ -6,6 +6,8 @@ using NftFaucet.Plugins.Models;
 using NftFaucet.Plugins.Models.Abstraction;
 using Radzen;
 
+#pragma warning disable CS8974
+
 namespace NftFaucet.Pages;
 
 public partial class ProvidersPage : BasicComponent

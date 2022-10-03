@@ -5,6 +5,8 @@ using NftFaucet.Domain.Utils;
 using NftFaucet.Plugins.Models;
 using NftFaucet.Plugins.Models.Abstraction;
 
+#pragma warning disable CS4014
+
 namespace NftFaucet.Pages;
 
 public partial class MintDialog : BasicComponent
@@ -147,7 +149,7 @@ public partial class MintDialog : BasicComponent
         RefreshMediator.NotifyStateHasChangedSafe();
     }
 
-    private async Task Close()
+    private void Close()
     {
         DialogService.Close(TransactionHash);
     }
