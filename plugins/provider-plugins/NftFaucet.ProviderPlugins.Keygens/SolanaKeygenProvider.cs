@@ -15,7 +15,7 @@ using Solnet.Rpc.Models;
 using Solnet.Rpc.Utilities;
 using Solnet.Wallet;
 
-namespace NftFaucet.ProviderPlugins.SolanaKeygen;
+namespace NftFaucet.ProviderPlugins.EthereumKeygen;
 
 public class SolanaKeygenProvider : Provider
 {

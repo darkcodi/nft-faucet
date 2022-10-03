@@ -2,7 +2,7 @@ using Cryptography.ECDSA;
 using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.Util;
 
-namespace NftFaucet.ProviderPlugins.EthereumKeygen;
+namespace NftFaucet.ProviderPlugins.Keygens;
 
 public class EthereumKey
 {

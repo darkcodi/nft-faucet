@@ -12,13 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProviderPlugins", "Provider
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UploadPlugins", "UploadPlugins", "{5FA46262-EDA0-43BB-A1E5-57F50AD7EE00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.EthereumKeygen", "plugins\provider-plugins\NftFaucet.ProviderPlugins.EthereumKeygen\NftFaucet.ProviderPlugins.EthereumKeygen.csproj", "{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.Keygens", "plugins\provider-plugins\NftFaucet.ProviderPlugins.Keygens\NftFaucet.ProviderPlugins.Keygens.csproj", "{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.Domain", "NftFaucet.Domain\NftFaucet.Domain.csproj", "{384ECEAB-40B1-4F22-AFBD-F710B935E23A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.Metamask", "plugins\provider-plugins\NftFaucet.ProviderPlugins.Metamask\NftFaucet.ProviderPlugins.Metamask.csproj", "{3028C0A8-073A-4160-92C7-34D148F1D19C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.SolanaKeygen", "plugins\provider-plugins\NftFaucet.ProviderPlugins.SolanaKeygen\NftFaucet.ProviderPlugins.SolanaKeygen.csproj", "{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NftFaucet.ProviderPlugins.Phantom", "plugins\provider-plugins\NftFaucet.ProviderPlugins.Phantom\NftFaucet.ProviderPlugins.Phantom.csproj", "{D6522592-0719-479F-AD8E-D58D4D7B207C}"
 EndProject
@@ -72,10 +70,6 @@ Global
 		{3028C0A8-073A-4160-92C7-34D148F1D19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3028C0A8-073A-4160-92C7-34D148F1D19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3028C0A8-073A-4160-92C7-34D148F1D19C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6522592-0719-479F-AD8E-D58D4D7B207C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6522592-0719-479F-AD8E-D58D4D7B207C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6522592-0719-479F-AD8E-D58D4D7B207C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -136,7 +130,6 @@ Global
 		{B1D73FDE-0ECD-4917-8B9A-AEFD8C8C39C5} = {9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}
 		{3028C0A8-073A-4160-92C7-34D148F1D19C} = {9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}
 		{D6522592-0719-479F-AD8E-D58D4D7B207C} = {9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}
-		{A48C079B-5466-4AE5-AA15-0D9D7C3A01A9} = {9DE3CDEC-37AE-4FB0-B115-984EB47F57C5}
 		{BA56B8D0-B2BD-4170-9D95-D2A1ED29E334} = {5FA46262-EDA0-43BB-A1E5-57F50AD7EE00}
 		{3F51D52C-3A40-4206-9715-02425786B485} = {5FA46262-EDA0-43BB-A1E5-57F50AD7EE00}
 		{F0F74D75-68EC-4B56-897E-7292A05B963B} = {5FA46262-EDA0-43BB-A1E5-57F50AD7EE00}

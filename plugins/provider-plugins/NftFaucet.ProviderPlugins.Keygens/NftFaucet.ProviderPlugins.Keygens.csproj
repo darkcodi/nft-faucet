@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Cryptography.ECDSA.Secp256K1" Version="1.1.3" />
       <PackageReference Include="Solana.Metaplex" Version="1.2.0" />
     </ItemGroup>
 

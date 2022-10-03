@@ -1,7 +1,7 @@
 using Solnet.Wallet;
 using Solnet.Wallet.Bip39;
 
-namespace NftFaucet.ProviderPlugins.SolanaKeygen;
+namespace NftFaucet.ProviderPlugins.EthereumKeygen;
 
 public class SolanaKey
 {

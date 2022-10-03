@@ -1,4 +1,5 @@
 using NftFaucet.NetworkPlugins.Avalanche.Networks;
+using NftFaucet.Plugins;
 using NftFaucet.Plugins.Models.Abstraction;
 
 namespace NftFaucet.NetworkPlugins.Avalanche;

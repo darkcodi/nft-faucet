@@ -14,7 +14,7 @@ using NftFaucet.Plugins.Models;
 using NftFaucet.Plugins.Models.Abstraction;
 using NftFaucet.Plugins.Models.Enums;
 
-namespace NftFaucet.ProviderPlugins.EthereumKeygen;
+namespace NftFaucet.ProviderPlugins.Keygens;
 
 public sealed class EthereumKeygenProvider : Provider
 {

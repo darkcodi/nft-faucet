@@ -31,10 +31,9 @@
       <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Optimism\NftFaucet.NetworkPlugins.Optimism.csproj" />
       <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Polygon\NftFaucet.NetworkPlugins.Polygon.csproj" />
       <ProjectReference Include="..\plugins\network-plugins\NftFaucet.NetworkPlugins.Solana\NftFaucet.NetworkPlugins.Solana.csproj" />
-      <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.EthereumKeygen\NftFaucet.ProviderPlugins.EthereumKeygen.csproj" />
+      <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.Keygens\NftFaucet.ProviderPlugins.Keygens.csproj" />
       <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.Metamask\NftFaucet.ProviderPlugins.Metamask.csproj" />
       <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.Phantom\NftFaucet.ProviderPlugins.Phantom.csproj" />
-      <ProjectReference Include="..\plugins\provider-plugins\NftFaucet.ProviderPlugins.SolanaKeygen\NftFaucet.ProviderPlugins.SolanaKeygen.csproj" />
       <ProjectReference Include="..\NftFaucet.Plugins\NftFaucet.Plugins.csproj" />
       <ProjectReference Include="..\plugins\upload-plugins\NftFaucet.UploadPlugins.Crust\NftFaucet.UploadPlugins.Crust.csproj" />
       <ProjectReference Include="..\plugins\upload-plugins\NftFaucet.UploadPlugins.Infura\NftFaucet.UploadPlugins.Infura.csproj" />

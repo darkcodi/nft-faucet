@@ -43,8 +43,8 @@ public class InitializationService : IInitializationService
                          _appState.PluginStorage.Contracts == null;
 
         _appState.PluginStorage.Networks ??= _pluginLoader.NetworkPlugins.SelectMany(x => x.Networks).Where(x => x != null).ToArray();
-        _appState.PluginStorage.Providers ??= _pluginLoader.ProviderPlugins.Where(x => x != null).ToArray();
-        _appState.PluginStorage.Uploaders ??= _pluginLoader.UploadPlugins.Where(x => x != null).ToArray();
+        _appState.PluginStorage.Providers ??= _pluginLoader.ProviderPlugins.SelectMany(x => x.Providers).Where(x => x != null).ToArray();
+        _appState.PluginStorage.Uploaders ??= _pluginLoader.UploaderPlugins.SelectMany(x => x.Uploaders).Where(x => x != null).ToArray();
         _appState.PluginStorage.Contracts ??= _appState.PluginStorage.Networks.SelectMany(x => x.DeployedContracts).Where(x => x != null).ToArray();
 
         if (isFirstRun)

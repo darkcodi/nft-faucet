@@ -6,11 +6,12 @@ using NftFaucet.NetworkPlugins.Moonbeam;
 using NftFaucet.NetworkPlugins.Optimism;
 using NftFaucet.NetworkPlugins.Polygon;
 using NftFaucet.NetworkPlugins.Solana;
+using NftFaucet.Plugins;
 using NftFaucet.Plugins.Models.Abstraction;
 using NftFaucet.ProviderPlugins.EthereumKeygen;
+using NftFaucet.ProviderPlugins.Keygens;
 using NftFaucet.ProviderPlugins.Metamask;
 using NftFaucet.ProviderPlugins.Phantom;
-using NftFaucet.ProviderPlugins.SolanaKeygen;
 using NftFaucet.UploadPlugins.Crust;
 using NftFaucet.UploadPlugins.Infura;
 using NftFaucet.UploadPlugins.NftStorage;
@@ -31,18 +32,17 @@ public class PluginLoader
         new SolanaNetworkPlugin(),
     };
 
-    public IReadOnlyCollection<IProvider> ProviderPlugins { get; } = new IProvider[]
+    public IReadOnlyCollection<IProviderPlugin> ProviderPlugins { get; } = new IProviderPlugin[]
     {
-        new MetamaskProvider(),
-        new EthereumKeygenProvider(),
-        new PhantomProvider(),
-        new SolanaKeygenProvider(),
+        new MetamaskProviderPlugin(),
+        new PhantomProviderPlugin(),
+        new KeygenProviderPlugin(),
     };
 
-    public IReadOnlyCollection<IUploader> UploadPlugins { get; } = new IUploader[]
+    public IReadOnlyCollection<IUploaderPlugin> UploaderPlugins { get; } = new IUploaderPlugin[]
     {
-        new InfuraUploader(),
-        new NftStorageUploader(),
-        new CrustUploader(),
+        new InfuraUploaderPlugin(),
+        new NftStorageUploaderPlugin(),
+        new CrustUploaderPlugin(),
     };
 }
