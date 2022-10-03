@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using NftFaucet.Pages;
 using Radzen;
 
@@ -38,5 +39,25 @@ public partial class CardList : BasicComponent
         await SelectedItemsChanged.InvokeAsync(SelectedItems);
         await OnSelectedChange.InvokeAsync(SelectedItems);
         RefreshMediator.NotifyStateHasChangedSafe();
+    }
+
+    private void ShowContextMenu(MouseEventArgs args, CardListItemButton[] contextMenuButtons)
+    {
+        if (contextMenuButtons == null || contextMenuButtons.Length == 0)
+            return;
+
+        ContextMenuService.Open(args,
+            contextMenuButtons.Select(x => new ContextMenuItem
+            {
+                Text = x.Name,
+                Value = x.Action,
+            }).ToList(), OnMenuItemClick);
+    }
+
+    private void OnMenuItemClick(MenuItemEventArgs obj)
+    {
+        ContextMenuService.Close();
+        var action = (Action) obj.Value;
+        action();
     }
 }

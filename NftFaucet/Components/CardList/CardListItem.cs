@@ -10,4 +10,5 @@ public class CardListItem
     public CardListItemProperty[] Properties { get; set; } = Array.Empty<CardListItemProperty>();
     public CardListItemBadge[] Badges { get; set; } = Array.Empty<CardListItemBadge>();
     public CardListItemButton[] Buttons { get; set; } = Array.Empty<CardListItemButton>();
+    public CardListItemButton[] ContextMenuButtons { get; set; } = Array.Empty<CardListItemButton>();
 }

@@ -176,6 +176,16 @@ public class StateRepository : IStateRepository
         return existingWalletStates.ToArray();
     }
 
+    public async Task DeleteTokenLocation(Guid uploadLocationId)
+    {
+        await _dbManager.DeleteRecord(UploadLocationsStoreName, uploadLocationId);
+    }
+
+    public async Task DeleteToken(Guid tokenId)
+    {
+        await _dbManager.DeleteRecord(TokensStoreName, tokenId);
+    }
+
     private async Task<T> GetFirst<T>(string storeName)
     {
         var existingRecords = await _dbManager.GetRecords<T>(storeName);

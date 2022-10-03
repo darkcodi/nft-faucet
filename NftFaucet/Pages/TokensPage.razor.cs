@@ -11,6 +11,7 @@ public partial class TokensPage : BasicComponent
     protected override void OnInitialized()
     {
         RefreshCards();
+        base.OnInitialized();
     }
 
     private CardListItem[] TokenCards { get; set; }
@@ -49,6 +50,14 @@ public partial class TokensPage : BasicComponent
             Header = token.Name,
             ImageLocation = token.CoverFile?.FileData ?? token.MainFile.FileData,
             Properties = properties.ToArray(),
+            ContextMenuButtons = new []
+            {
+                new CardListItemButton
+                {
+                    Name = "Delete",
+                    Action = async () => await DeleteToken(token),
+                },
+            },
         };
     }
 
@@ -77,5 +86,21 @@ public partial class TokensPage : BasicComponent
     {
         AppState.UserStorage.SelectedUploadLocations = Array.Empty<Guid>();
         await SaveAppState();
+    }
+
+    private async Task DeleteToken(IToken token)
+    {
+        var tokenLocations = AppState?.UserStorage?.UploadLocations?.Where(x => x.TokenId == token.Id).ToArray() ?? Array.Empty<ITokenUploadLocation>();
+        foreach (var tokenUploadLocation in tokenLocations)
+        {
+            await StateRepository.DeleteTokenLocation(tokenUploadLocation.Id);
+        }
+
+        await StateRepository.DeleteToken(token.Id);
+
+        AppState!.UserStorage!.UploadLocations = AppState.UserStorage.UploadLocations!.Except(tokenLocations).ToList();
+        AppState!.UserStorage!.Tokens = AppState.UserStorage.Tokens!.Where(x => x.Id != token.Id).ToList();
+        RefreshCards();
+        RefreshMediator.NotifyStateHasChangedSafe();
     }
 }

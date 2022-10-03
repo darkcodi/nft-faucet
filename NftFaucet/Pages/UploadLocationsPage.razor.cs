@@ -11,6 +11,7 @@ public partial class UploadLocationsPage : BasicComponent
     protected override void OnInitialized()
     {
         RefreshCards();
+        base.OnInitialized();
     }
 
     private CardListItem[] UploadCards { get; set; }
@@ -44,6 +45,14 @@ public partial class UploadLocationsPage : BasicComponent
                 {
                     Name = "CreatedAt",
                     Value = uploadLocation.CreatedAt.ToString(CultureInfo.InvariantCulture),
+                },
+            },
+            ContextMenuButtons = new []
+            {
+                new CardListItemButton
+                {
+                    Name = "Delete",
+                    Action = async () => await DeleteUploadLocation(uploadLocation),
                 },
             },
         };
@@ -85,5 +94,14 @@ public partial class UploadLocationsPage : BasicComponent
     private async Task OnUploadLocationChange()
     {
         await SaveAppState();
+    }
+
+    private async Task DeleteUploadLocation(ITokenUploadLocation uploadLocation)
+    {
+        await StateRepository.DeleteTokenLocation(uploadLocation.Id);
+
+        AppState!.UserStorage!.UploadLocations = AppState.UserStorage.UploadLocations!.Where(x => x.Id != uploadLocation.Id).ToList();
+        RefreshCards();
+        RefreshMediator.NotifyStateHasChangedSafe();
     }
 }

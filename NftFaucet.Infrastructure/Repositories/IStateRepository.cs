@@ -18,4 +18,7 @@ public interface IStateRepository
     public Task<ITokenUploadLocation[]> LoadUploadLocations();
     public Task<UploaderStateDto[]> LoadUploaderStates();
     public Task<WalletStateDto[]> LoadWalletStates();
+
+    public Task DeleteTokenLocation(Guid uploadLocationId);
+    public Task DeleteToken(Guid tokenId);
 }
