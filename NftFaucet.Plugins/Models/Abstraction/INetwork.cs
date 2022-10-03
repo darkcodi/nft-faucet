@@ -3,10 +3,9 @@ using NftFaucet.Domain.Models.Enums;
 
 namespace NftFaucet.Plugins.Models.Abstraction;
 
-public interface INetwork : INamedEntity
+public interface INetwork : INamedEntity, IEntityWithOrder
 {
     public ulong? ChainId { get; }
-    public int? Order { get; }
     public string Currency { get; }
     public bool IsTestnet { get; }
     public bool IsDeprecated { get; }

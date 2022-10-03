@@ -2,7 +2,7 @@ using NftFaucet.Domain.Models;
 
 namespace NftFaucet.Plugins.Models.Abstraction;
 
-public interface IWallet : INamedEntity, IStateful, IInitializable, IEntityWithProperties, IConfigurable
+public interface IWallet : INamedEntity, IEntityWithOrder, IStateful, IInitializable, IEntityWithProperties, IConfigurable
 {
     public bool IsNetworkSupported(INetwork network);
     public Task<string> GetAddress();

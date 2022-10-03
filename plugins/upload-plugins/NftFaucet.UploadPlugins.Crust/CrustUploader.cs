@@ -14,6 +14,8 @@ public class CrustUploader : Uploader
     public override string ShortName { get; } = "Crust";
     public override string ImageName { get; } = "crust.svg";
 
+    public override int? Order { get; } = 3;
+
     private string AuthHeader { get; set; }
 
     public override Property[] GetProperties()

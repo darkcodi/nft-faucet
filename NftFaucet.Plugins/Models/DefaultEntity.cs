@@ -3,13 +3,15 @@ using NftFaucet.Plugins.Models.Abstraction;
 
 namespace NftFaucet.Plugins.Models;
 
-public abstract class DefaultEntity : INamedEntity, IStateful, IInitializable, IEntityWithProperties, IConfigurable
+public abstract class DefaultEntity : INamedEntity, IEntityWithOrder, IStateful, IInitializable, IEntityWithProperties, IConfigurable
 {
     public abstract Guid Id { get; }
     public abstract string Name { get; }
     public abstract string ShortName { get; }
     public abstract string ImageName { get; }
     public virtual bool IsSupported { get; } = true;
+
+    public virtual int? Order { get; } = null;
 
     public virtual Task<string> GetState() => Task.FromResult(string.Empty);
     public virtual Task SetState(string state) => Task.CompletedTask;

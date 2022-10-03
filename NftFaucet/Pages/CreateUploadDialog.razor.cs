@@ -34,7 +34,7 @@ public partial class CreateUploadDialog : BasicComponent
 
     private void RefreshCards()
     {
-        UploaderCards = AppState.PluginStorage.Uploaders.Select(MapCardListItem).ToArray();
+        UploaderCards = AppState.PluginStorage.Uploaders.OrderBy(x => x.Order ?? int.MaxValue).Select(MapCardListItem).ToArray();
         RefreshMediator.NotifyStateHasChangedSafe();
     }
 

@@ -16,6 +16,8 @@ public class InfuraUploader : Uploader
     public override string ImageName { get; } = "infura_black.svg";
     public override bool IsConfigured { get; protected set; }
 
+    public override int? Order { get; } = 2;
+
     private const string DefaultGatewayUrl = "https://ipfs.infura.io:5001";
     private string ProjectId { get; set; }
     private string ProjectSecret { get; set; }

@@ -10,6 +10,8 @@ public class NftStorageUploader : Uploader
     public override string ImageName { get; } = "nft-storage.svg";
     public override bool IsSupported { get; } = false;
 
+    public override int? Order { get; } = 1;
+
     public override Task<Uri> Upload(string fileName, string fileType, byte[] fileData)
     {
         throw new NotImplementedException();
