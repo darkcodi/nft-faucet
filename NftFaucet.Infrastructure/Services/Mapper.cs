@@ -11,7 +11,7 @@ public class Mapper
         => appState == null ? null : new AppStateDto
         {
             SelectedNetwork = appState.SelectedNetwork?.Id,
-            SelectedProvider = appState.SelectedProvider?.Id,
+            SelectedWallet = appState.SelectedWallet?.Id,
             SelectedContract = appState.SelectedContract?.Id,
             SelectedToken = appState.SelectedToken?.Id,
             SelectedUploadLocation = appState.SelectedUploadLocation?.Id,
@@ -53,7 +53,7 @@ public class Mapper
             UserStorage =
             {
                 SelectedNetworks = ToGuidArray(appStateDto.SelectedNetwork),
-                SelectedProviders = ToGuidArray(appStateDto.SelectedProvider),
+                SelectedWallets = ToGuidArray(appStateDto.SelectedWallet),
                 SelectedContracts = ToGuidArray(appStateDto.SelectedContract),
                 SelectedTokens = ToGuidArray(appStateDto.SelectedToken),
                 SelectedUploadLocations = ToGuidArray(appStateDto.SelectedUploadLocation),

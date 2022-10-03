@@ -17,12 +17,12 @@
         }
     </p>
     <p>
-        <text style="font-weight: bold;">Provider: </text>
-        @if (AppState?.SelectedProvider == null)
+        <text style="font-weight: bold;">Wallet: </text>
+        @if (AppState?.SelectedWallet == null)
         {
             @:<text style="color: red;">NOT SELECTED</text>
         }
-        else if (!AppState.SelectedProvider.IsConfigured)
+        else if (!AppState.SelectedWallet.IsConfigured)
         {
             @:<text style="color: red;">NOT CONFIGURED</text>
         }

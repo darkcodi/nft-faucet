@@ -45,10 +45,10 @@ public partial class NetworksPage : BasicComponent
         var currentNetwork = AppState.SelectedNetwork;
         AppState.UserStorage.SelectedContracts = Array.Empty<Guid>();
 
-        var currentProvider = AppState.SelectedProvider;
-        if (currentNetwork == null || (currentProvider != null && !currentProvider.IsNetworkSupported(currentNetwork)))
+        var currentWallet = AppState.SelectedWallet;
+        if (currentNetwork == null || (currentWallet != null && !currentWallet.IsNetworkSupported(currentNetwork)))
         {
-            AppState.UserStorage.SelectedProviders = Array.Empty<Guid>();
+            AppState.UserStorage.SelectedWallets = Array.Empty<Guid>();
         }
 
         await SaveAppState();

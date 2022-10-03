@@ -14,10 +14,11 @@ using Solnet.Rpc.Builders;
 using Solnet.Rpc.Models;
 using Solnet.Rpc.Utilities;
 using Solnet.Wallet;
+using Wallet = NftFaucet.Plugins.Models.Wallet;
 
-namespace NftFaucet.ProviderPlugins.EthereumKeygen;
+namespace NftFaucet.WalletPlugins.Keygens;
 
-public class SolanaKeygenProvider : Provider
+public class SolanaKeygenWallet : Wallet
 {
     public override Guid Id { get; } = Guid.Parse("4c1a8ac5-60ca-4024-aae6-3c9852a6535c");
     public override string Name { get; } = "Solana keygen";
@@ -120,9 +121,9 @@ public class SolanaKeygenProvider : Provider
         var client = ClientFactory.GetClient(mintRequest.Network.PublicRpcUrl.OriginalString);
         var rentExemption = await client.GetMinimumBalanceForRentExemptionAsync(TokenProgram.MintAccountDataSize);
 
-        var wallet = new Wallet(Key.MnemonicPhrase);
+        var wallet = new Solnet.Wallet.Wallet(Key.MnemonicPhrase);
         var walletAddress = wallet.Account.PublicKey;
-        var mintWallet = new Wallet(SolanaKey.GenerateNew().MnemonicPhrase);
+        var mintWallet = new Solnet.Wallet.Wallet(SolanaKey.GenerateNew().MnemonicPhrase);
         var mint = mintWallet.GetAccount(0);
         var metadataAddress = GetMetadataAddress(mint.PublicKey);
         var masterEditionAddress = GetMasterEditionAddress(mint.PublicKey);

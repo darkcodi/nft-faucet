@@ -3,7 +3,7 @@ using NftFaucet.Plugins.Models.Abstraction;
 
 namespace NftFaucet.Plugins.Models;
 
-public abstract class Provider : DefaultEntity, IProvider
+public abstract class Wallet : DefaultEntity, IWallet
 {
     public abstract bool IsNetworkSupported(INetwork network);
     public abstract Task<string> GetAddress();

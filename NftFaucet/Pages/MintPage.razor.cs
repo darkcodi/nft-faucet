@@ -10,8 +10,8 @@ public partial class MintPage : BasicComponent
     private string SourceAddress { get; set; }
     private bool IsReadyToMint => AppState != null &&
                                   AppState.SelectedNetwork != null &&
-                                  AppState.SelectedProvider != null &&
-                                  AppState.SelectedProvider.IsConfigured &&
+                                  AppState.SelectedWallet != null &&
+                                  AppState.SelectedWallet.IsConfigured &&
                                   AppState.SelectedContract != null &&
                                   AppState.SelectedToken != null &&
                                   AppState.SelectedUploadLocation != null &&
@@ -19,9 +19,9 @@ public partial class MintPage : BasicComponent
 
     protected override async Task OnInitializedAsync()
     {
-        if (AppState?.SelectedProvider?.IsConfigured ?? false)
+        if (AppState?.SelectedWallet?.IsConfigured ?? false)
         {
-            SourceAddress = await ResultWrapper.Wrap(() => AppState.SelectedProvider.GetAddress()).Match(x => x, _ => null);
+            SourceAddress = await ResultWrapper.Wrap(() => AppState.SelectedWallet.GetAddress()).Match(x => x, _ => null);
             AppState.UserStorage.DestinationAddress = SourceAddress;
         }
     }

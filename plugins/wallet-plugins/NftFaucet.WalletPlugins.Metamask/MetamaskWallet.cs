@@ -7,9 +7,9 @@ using NftFaucet.Plugins.Models;
 using NftFaucet.Plugins.Models.Abstraction;
 using NftFaucet.Plugins.Models.Enums;
 
-namespace NftFaucet.ProviderPlugins.Metamask;
+namespace NftFaucet.WalletPlugins.Metamask;
 
-public class MetamaskProvider : Provider
+public class MetamaskWallet : Wallet
 {
     public override Guid Id { get; } = Guid.Parse("3367b9bb-f50c-4768-aeb3-9ac14d4c3987");
     public override string Name { get; } = "Metamask";
@@ -142,7 +142,7 @@ public class MetamaskProvider : Provider
     {
         if (mintRequest.Network.Type != NetworkType.Ethereum)
         {
-            throw new InvalidOperationException("Invalid network type for this provider");
+            throw new InvalidOperationException("Invalid network type for this wallet");
         }
 
         Function transfer = mintRequest.Contract.Type switch

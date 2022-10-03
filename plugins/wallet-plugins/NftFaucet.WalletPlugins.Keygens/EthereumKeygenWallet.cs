@@ -14,9 +14,9 @@ using NftFaucet.Plugins.Models;
 using NftFaucet.Plugins.Models.Abstraction;
 using NftFaucet.Plugins.Models.Enums;
 
-namespace NftFaucet.ProviderPlugins.Keygens;
+namespace NftFaucet.WalletPlugins.Keygens;
 
-public sealed class EthereumKeygenProvider : Provider
+public sealed class EthereumKeygenWallet : Wallet
 {
     public override Guid Id { get; } = Guid.Parse("ded55b2b-8139-4251-a0fc-ba620f9727c9");
     public override string Name { get; } = "Ethereum keygen";
@@ -106,7 +106,7 @@ public sealed class EthereumKeygenProvider : Provider
     {
         if (mintRequest.Network.Type != NetworkType.Ethereum)
         {
-            throw new InvalidOperationException("Invalid network type for this provider");
+            throw new InvalidOperationException("Invalid network type for this wallet");
         }
 
         Function transfer =

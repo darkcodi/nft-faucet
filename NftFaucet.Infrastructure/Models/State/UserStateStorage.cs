@@ -8,7 +8,7 @@ public class UserStateStorage
     public ICollection<ITokenUploadLocation> UploadLocations { get; set; }
 
     public Guid[] SelectedNetworks { get; set; }
-    public Guid[] SelectedProviders { get; set; }
+    public Guid[] SelectedWallets { get; set; }
     public Guid[] SelectedContracts { get; set; }
     public Guid[] SelectedTokens { get; set; }
     public Guid[] SelectedUploadLocations { get; set; }

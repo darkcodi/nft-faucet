@@ -15,7 +15,7 @@ public partial class MintDialog : BasicComponent
 
     private string ProgressBarText { get; set; } = "Checking network...";
     private MintingState State { get; set; } = MintingState.CheckingNetwork;
-    private INetwork ProviderNetwork { get; set; }
+    private INetwork WalletNetwork { get; set; }
     private string SourceAddress { get; set; }
     private Balance Balance { get; set; }
     private string TransactionHash { get; set; }
@@ -34,16 +34,16 @@ public partial class MintDialog : BasicComponent
         ProgressBarText = "Checking network...";
         RefreshMediator.NotifyStateHasChangedSafe();
 
-        var providerNetworkResult = await ResultWrapper.Wrap(async () =>
+        var walletNetworkResult = await ResultWrapper.Wrap(async () =>
         {
-            var task1 = AppState.SelectedProvider.GetNetwork(AppState.PluginStorage.Networks.ToArray(), AppState.SelectedNetwork);
+            var task1 = AppState.SelectedWallet.GetNetwork(AppState.PluginStorage.Networks.ToArray(), AppState.SelectedNetwork);
             var task2 = Task.Delay(TimeSpan.FromMilliseconds(MinDelayInMilliseconds));
             await Task.WhenAll(task1, task2);
             return task1.Result;
         });
-        ProviderNetwork = providerNetworkResult.IsSuccess ? providerNetworkResult.Value : null;
+        WalletNetwork = walletNetworkResult.IsSuccess ? walletNetworkResult.Value : null;
 
-        if (ProviderNetwork?.Id == AppState.SelectedNetwork.Id)
+        if (WalletNetwork?.Id == AppState.SelectedNetwork.Id)
         {
             CheckAddress();
         }
@@ -62,7 +62,7 @@ public partial class MintDialog : BasicComponent
 
         var sourceAddressResult = await ResultWrapper.Wrap(async () =>
         {
-            var task1 = AppState.SelectedProvider.GetAddress();
+            var task1 = AppState.SelectedWallet.GetAddress();
             var task2 = Task.Delay(TimeSpan.FromMilliseconds(MinDelayInMilliseconds));
             await Task.WhenAll(task1, task2);
             return task1.Result;
@@ -88,7 +88,7 @@ public partial class MintDialog : BasicComponent
 
         var balanceResult = await ResultWrapper.Wrap(async () =>
         {
-            var task1 = AppState.SelectedProvider.GetBalance(AppState.SelectedNetwork);
+            var task1 = AppState.SelectedWallet.GetBalance(AppState.SelectedNetwork);
             var task2 = Task.Delay(TimeSpan.FromMilliseconds(MinDelayInMilliseconds));
             await Task.WhenAll(task1, task2);
             return task1.Result;
@@ -120,10 +120,10 @@ public partial class MintDialog : BasicComponent
 
         var sendTransactionResult = await ResultWrapper.Wrap(async () =>
         {
-            var mintRequest = new MintRequest(AppState.SelectedNetwork, AppState.SelectedProvider,
+            var mintRequest = new MintRequest(AppState.SelectedNetwork, AppState.SelectedWallet,
                 AppState.SelectedContract, AppState.SelectedToken, AppState.SelectedUploadLocation,
                 AppState.UserStorage.DestinationAddress, AppState.UserStorage.TokenAmount);
-            var task1 = AppState.SelectedProvider.Mint(mintRequest);
+            var task1 = AppState.SelectedWallet.Mint(mintRequest);
             var task2 = Task.Delay(TimeSpan.FromMilliseconds(MinDelayInMilliseconds));
             await Task.WhenAll(task1, task2);
             return task1.Result;

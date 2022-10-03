@@ -7,11 +7,9 @@ using NftFaucet.NetworkPlugins.Optimism;
 using NftFaucet.NetworkPlugins.Polygon;
 using NftFaucet.NetworkPlugins.Solana;
 using NftFaucet.Plugins;
-using NftFaucet.Plugins.Models.Abstraction;
-using NftFaucet.ProviderPlugins.EthereumKeygen;
-using NftFaucet.ProviderPlugins.Keygens;
-using NftFaucet.ProviderPlugins.Metamask;
-using NftFaucet.ProviderPlugins.Phantom;
+using NftFaucet.WalletPlugins.Keygens;
+using NftFaucet.WalletPlugins.Metamask;
+using NftFaucet.WalletPlugins.Phantom;
 using NftFaucet.UploadPlugins.Crust;
 using NftFaucet.UploadPlugins.Infura;
 using NftFaucet.UploadPlugins.NftStorage;
@@ -32,11 +30,11 @@ public class PluginLoader
         new SolanaNetworkPlugin(),
     };
 
-    public IReadOnlyCollection<IProviderPlugin> ProviderPlugins { get; } = new IProviderPlugin[]
+    public IReadOnlyCollection<IWalletPlugin> WalletPlugins { get; } = new IWalletPlugin[]
     {
-        new MetamaskProviderPlugin(),
-        new PhantomProviderPlugin(),
-        new KeygenProviderPlugin(),
+        new MetamaskWalletPlugin(),
+        new PhantomWalletPlugin(),
+        new KeygenWalletPlugin(),
     };
 
     public IReadOnlyCollection<IUploaderPlugin> UploaderPlugins { get; } = new IUploaderPlugin[]

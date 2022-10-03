@@ -14,7 +14,7 @@ public class StateRepository : IStateRepository
     private const string AppStateStoreName = "AppState";
     private const string TokensStoreName = "Tokens";
     private const string UploadLocationsStoreName = "UploadLocations";
-    private const string ProviderStatesStoreName = "ProviderStates";
+    private const string WalletStatesStoreName = "WalletStates";
     private const string UploaderStatesStoreName = "UploaderStates";
 
     public StateRepository(IndexedDBManager dbManager, Mapper mapper)
@@ -108,21 +108,21 @@ public class StateRepository : IStateRepository
         return existingUploadLocations.Select(_mapper.ToDomain).ToArray();
     }
 
-    public async Task SaveProviderState(IProvider provider)
+    public async Task SaveWalletState(IWallet wallet)
     {
-        var state = await provider.GetState();
-        var stateDto = new ProviderStateDto
+        var state = await wallet.GetState();
+        var stateDto = new WalletStateDto
         {
-            Id = provider.Id,
+            Id = wallet.Id,
             State = state,
         };
-        var record = new StoreRecord<ProviderStateDto>
+        var record = new StoreRecord<WalletStateDto>
         {
-            Storename = ProviderStatesStoreName,
+            Storename = WalletStatesStoreName,
             Data = stateDto,
         };
 
-        var existingStateDto = await _dbManager.GetRecordById<Guid, ProviderStateDto>(ProviderStatesStoreName, stateDto.Id);
+        var existingStateDto = await _dbManager.GetRecordById<Guid, WalletStateDto>(WalletStatesStoreName, stateDto.Id);
         if (existingStateDto == null)
         {
             await _dbManager.AddRecord(record);
@@ -167,13 +167,13 @@ public class StateRepository : IStateRepository
         }
     }
 
-    public async Task<ProviderStateDto[]> LoadProviderStates()
+    public async Task<WalletStateDto[]> LoadWalletStates()
     {
-        var existingProviderStates = await _dbManager.GetRecords<ProviderStateDto>(ProviderStatesStoreName);
-        if (existingProviderStates == null || existingProviderStates.Count == 0)
-            return Array.Empty<ProviderStateDto>();
+        var existingWalletStates = await _dbManager.GetRecords<WalletStateDto>(WalletStatesStoreName);
+        if (existingWalletStates == null || existingWalletStates.Count == 0)
+            return Array.Empty<WalletStateDto>();
 
-        return existingProviderStates.ToArray();
+        return existingWalletStates.ToArray();
     }
 
     private async Task<T> GetFirst<T>(string storeName)

@@ -5,7 +5,7 @@ namespace NftFaucet.Plugins.Models;
 
 public record MintRequest(
     INetwork Network,
-    IProvider Provider,
+    IWallet Wallet,
     IContract Contract,
     IToken Token,
     ITokenUploadLocation UploadLocation,

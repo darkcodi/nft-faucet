@@ -49,7 +49,7 @@ builder.Services.AddIndexedDB(dbStore =>
         Indexes = new List<IndexSpec>
         {
             new IndexSpec {Name = "selectedNetwork", KeyPath = "selectedNetwork", Auto = false},
-            new IndexSpec {Name = "selectedProvider", KeyPath = "selectedProvider", Auto = false},
+            new IndexSpec {Name = "selectedWallet", KeyPath = "selectedWallet", Auto = false},
             new IndexSpec {Name = "selectedContract", KeyPath = "selectedContract", Auto = false},
             new IndexSpec {Name = "selectedToken", KeyPath = "selectedToken", Auto = false},
             new IndexSpec {Name = "selectedUploadLocation", KeyPath = "selectedUploadLocation", Auto = false},
@@ -94,7 +94,7 @@ builder.Services.AddIndexedDB(dbStore =>
 
     dbStore.Stores.Add(new StoreSchema
     {
-        Name = "ProviderStates",
+        Name = "WalletStates",
         PrimaryKey = new IndexSpec { Name = "id", KeyPath = "id", Auto = true },
         Indexes = new List<IndexSpec>
         {

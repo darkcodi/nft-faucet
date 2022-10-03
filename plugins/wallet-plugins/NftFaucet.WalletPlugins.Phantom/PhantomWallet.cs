@@ -3,9 +3,9 @@ using NftFaucet.Domain.Models.Enums;
 using NftFaucet.Plugins.Models;
 using NftFaucet.Plugins.Models.Abstraction;
 
-namespace NftFaucet.ProviderPlugins.Phantom;
+namespace NftFaucet.WalletPlugins.Phantom;
 
-public class PhantomProvider : Provider
+public class PhantomWallet : Wallet
 {
     public override Guid Id { get; } = Guid.Parse("ae860901-5441-463c-a16e-4786f041500d");
     public override string Name { get; } = "Phantom";

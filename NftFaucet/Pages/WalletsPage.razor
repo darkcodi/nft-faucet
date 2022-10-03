@@ -1,0 +1,15 @@
+@page "/wallets"
+@inherits BasicComponent
+
+<PageTitle>Wallets</PageTitle>
+<RadzenContent Container="main">
+    <RadzenHeading Size="H1" Text="Select wallet" />
+    @if (AppState.SelectedNetwork == null)
+    {
+        <RadzenHeading Size="H3" Text="Please choose network first!" />
+    }
+    else
+    {
+        <CardList Data="@WalletCards" OnSelectedChange="@(async _ => await OnWalletChange())" @bind-SelectedItems="@AppState.UserStorage.SelectedWallets" />
+    }
+</RadzenContent>

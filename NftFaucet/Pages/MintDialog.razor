@@ -17,8 +17,8 @@ else if (State == MintingState.CheckingNetwork)
             <text style="color: green;">@(AppState?.SelectedNetwork?.Name ?? "<unknown>")</text>
         </p>
         <p>
-            <text style="font-weight: bold;">Provider network: </text>
-            <text style="color: red;">@(ProviderNetwork?.Name ?? "<unknown>")</text>
+            <text style="font-weight: bold;">Wallet network: </text>
+            <text style="color: red;">@(WalletNetwork?.Name ?? "<unknown>")</text>
         </p>
         <div style="display: flex; justify-content: end;">
             <RadzenButton Click="@(async (args) => await CheckNetwork())" Text="Try again" Disabled="@(!string.IsNullOrEmpty(ProgressBarText))" />
@@ -29,7 +29,7 @@ else if (State == MintingState.CheckingNetwork)
     <RadzenContent Container="main">
         <h3>Address is not available!</h3>
         <p>
-            <text style="font-weight: bold;">Provider address: </text>
+            <text style="font-weight: bold;">Wallet address: </text>
             <text style="color: red;">&lt;null&gt;</text>
         </p>
         <div style="display: flex; justify-content: end;">

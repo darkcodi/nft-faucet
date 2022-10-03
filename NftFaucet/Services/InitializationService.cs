@@ -23,27 +23,27 @@ public class InitializationService : IInitializationService
     {
         LoadDataFromPlugins();
         await LoadDataFromIndexedDb();
-        await InitializeProviders();
+        await InitializeWallets();
     }
 
-    private async Task InitializeProviders()
+    private async Task InitializeWallets()
     {
-        var providers = _appState.PluginStorage.Providers.Where(x => _appState.SelectedNetwork != null && x.IsNetworkSupported(_appState.SelectedNetwork)).ToArray();
-        foreach (var provider in providers)
+        var wallets = _appState.PluginStorage.Wallets.Where(x => _appState.SelectedNetwork != null && x.IsNetworkSupported(_appState.SelectedNetwork)).ToArray();
+        foreach (var wallet in wallets)
         {
-            await provider.InitializeAsync(_serviceProvider);
+            await wallet.InitializeAsync(_serviceProvider);
         }
     }
 
     private void LoadDataFromPlugins()
     {
         var isFirstRun = _appState.PluginStorage.Networks == null &&
-                         _appState.PluginStorage.Providers == null &&
+                         _appState.PluginStorage.Wallets == null &&
                          _appState.PluginStorage.Uploaders == null &&
                          _appState.PluginStorage.Contracts == null;
 
         _appState.PluginStorage.Networks ??= _pluginLoader.NetworkPlugins.SelectMany(x => x.Networks).Where(x => x != null).ToArray();
-        _appState.PluginStorage.Providers ??= _pluginLoader.ProviderPlugins.SelectMany(x => x.Providers).Where(x => x != null).ToArray();
+        _appState.PluginStorage.Wallets ??= _pluginLoader.WalletPlugins.SelectMany(x => x.Wallets).Where(x => x != null).ToArray();
         _appState.PluginStorage.Uploaders ??= _pluginLoader.UploaderPlugins.SelectMany(x => x.Uploaders).Where(x => x != null).ToArray();
         _appState.PluginStorage.Contracts ??= _appState.PluginStorage.Networks.SelectMany(x => x.DeployedContracts).Where(x => x != null).ToArray();
 
@@ -58,15 +58,15 @@ public class InitializationService : IInitializationService
         await _stateRepository.LoadAppState(_appState);
         _appState.UserStorage.Tokens = (await _stateRepository.LoadTokens()).ToList();
         _appState.UserStorage.UploadLocations = (await _stateRepository.LoadUploadLocations()).ToList();
-        var providerStates = await _stateRepository.LoadProviderStates();
-        foreach (var providerState in providerStates)
+        var walletStates = await _stateRepository.LoadWalletStates();
+        foreach (var walletState in walletStates)
         {
-            var provider = _appState.PluginStorage.Providers.FirstOrDefault(x => x.Id == providerState.Id);
-            if (provider == null)
+            var wallet = _appState.PluginStorage.Wallets.FirstOrDefault(x => x.Id == walletState.Id);
+            if (wallet == null)
             {
                 continue;
             }
-            await provider.SetState(providerState.State);
+            await wallet.SetState(walletState.State);
         }
         var uploaderStates = await _stateRepository.LoadUploaderStates();
         foreach (var uploaderState in uploaderStates)
@@ -83,7 +83,7 @@ public class InitializationService : IInitializationService
     private void ValidatePluginsData()
     {
         var networkIds = _appState.PluginStorage.Networks.Select(x => x.Id).ToArray();
-        var providerIds = _appState.PluginStorage.Providers.Select(x => x.Id).ToArray();
+        var walletIds = _appState.PluginStorage.Wallets.Select(x => x.Id).ToArray();
         var uploaderIds = _appState.PluginStorage.Uploaders.Select(x => x.Id).ToArray();
         var contractIds = _appState.PluginStorage.Contracts.Select(x => x.Id).ToArray();
 
@@ -93,10 +93,10 @@ public class InitializationService : IInitializationService
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are networks with same ids: {string.Join(", ", networkIdDuplicates)}");
         }
 
-        var providerIdDuplicates = providerIds.Duplicates().ToArray();
-        if (providerIdDuplicates.Any())
+        var walletIdDuplicates = walletIds.Duplicates().ToArray();
+        if (walletIdDuplicates.Any())
         {
-            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are providers with same ids: {string.Join(", ", providerIdDuplicates)}");
+            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are wallets with same ids: {string.Join(", ", walletIdDuplicates)}");
         }
 
         var uploaderIdDuplicates = uploaderIds.Duplicates().ToArray();
@@ -111,11 +111,11 @@ public class InitializationService : IInitializationService
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are contracts with same ids: {string.Join(", ", contractIdDuplicates)}");
         }
 
-        var allIds = networkIds.Concat(providerIds).Concat(uploaderIds).Concat(contractIds).ToArray();
+        var allIds = networkIds.Concat(walletIds).Concat(uploaderIds).Concat(contractIds).ToArray();
         var allIdDuplicates = allIds.Duplicates().ToArray();
         if (allIdDuplicates.Any())
         {
-            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are plugin data items (networks/providers/uploaders/contracts) with same ids: {string.Join(", ", allIdDuplicates)}");
+            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are plugin data items (networks/wallets/uploaders/contracts) with same ids: {string.Join(", ", allIdDuplicates)}");
         }
 
         var networkShortNames = _appState.PluginStorage.Networks.Select(x => x.ShortName).Where(x => x != null).ToArray();
@@ -125,11 +125,11 @@ public class InitializationService : IInitializationService
             throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are networks with same short name: {string.Join(", ", networkShortNameDuplicates)}");
         }
 
-        var providerShortNames = _appState.PluginStorage.Providers.Select(x => x.ShortName).Where(x => x != null).ToArray();
-        var providerShortNameDuplicates = providerShortNames.Duplicates().ToArray();
-        if (providerShortNameDuplicates.Any())
+        var walletShortNames = _appState.PluginStorage.Wallets.Select(x => x.ShortName).Where(x => x != null).ToArray();
+        var walletShortNameDuplicates = walletShortNames.Duplicates().ToArray();
+        if (walletShortNameDuplicates.Any())
         {
-            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are providers with same short name: {string.Join(", ", providerShortNameDuplicates)}");
+            throw new ApplicationException($"[{nameof(ValidatePluginsData)}] There are wallets with same short name: {string.Join(", ", walletShortNameDuplicates)}");
         }
 
         var uploaderShortNames = _appState.PluginStorage.Uploaders.Select(x => x.ShortName).Where(x => x != null).ToArray();
