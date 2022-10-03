@@ -48,6 +48,12 @@ public class InfuraUploader : Uploader
 
     public override ConfigurationItem[] GetConfigurationItems()
     {
+        var instructionsText = new ConfigurationItem
+        {
+            DisplayType = UiDisplayType.Text,
+            Name = "Instructions",
+            Value = "Go to 'https://infura.io', register for a free tier, create IPFS project and copy project id / secret",
+        };
         var projectIdInput = new ConfigurationItem
         {
             DisplayType = UiDisplayType.Input,
@@ -69,14 +75,14 @@ public class InfuraUploader : Uploader
             Placeholder = "https://<your-subdomain>.infura-ipfs.io",
             Value = DedicatedGatewayUrl?.OriginalString,
         };
-        return new[] { projectIdInput, projectSecretInput, gatewayUrlInput };
+        return new[] { instructionsText, projectIdInput, projectSecretInput, gatewayUrlInput };
     }
 
     public override async Task<Result> Configure(ConfigurationItem[] configurationItems)
     {
-        var projectId = configurationItems[0].Value;
-        var projectSecret = configurationItems[1].Value;
-        var dedicatedGatewayUrl = configurationItems[2].Value;
+        var projectId = configurationItems[1].Value;
+        var projectSecret = configurationItems[2].Value;
+        var dedicatedGatewayUrl = configurationItems[3].Value;
 
         if (string.IsNullOrEmpty(projectId))
         {

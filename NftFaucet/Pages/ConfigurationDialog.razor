@@ -10,6 +10,14 @@
     {
         switch (configurationItem.DisplayType)
         {
+            case UiDisplayType.Text:
+            {
+                <div class="mb-4">
+                    <h4>@configurationItem.Name</h4>
+                    <RadzenText Text="@configurationItem.Value" />
+                </div>
+                break;
+            }
             case UiDisplayType.Input:
             {
                 <div class="mb-4">
