@@ -1,7 +1,7 @@
 using NftFaucet.Components;
 using NftFaucet.Components.CardList;
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models.Abstraction;
 using Radzen;
 
 namespace NftFaucet.Pages;
@@ -26,9 +26,9 @@ public partial class NetworksPage : BasicComponent
             IsDisabled = !model.IsSupported,
             Properties = new[]
             {
-                new CardListItemProperty { Name = "ChainID", Value = model.ChainId?.ToString() },
-                new CardListItemProperty { Name = "Currency", Value = model.Currency },
-            },
+                model.ChainId != null ? new CardListItemProperty { Name = "ChainID", Value = model.ChainId?.ToString() } : null,
+                !string.IsNullOrEmpty(model.Currency) ? new CardListItemProperty { Name = "Currency", Value = model.Currency } : null,
+            }.Where(x => x != null).ToArray(),
             Badges = new[]
             {
                 (Settings?.RecommendedNetworks?.Contains(model.Id) ?? false)

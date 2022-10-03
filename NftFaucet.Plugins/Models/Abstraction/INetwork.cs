@@ -1,17 +1,13 @@
+using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
 
-namespace NftFaucet.Domain.Models.Abstraction;
+namespace NftFaucet.Plugins.Models.Abstraction;
 
-public interface INetwork
+public interface INetwork : INamedEntity
 {
-    public Guid Id { get; }
-    public string Name { get; }
-    public string ShortName { get; }
     public ulong? ChainId { get; }
     public int? Order { get; }
     public string Currency { get; }
-    public string ImageName { get; }
-    public bool IsSupported { get; }
     public bool IsTestnet { get; }
     public bool IsDeprecated { get; }
     public NetworkType Type { get; }

@@ -1,23 +1,20 @@
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.Solana.Networks;
 
-public class SolanaMainnetNetwork : INetwork
+public sealed class SolanaMainnetNetwork : Network
 {
-    public Guid Id { get; } = Guid.Parse("1198f92d-3222-41e8-94af-8a7112324311");
-    public string Name { get; } = "Solana Mainnet";
-    public string ShortName { get; } = "Solana";
-    public ulong? ChainId { get; } = null;
-    public int? Order { get; } = 1;
-    public string Currency { get; } = "SOL";
-    public string ImageName { get; } = "solana.svg";
-    public bool IsSupported { get; } = false;
-    public bool IsTestnet { get; } = false;
-    public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Solana;
-    public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
-    public Uri PublicRpcUrl { get; } = new Uri("https://api.mainnet-beta.solana.com");
-    public Uri ExplorerUrl { get; } = new Uri("https://explorer.solana.com");
-    public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
+    public override Guid Id { get; } = Guid.Parse("1198f92d-3222-41e8-94af-8a7112324311");
+    public override string Name { get; } = "Solana Mainnet";
+    public override string ShortName { get; } = "Solana";
+    public override int? Order { get; } = 1;
+    public override string Currency { get; } = "SOL";
+    public override string ImageName { get; } = "solana.svg";
+    public override bool IsSupported { get; } = false;
+    public override bool IsTestnet { get; } = false;
+    public override NetworkType Type { get; } = NetworkType.Solana;
+    public override NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
+    public override Uri PublicRpcUrl { get; } = new Uri("https://api.mainnet-beta.solana.com");
+    public override Uri ExplorerUrl { get; } = new Uri("https://explorer.solana.com");
 }

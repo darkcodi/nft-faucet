@@ -1,23 +1,21 @@
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.Polygon.Networks;
 
-public class PolygonMainnetNetwork : INetwork
+public sealed class PolygonMainnetNetwork : Network
 {
-    public Guid Id { get; } = Guid.Parse("e09e7646-cf39-42be-8c8d-c566442e8229");
-    public string Name { get; } = "Polygon";
-    public string ShortName { get; } = "Polygon";
-    public ulong? ChainId { get; } = 137;
-    public int? Order { get; } = 1;
-    public string Currency { get; } = "MATIC";
-    public string ImageName { get; } = "polygon.svg";
-    public bool IsSupported { get; } = false;
-    public bool IsTestnet { get; } = false;
-    public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Ethereum;
-    public NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
-    public Uri PublicRpcUrl { get; } = null;
-    public Uri ExplorerUrl { get; } = new Uri("https://polygonscan.com/");
-    public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
+    public override Guid Id { get; } = Guid.Parse("e09e7646-cf39-42be-8c8d-c566442e8229");
+    public override string Name { get; } = "Polygon";
+    public override string ShortName { get; } = "Polygon";
+    public override ulong? ChainId { get; } = 137;
+    public override int? Order { get; } = 1;
+    public override string Currency { get; } = "MATIC";
+    public override string ImageName { get; } = "polygon.svg";
+    public override bool IsSupported { get; } = false;
+    public override bool IsTestnet { get; } = false;
+    public override NetworkType Type { get; } = NetworkType.Ethereum;
+    public override NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
+    public override Uri PublicRpcUrl { get; } = null;
+    public override Uri ExplorerUrl { get; } = new Uri("https://polygonscan.com/");
 }

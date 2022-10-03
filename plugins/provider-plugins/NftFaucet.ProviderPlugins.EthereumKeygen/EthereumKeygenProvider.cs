@@ -8,7 +8,6 @@ using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
 using NftFaucet.Domain.Function;
 using NftFaucet.Domain.Models;
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
 using NftFaucet.Domain.Utils;
 using NftFaucet.Plugins.Models;
@@ -17,27 +16,22 @@ using NftFaucet.Plugins.Models.Enums;
 
 namespace NftFaucet.ProviderPlugins.EthereumKeygen;
 
-public class EthereumKeygenProvider : IProvider
+public sealed class EthereumKeygenProvider : Provider
 {
-    public Guid Id { get; } = Guid.Parse("ded55b2b-8139-4251-a0fc-ba620f9727c9");
-    public string Name { get; } = "Ethereum keygen";
-    public string ShortName { get; } = "EthKeygen";
-    public string ImageName { get; } = "ecdsa.svg";
-    public bool IsInitialized { get; } = true;
-    public bool IsSupported { get; } = true;
-    public bool IsConfigured { get; private set; }
+    public override Guid Id { get; } = Guid.Parse("ded55b2b-8139-4251-a0fc-ba620f9727c9");
+    public override string Name { get; } = "Ethereum keygen";
+    public override string ShortName { get; } = "EthKeygen";
+    public override string ImageName { get; } = "ecdsa.svg";
+    public override bool IsConfigured { get; protected set; }
     public EthereumKey Key { get; private set; }
 
-    public Task InitializeAsync(IServiceProvider serviceProvider)
-        => Task.CompletedTask;
-
-    public Property[] GetProperties()
+    public override Property[] GetProperties()
         => new[]
         {
             new Property{ Name = "Address", Value = Key?.Address ?? "<null>" },
         };
 
-    public ConfigurationItem[] GetConfigurationItems()
+    public override ConfigurationItem[] GetConfigurationItems()
     {
         var privateKeyInput = new ConfigurationItem
         {
@@ -70,7 +64,7 @@ public class EthereumKeygenProvider : IProvider
         return new[] { privateKeyInput, addressInput, button };
     }
 
-    public Task<Result> Configure(ConfigurationItem[] configurationItems)
+    public override Task<Result> Configure(ConfigurationItem[] configurationItems)
     {
         var keyResult = ResultWrapper.Wrap(() => new EthereumKey(configurationItems[0].Value));
         if (keyResult.IsFailure)
@@ -81,13 +75,13 @@ public class EthereumKeygenProvider : IProvider
         return Task.FromResult(Result.Success());
     }
 
-    public bool IsNetworkSupported(INetwork network)
+    public override bool IsNetworkSupported(INetwork network)
         => network?.Type == NetworkType.Ethereum;
 
-    public Task<string> GetAddress()
+    public override Task<string> GetAddress()
         => Task.FromResult(Key?.Address);
 
-    public async Task<Balance> GetBalance(INetwork network)
+    public override async Task<Balance> GetBalance(INetwork network)
     {
         if (string.IsNullOrEmpty(Key?.Address))
             return null;
@@ -98,7 +92,7 @@ public class EthereumKeygenProvider : IProvider
         return new Balance(balance, "wei");
     }
 
-    public Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
+    public override Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
     {
         if (selectedNetwork != null && selectedNetwork.Type == NetworkType.Ethereum)
             return Task.FromResult(selectedNetwork);
@@ -108,7 +102,7 @@ public class EthereumKeygenProvider : IProvider
         return Task.FromResult(matchingNetwork);
     }
 
-    public async Task<string> Mint(MintRequest mintRequest)
+    public override async Task<string> Mint(MintRequest mintRequest)
     {
         if (mintRequest.Network.Type != NetworkType.Ethereum)
         {
@@ -159,10 +153,10 @@ public class EthereumKeygenProvider : IProvider
         return transactionHash;
     }
 
-    public Task<string> GetState()
+    public override Task<string> GetState()
         => Task.FromResult(Key.PrivateKey);
 
-    public Task SetState(string state)
+    public override Task SetState(string state)
     {
         if (!string.IsNullOrEmpty(state))
         {

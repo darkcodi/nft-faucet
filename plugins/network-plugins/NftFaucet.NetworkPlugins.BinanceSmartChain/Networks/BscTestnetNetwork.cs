@@ -2,27 +2,25 @@ using System.Globalization;
 using NftFaucet.Domain.Models;
 using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.BinanceSmartChain.Networks;
 
-public class BscTestnetNetwork : INetwork
+public sealed class BscTestnetNetwork : Network
 {
-    public Guid Id { get; } = Guid.Parse("b8d4aa13-acc1-47ee-9e8c-c00f0b67772c");
-    public string Name { get; } = "Binance Smart Chain Testnet";
-    public string ShortName { get; } = "BSC test";
-    public ulong? ChainId { get; } = 97;
-    public int? Order { get; } = 2;
-    public string Currency { get; } = "tBNB";
-    public string ImageName { get; } = "bnb-black.svg";
-    public bool IsSupported { get; } = true;
-    public bool IsTestnet { get; } = true;
-    public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Ethereum;
-    public NetworkSubtype SubType { get; } = NetworkSubtype.Bsc;
-    public Uri PublicRpcUrl { get; } = new Uri("https://data-seed-prebsc-1-s1.binance.org:8545/");
-    public Uri ExplorerUrl { get; } = new Uri("https://testnet.bscscan.com/");
+    public override Guid Id { get; } = Guid.Parse("b8d4aa13-acc1-47ee-9e8c-c00f0b67772c");
+    public override string Name { get; } = "Binance Smart Chain Testnet";
+    public override string ShortName { get; } = "BSC test";
+    public override ulong? ChainId { get; } = 97;
+    public override int? Order { get; } = 2;
+    public override string Currency { get; } = "tBNB";
+    public override string ImageName { get; } = "bnb-black.svg";
+    public override NetworkType Type { get; } = NetworkType.Ethereum;
+    public override NetworkSubtype SubType { get; } = NetworkSubtype.Bsc;
+    public override Uri PublicRpcUrl { get; } = new Uri("https://data-seed-prebsc-1-s1.binance.org:8545/");
+    public override Uri ExplorerUrl { get; } = new Uri("https://testnet.bscscan.com/");
 
-    public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
+    public override IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {
         new Contract
         {

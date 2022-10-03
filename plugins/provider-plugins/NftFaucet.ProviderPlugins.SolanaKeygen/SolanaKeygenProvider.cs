@@ -2,7 +2,6 @@ using System.Numerics;
 using System.Text;
 using CSharpFunctionalExtensions;
 using NftFaucet.Domain.Models;
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
 using NftFaucet.Domain.Utils;
 using NftFaucet.Plugins.Models;
@@ -18,27 +17,22 @@ using Solnet.Wallet;
 
 namespace NftFaucet.ProviderPlugins.SolanaKeygen;
 
-public class SolanaKeygenProvider : IProvider
+public class SolanaKeygenProvider : Provider
 {
-    public Guid Id { get; } = Guid.Parse("4c1a8ac5-60ca-4024-aae6-3c9852a6535c");
-    public string Name { get; } = "Solana keygen";
-    public string ShortName { get; } = "SolKeygen";
-    public string ImageName { get; } = "ecdsa.svg";
-    public bool IsInitialized { get; } = true;
-    public bool IsSupported { get; } = true;
-    public bool IsConfigured { get; private set; }
+    public override Guid Id { get; } = Guid.Parse("4c1a8ac5-60ca-4024-aae6-3c9852a6535c");
+    public override string Name { get; } = "Solana keygen";
+    public override string ShortName { get; } = "SolKeygen";
+    public override string ImageName { get; } = "ecdsa.svg";
+    public override bool IsConfigured { get; protected set; }
     public SolanaKey Key { get; private set; }
 
-    public Task InitializeAsync(IServiceProvider serviceProvider)
-        => Task.CompletedTask;
-
-    public Property[] GetProperties()
+    public override Property[] GetProperties()
         => new[]
         {
             new Property{ Name = "Address", Value = Key?.Address ?? "<null>" },
         };
 
-    public ConfigurationItem[] GetConfigurationItems()
+    public override ConfigurationItem[] GetConfigurationItems()
     {
         var mnemonicInput = new ConfigurationItem
         {
@@ -80,7 +74,7 @@ public class SolanaKeygenProvider : IProvider
         return new[] { mnemonicInput, privateKeyInput, addressInput, button };
     }
 
-    public Task<Result> Configure(ConfigurationItem[] configurationItems)
+    public override Task<Result> Configure(ConfigurationItem[] configurationItems)
     {
         var keyResult = ResultWrapper.Wrap(() => new SolanaKey(configurationItems[0].Value));
         if (keyResult.IsFailure)
@@ -91,13 +85,13 @@ public class SolanaKeygenProvider : IProvider
         return Task.FromResult(Result.Success());
     }
 
-    public bool IsNetworkSupported(INetwork network)
+    public override bool IsNetworkSupported(INetwork network)
         => network?.Type == NetworkType.Solana;
 
-    public Task<string> GetAddress()
+    public override Task<string> GetAddress()
         => Task.FromResult(Key?.Address);
 
-    public async Task<Balance> GetBalance(INetwork network)
+    public override async Task<Balance> GetBalance(INetwork network)
     {
         if (string.IsNullOrEmpty(Key?.Address))
             return null;
@@ -111,7 +105,7 @@ public class SolanaKeygenProvider : IProvider
         return new Balance(balance, "lamport");
     }
 
-    public Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
+    public override Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
     {
         if (selectedNetwork != null && selectedNetwork.Type == NetworkType.Solana)
             return Task.FromResult(selectedNetwork);
@@ -121,7 +115,7 @@ public class SolanaKeygenProvider : IProvider
         return Task.FromResult(matchingNetwork);
     }
 
-    public async Task<string> Mint(MintRequest mintRequest)
+    public override async Task<string> Mint(MintRequest mintRequest)
     {
         var client = ClientFactory.GetClient(mintRequest.Network.PublicRpcUrl.OriginalString);
         var rentExemption = await client.GetMinimumBalanceForRentExemptionAsync(TokenProgram.MintAccountDataSize);
@@ -213,10 +207,10 @@ public class SolanaKeygenProvider : IProvider
         return txResult.Result;
     }
 
-    public Task<string> GetState()
+    public override Task<string> GetState()
         => Task.FromResult(Key.MnemonicPhrase);
 
-    public Task SetState(string state)
+    public override Task SetState(string state)
     {
         if (!string.IsNullOrEmpty(state))
         {

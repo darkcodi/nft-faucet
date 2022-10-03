@@ -2,27 +2,26 @@ using System.Globalization;
 using NftFaucet.Domain.Models;
 using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.Ethereum.Networks;
 
-public class KovanNetwork : INetwork
+public sealed class KovanNetwork : Network
 {
-    public Guid Id { get; } = Guid.Parse("2d76565d-6e66-4d5b-bd62-c44e4db95782");
-    public string Name { get; } = "Kovan";
-    public string ShortName { get; } = "Kovan";
-    public ulong? ChainId { get; } = 42;
-    public int? Order { get; } = 5;
-    public string Currency { get; } = "ETH";
-    public string ImageName { get; } = "ethereum-gray.svg";
-    public bool IsSupported { get; } = true;
-    public bool IsTestnet { get; } = true;
-    public bool IsDeprecated { get; } = true;
-    public NetworkType Type { get; } = NetworkType.Ethereum;
-    public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
-    public Uri PublicRpcUrl { get; } = new Uri("https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
-    public Uri ExplorerUrl { get; } = new Uri("https://kovan.etherscan.io/");
+    public override Guid Id { get; } = Guid.Parse("2d76565d-6e66-4d5b-bd62-c44e4db95782");
+    public override string Name { get; } = "Kovan";
+    public override string ShortName { get; } = "Kovan";
+    public override ulong? ChainId { get; } = 42;
+    public override int? Order { get; } = 5;
+    public override string Currency { get; } = "ETH";
+    public override string ImageName { get; } = "ethereum-gray.svg";
+    public override bool IsDeprecated { get; } = true;
+    public override NetworkType Type { get; } = NetworkType.Ethereum;
+    public override NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
+    public override Uri PublicRpcUrl { get; } = new Uri("https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
+    public override Uri ExplorerUrl { get; } = new Uri("https://kovan.etherscan.io/");
 
-    public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
+    public override IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {
         new Contract
         {

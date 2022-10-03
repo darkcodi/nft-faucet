@@ -2,27 +2,26 @@ using System.Globalization;
 using NftFaucet.Domain.Models;
 using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.Ethereum.Networks;
 
-public class RinkebyNetwork : INetwork
+public sealed class RinkebyNetwork : Network
 {
-    public Guid Id { get; } = Guid.Parse("795e27ea-942f-45e0-a5c8-b6c6a722635b");
-    public string Name { get; } = "Rinkeby";
-    public string ShortName { get; } = "Rinkeby";
-    public ulong? ChainId { get; } = 4;
-    public int? Order { get; } = 3;
-    public string Currency { get; } = "ETH";
-    public string ImageName { get; } = "ethereum-gray.svg";
-    public bool IsSupported { get; } = true;
-    public bool IsTestnet { get; } = true;
-    public bool IsDeprecated { get; } = true;
-    public NetworkType Type { get; } = NetworkType.Ethereum;
-    public NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
-    public Uri PublicRpcUrl { get; } = new Uri("https://ethereum-rinkeby-rpc.allthatnode.com");
-    public Uri ExplorerUrl { get; } = new Uri("https://rinkeby.etherscan.io/");
+    public override Guid Id { get; } = Guid.Parse("795e27ea-942f-45e0-a5c8-b6c6a722635b");
+    public override string Name { get; } = "Rinkeby";
+    public override string ShortName { get; } = "Rinkeby";
+    public override ulong? ChainId { get; } = 4;
+    public override int? Order { get; } = 3;
+    public override string Currency { get; } = "ETH";
+    public override string ImageName { get; } = "ethereum-gray.svg";
+    public override bool IsDeprecated { get; } = true;
+    public override NetworkType Type { get; } = NetworkType.Ethereum;
+    public override NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
+    public override Uri PublicRpcUrl { get; } = new Uri("https://ethereum-rinkeby-rpc.allthatnode.com");
+    public override Uri ExplorerUrl { get; } = new Uri("https://rinkeby.etherscan.io/");
 
-    public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
+    public override IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {
         new Contract
         {

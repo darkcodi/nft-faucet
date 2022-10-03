@@ -1,23 +1,20 @@
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.Arbitrum.Networks;
 
-public class ArbitrumNovaNetwork : INetwork
+public sealed class ArbitrumNovaNetwork : Network
 {
-    public Guid Id { get; } = Guid.Parse("e2f056f8-1c5c-494f-9e88-96213a2009d4");
-    public string Name { get; } = "Arbitrum Nova";
-    public string ShortName { get; } = "ArbNova";
-    public ulong? ChainId { get; } = 42170;
-    public int? Order { get; } = 2;
-    public string Currency { get; } = "ETH";
-    public string ImageName { get; } = "arbitrum-black.svg";
-    public bool IsSupported { get; } = false;
-    public bool IsTestnet { get; } = true;
-    public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Ethereum;
-    public NetworkSubtype SubType { get; } = NetworkSubtype.Arbitrum;
-    public Uri PublicRpcUrl { get; } = null;
-    public Uri ExplorerUrl { get; } = new Uri("https://nova-explorer.arbitrum.io");
-    public IReadOnlyCollection<IContract> DeployedContracts { get; } = Array.Empty<IContract>();
+    public override Guid Id { get; } = Guid.Parse("e2f056f8-1c5c-494f-9e88-96213a2009d4");
+    public override string Name { get; } = "Arbitrum Nova";
+    public override string ShortName { get; } = "ArbNova";
+    public override ulong? ChainId { get; } = 42170;
+    public override int? Order { get; } = 2;
+    public override string Currency { get; } = "ETH";
+    public override string ImageName { get; } = "arbitrum-black.svg";
+    public override bool IsSupported { get; } = false;
+    public override NetworkType Type { get; } = NetworkType.Ethereum;
+    public override NetworkSubtype SubType { get; } = NetworkSubtype.Arbitrum;
+    public override Uri PublicRpcUrl { get; } = null;
+    public override Uri ExplorerUrl { get; } = new Uri("https://nova-explorer.arbitrum.io");
 }

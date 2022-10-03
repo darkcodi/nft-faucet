@@ -1,35 +1,25 @@
 using System.Text;
-using CSharpFunctionalExtensions;
 using Nethereum.Signer;
 using NftFaucet.Plugins.Models;
-using NftFaucet.Plugins.Models.Abstraction;
 using NftFaucet.UploadPlugins.Crust.ApiClients;
 using NftFaucet.UploadPlugins.Crust.Models;
 using RestEase;
 
 namespace NftFaucet.UploadPlugins.Crust;
 
-public class CrustUploader : IUploader
+public class CrustUploader : Uploader
 {
-    public Guid Id { get; } = Guid.Parse("5cc1a8bf-9b6a-4fa7-a262-1161bcca3cd5");
-    public string Name { get; } = "Crust";
-    public string ShortName { get; } = "Crust";
-    public string ImageName { get; } = "crust.svg";
-    public bool IsSupported { get; } = true;
-    public bool IsConfigured { get; } = true;
+    public override Guid Id { get; } = Guid.Parse("5cc1a8bf-9b6a-4fa7-a262-1161bcca3cd5");
+    public override string Name { get; } = "Crust";
+    public override string ShortName { get; } = "Crust";
+    public override string ImageName { get; } = "crust.svg";
 
     private string AuthHeader { get; set; }
 
-    public Property[] GetProperties()
+    public override Property[] GetProperties()
         => new[] {new Property {Value = "Very slow, but zero-config"}};
 
-    public ConfigurationItem[] GetConfigurationItems()
-        => Array.Empty<ConfigurationItem>();
-
-    public Task<Result> Configure(ConfigurationItem[] configurationItems)
-        => Task.FromResult(Result.Success());
-
-    public async Task<Uri> Upload(string fileName, string fileType, byte[] fileData)
+    public override async Task<Uri> Upload(string fileName, string fileType, byte[] fileData)
     {
         var fileUploadRequest = ToMultipartContent(fileName, fileType, fileData);
         var uploadClient = RestClient.For<ICrustUploadApiClient>();
@@ -63,12 +53,6 @@ public class CrustUploader : IUploader
 
         return new Uri("https://gw.crustapps.net/ipfs/" + uploadResponse.Hash);
     }
-
-    public Task<string> GetState()
-        => Task.FromResult(string.Empty);
-
-    public Task SetState(string state)
-        => Task.CompletedTask;
 
     private MultipartContent ToMultipartContent(string fileName, string fileType, byte[] fileData)
     {

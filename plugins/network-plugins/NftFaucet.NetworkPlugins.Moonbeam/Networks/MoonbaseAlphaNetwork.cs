@@ -2,27 +2,25 @@ using System.Globalization;
 using NftFaucet.Domain.Models;
 using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.Moonbeam.Networks;
 
-public class MoonbaseAlphaNetwork : INetwork
+public sealed class MoonbaseAlphaNetwork : Network
 {
-    public Guid Id { get; } = Guid.Parse("3232de5b-78bd-4b2f-8048-4aa3e16547bd");
-    public string Name { get; } = "Moonbase Alpha";
-    public string ShortName { get; } = "MoonAlpha";
-    public ulong? ChainId { get; } = 1287;
-    public int? Order { get; } = 3;
-    public string Currency { get; } = "DEV";
-    public string ImageName { get; } = "moonbeam-black.svg";
-    public bool IsSupported { get; } = true;
-    public bool IsTestnet { get; } = true;
-    public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Ethereum;
-    public NetworkSubtype SubType { get; } = NetworkSubtype.Moonbase;
-    public Uri PublicRpcUrl { get; } = new Uri("https://moonbase-alpha.public.blastapi.io");
-    public Uri ExplorerUrl { get; } = new Uri("https://moonbase.moonscan.io/"); 
+    public override Guid Id { get; } = Guid.Parse("3232de5b-78bd-4b2f-8048-4aa3e16547bd");
+    public override string Name { get; } = "Moonbase Alpha";
+    public override string ShortName { get; } = "MoonAlpha";
+    public override ulong? ChainId { get; } = 1287;
+    public override int? Order { get; } = 3;
+    public override string Currency { get; } = "DEV";
+    public override string ImageName { get; } = "moonbeam-black.svg";
+    public override NetworkType Type { get; } = NetworkType.Ethereum;
+    public override NetworkSubtype SubType { get; } = NetworkSubtype.Moonbase;
+    public override Uri PublicRpcUrl { get; } = new Uri("https://moonbase-alpha.public.blastapi.io");
+    public override Uri ExplorerUrl { get; } = new Uri("https://moonbase.moonscan.io/"); 
 
-    public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
+    public override IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {
         new Contract
         {

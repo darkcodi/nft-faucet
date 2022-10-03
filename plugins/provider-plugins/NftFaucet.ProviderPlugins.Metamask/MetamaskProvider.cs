@@ -1,9 +1,7 @@
-using CSharpFunctionalExtensions;
 using Ethereum.MetaMask.Blazor;
 using Microsoft.Extensions.DependencyInjection;
 using NftFaucet.Domain.Function;
 using NftFaucet.Domain.Models;
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
 using NftFaucet.Plugins.Models;
 using NftFaucet.Plugins.Models.Abstraction;
@@ -11,24 +9,22 @@ using NftFaucet.Plugins.Models.Enums;
 
 namespace NftFaucet.ProviderPlugins.Metamask;
 
-public class MetamaskProvider : IProvider
+public class MetamaskProvider : Provider
 {
-    public Guid Id { get; } = Guid.Parse("3367b9bb-f50c-4768-aeb3-9ac14d4c3987");
-    public string Name { get; } = "Metamask";
-    public string ShortName { get; } = "Metamask";
-    public string ImageName { get; } = "metamask_fox.svg";
-    public bool IsInitialized { get; private set; }
-    public bool IsSupported { get; } = true;
-    public bool IsConfigured => IsMetamaskAvailable && IsSiteConnected && !string.IsNullOrEmpty(Address);
+    public override Guid Id { get; } = Guid.Parse("3367b9bb-f50c-4768-aeb3-9ac14d4c3987");
+    public override string Name { get; } = "Metamask";
+    public override string ShortName { get; } = "Metamask";
+    public override string ImageName { get; } = "metamask_fox.svg";
+    public override bool IsInitialized { get; protected set; }
+    public override bool IsConfigured => IsMetamaskAvailable && IsSiteConnected && !string.IsNullOrEmpty(Address);
 
     private IMetaMaskService MetaMaskService { get; set; }
-
     private bool IsMetamaskAvailable { get; set; }
     private bool IsSiteConnected { get; set; }
     private string Address { get; set; }
     private string ChainId { get; set; }
 
-    public async Task InitializeAsync(IServiceProvider serviceProvider)
+    public override async Task InitializeAsync(IServiceProvider serviceProvider)
     {
         MetaMaskService = serviceProvider.GetRequiredService<IMetaMaskService>();
 
@@ -47,7 +43,7 @@ public class MetamaskProvider : IProvider
         IsInitialized = true;
     }
 
-    public Property[] GetProperties()
+    public override Property[] GetProperties()
     {
         var list = new List<Property>(3)
         {
@@ -74,7 +70,7 @@ public class MetamaskProvider : IProvider
         return list.ToArray();
     }
 
-    public ConfigurationItem[] GetConfigurationItems()
+    public override ConfigurationItem[] GetConfigurationItems()
     {
         var addressInput = new ConfigurationItem
         {
@@ -120,19 +116,13 @@ public class MetamaskProvider : IProvider
         return new[] { addressInput, chainInput, connectButton };
     }
 
-    public Task<Result> Configure(ConfigurationItem[] configurationItems)
-    {
-        // IsConfigured = true;
-        return Task.FromResult(Result.Success());
-    }
-
-    public bool IsNetworkSupported(INetwork network)
+    public override bool IsNetworkSupported(INetwork network)
         => network?.Type == NetworkType.Ethereum;
 
-    public async Task<string> GetAddress()
+    public override async Task<string> GetAddress()
         => Address ?? await MetaMaskService.GetSelectedAccountAsync();
 
-    public async Task<Balance> GetBalance(INetwork network)
+    public override async Task<Balance> GetBalance(INetwork network)
     {
         if (!IsConfigured)
             return null;
@@ -141,14 +131,14 @@ public class MetamaskProvider : IProvider
         return new Balance(balance, "wei");
     }
 
-    public Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
+    public override Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)
     {
         var chainId = Convert.ToUInt64(ChainId, 16);
         var matchingNetwork = allKnownNetworks.FirstOrDefault(x => x.ChainId != null && x.ChainId.Value == chainId);
         return Task.FromResult(matchingNetwork);
     }
 
-    public async Task<string> Mint(MintRequest mintRequest)
+    public override async Task<string> Mint(MintRequest mintRequest)
     {
         if (mintRequest.Network.Type != NetworkType.Ethereum)
         {
@@ -181,10 +171,4 @@ public class MetamaskProvider : IProvider
 
         return transactionHash;
     }
-
-    public Task<string> GetState()
-        => Task.FromResult(string.Empty);
-
-    public Task SetState(string state)
-        => Task.CompletedTask;
 }

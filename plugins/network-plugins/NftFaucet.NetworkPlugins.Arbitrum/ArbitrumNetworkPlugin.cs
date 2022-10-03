@@ -1,4 +1,3 @@
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.NetworkPlugins.Arbitrum.Networks;
 using NftFaucet.Plugins.Models.Abstraction;
 

@@ -1,9 +1,9 @@
 using System.Numerics;
 using NftFaucet.Components;
 using NftFaucet.Domain.Models;
-using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Utils;
 using NftFaucet.Plugins.Models;
+using NftFaucet.Plugins.Models.Abstraction;
 
 namespace NftFaucet.Pages;
 

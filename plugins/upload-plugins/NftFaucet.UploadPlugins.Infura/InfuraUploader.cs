@@ -2,28 +2,26 @@ using System.Net.Http.Headers;
 using System.Text;
 using CSharpFunctionalExtensions;
 using NftFaucet.Plugins.Models;
-using NftFaucet.Plugins.Models.Abstraction;
 using NftFaucet.Plugins.Models.Enums;
 using NftFaucet.UploadPlugins.Infura.ApiClients;
 using RestEase;
 
 namespace NftFaucet.UploadPlugins.Infura;
 
-public class InfuraUploader : IUploader
+public class InfuraUploader : Uploader
 {
-    public Guid Id { get; } = Guid.Parse("c0d79c82-8e35-4cd6-ad35-bbe378088308");
-    public string Name { get; } = "Infura";
-    public string ShortName { get; } = "Infura";
-    public string ImageName { get; } = "infura_black.svg";
-    public bool IsSupported { get; } = true;
-    public bool IsConfigured { get; private set; } = false;
+    public override Guid Id { get; } = Guid.Parse("c0d79c82-8e35-4cd6-ad35-bbe378088308");
+    public override string Name { get; } = "Infura";
+    public override string ShortName { get; } = "Infura";
+    public override string ImageName { get; } = "infura_black.svg";
+    public override bool IsConfigured { get; protected set; }
 
     private const string DefaultGatewayUrl = "https://ipfs.infura.io:5001";
     private string ProjectId { get; set; }
     private string ProjectSecret { get; set; }
     private Uri DedicatedGatewayUrl { get; set; }
 
-    public Property[] GetProperties()
+    public override Property[] GetProperties()
     {
         var properties = new List<Property>();
         if (IsConfigured)
@@ -46,7 +44,7 @@ public class InfuraUploader : IUploader
         return properties.ToArray();
     }
 
-    public ConfigurationItem[] GetConfigurationItems()
+    public override ConfigurationItem[] GetConfigurationItems()
     {
         var projectIdInput = new ConfigurationItem
         {
@@ -72,7 +70,7 @@ public class InfuraUploader : IUploader
         return new[] { projectIdInput, projectSecretInput, gatewayUrlInput };
     }
 
-    public async Task<Result> Configure(ConfigurationItem[] configurationItems)
+    public override async Task<Result> Configure(ConfigurationItem[] configurationItems)
     {
         var projectId = configurationItems[0].Value;
         var projectSecret = configurationItems[1].Value;
@@ -136,7 +134,7 @@ public class InfuraUploader : IUploader
         return Result.Success();
     }
 
-    public async Task<Uri> Upload(string fileName, string fileType, byte[] fileData)
+    public override async Task<Uri> Upload(string fileName, string fileType, byte[] fileData)
     {
         var apiClient = GetInfuraClient(ProjectId, ProjectSecret);
         var fileUploadRequest = ToMultipartContent(fileName, fileType, fileData);
@@ -160,9 +158,9 @@ public class InfuraUploader : IUploader
         return new Uri("ipfs://" + uploadResponse.Hash);
     }
 
-    public Task<string> GetState()
+    public override Task<string> GetState()
     {
-        var parts = new string[]
+        var parts = new[]
         {
             ProjectId,
             ProjectSecret,
@@ -172,7 +170,7 @@ public class InfuraUploader : IUploader
         return Task.FromResult(state);
     }
 
-    public Task SetState(string state)
+    public override Task SetState(string state)
     {
         if (string.IsNullOrEmpty(state))
             return Task.CompletedTask;

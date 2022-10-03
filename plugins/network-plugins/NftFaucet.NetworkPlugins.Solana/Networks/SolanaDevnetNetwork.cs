@@ -1,27 +1,24 @@
 using NftFaucet.Domain.Models;
 using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
+using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.Solana.Networks;
 
-public class SolanaDevnetNetwork : INetwork
+public sealed class SolanaDevnetNetwork : Network
 {
-    public Guid Id { get; } = Guid.Parse("da9f269a-b53e-492a-be07-b4aadc2aae83");
-    public string Name { get; } = "Solana Devnet";
-    public string ShortName { get; } = "SolDevnet";
-    public ulong? ChainId { get; } = null;
-    public int? Order { get; } = 2;
-    public string Currency { get; } = "SOL";
-    public string ImageName { get; } = "solana-black.svg";
-    public bool IsSupported { get; } = true;
-    public bool IsTestnet { get; } = true;
-    public bool IsDeprecated { get; } = false;
-    public NetworkType Type { get; } = NetworkType.Solana;
-    public NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
-    public Uri PublicRpcUrl { get; } = new Uri("https://api.devnet.solana.com");
-    public Uri ExplorerUrl { get; } = new Uri("https://explorer.solana.com/?cluster=devnet");
+    public override Guid Id { get; } = Guid.Parse("da9f269a-b53e-492a-be07-b4aadc2aae83");
+    public override string Name { get; } = "Solana Devnet";
+    public override string ShortName { get; } = "SolDevnet";
+    public override int? Order { get; } = 2;
+    public override string Currency { get; } = "SOL";
+    public override string ImageName { get; } = "solana-black.svg";
+    public override NetworkType Type { get; } = NetworkType.Solana;
+    public override NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
+    public override Uri PublicRpcUrl { get; } = new Uri("https://api.devnet.solana.com");
+    public override Uri ExplorerUrl { get; } = new Uri("https://explorer.solana.com/?cluster=devnet");
 
-    public IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
+    public override IReadOnlyCollection<IContract> DeployedContracts { get; } = new[]
     {
         new Contract
         {
