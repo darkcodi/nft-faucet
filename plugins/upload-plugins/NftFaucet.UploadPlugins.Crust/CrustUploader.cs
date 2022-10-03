@@ -13,7 +13,7 @@ public class CrustUploader : Uploader
     public override string Name { get; } = "Crust";
     public override string ShortName { get; } = "Crust";
     public override string ImageName { get; } = "crust.svg";
-    public override bool IsSupported { get; } = false;
+    public override bool IsDeprecated { get; } = true;
 
     public override int? Order { get; } = 3;
 
