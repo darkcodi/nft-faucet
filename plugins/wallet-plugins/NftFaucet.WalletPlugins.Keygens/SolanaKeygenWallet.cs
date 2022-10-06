@@ -158,15 +158,15 @@ public class SolanaKeygenWallet : Wallet
             true,
             false
         ));
-        instructions.Add(MetadataProgram.CreateMasterEdition(
-            1,
-            masterEditionAddress,
-            mint,
-            walletAddress,
-            walletAddress,
-            walletAddress,
-            metadataAddress
-        ));
+        // instructions.Add(MetadataProgram.CreateMasterEdition(
+        //     1,
+        //     masterEditionAddress,
+        //     mint,
+        //     walletAddress,
+        //     walletAddress,
+        //     walletAddress,
+        //     metadataAddress
+        // ));
 
         var blockHash = (await client.GetRecentBlockHashAsync()).Result.Value.Blockhash;
 
