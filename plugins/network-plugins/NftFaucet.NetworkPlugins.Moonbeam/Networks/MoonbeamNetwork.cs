@@ -10,7 +10,8 @@ public sealed class MoonbeamNetwork : Network
     public override string ShortName { get; } = "Moonbeam";
     public override ulong? ChainId { get; } = 1284;
     public override int? Order { get; } = 1;
-    public override string Currency { get; } = "GLMR";
+    public override string MainCurrency { get; } = "GLMR";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "moonbeam.svg";
     public override bool IsSupported { get; } = false;
     public override bool IsTestnet { get; } = false;

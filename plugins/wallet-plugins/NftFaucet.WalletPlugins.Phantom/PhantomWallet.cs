@@ -1,3 +1,4 @@
+using System.Numerics;
 using NftFaucet.Domain.Models;
 using NftFaucet.Domain.Models.Enums;
 using NftFaucet.Plugins.Models;
@@ -28,7 +29,7 @@ public class PhantomWallet : Wallet
         throw new NotImplementedException();
     }
 
-    public override Task<Balance> GetBalance(INetwork network)
+    public override Task<BigInteger?> GetBalance(INetwork network)
     {
         throw new NotImplementedException();
     }

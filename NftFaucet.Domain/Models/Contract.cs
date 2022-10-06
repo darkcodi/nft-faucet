@@ -13,4 +13,5 @@ public class Contract : IContract
     public string DeploymentTxHash { get; init; }
     public DateTime? DeployedAt { get; init; }
     public bool IsVerified { get; init; }
+    public ulong MinBalanceRequired { get; init; }
 }

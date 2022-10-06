@@ -13,7 +13,8 @@ public sealed class GoerliNetwork : Network
     public override string ShortName { get; } = "Goerli";
     public override ulong? ChainId { get; } = 5;
     public override int? Order { get; } = 4;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "ethereum-gray.svg";
     public override NetworkType Type { get; } = NetworkType.Ethereum;
     public override NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
@@ -32,6 +33,7 @@ public sealed class GoerliNetwork : Network
             DeploymentTxHash = "0xb117ee2482ae4eb1a95e1543d06c89e65aab4ef1ed73f32d20789bf1a88abfac",
             DeployedAt = DateTime.Parse("Apr-17-2022 10:50:21 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -43,6 +45,7 @@ public sealed class GoerliNetwork : Network
             DeploymentTxHash = "0x00983c36d7cd73d63471d730a2260a022a45ac3371b5342eded8b2e31ae11a2e",
             DeployedAt = DateTime.Parse("Apr-17-2022 10:54:21 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

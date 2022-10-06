@@ -10,7 +10,8 @@ public sealed class AvalancheMainnetNetwork : Network
     public override string ShortName { get; } = "Avalanche";
     public override ulong? ChainId { get; } = 43114;
     public override int? Order { get; } = 1;
-    public override string Currency { get; } = "AVAX";
+    public override string MainCurrency { get; } = "AVAX";
+    public override string SmallestCurrency { get; } = "nAVAX";
     public override string ImageName { get; } = "avalanche.svg";
     public override bool IsSupported { get; } = false;
     public override bool IsTestnet { get; } = false;

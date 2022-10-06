@@ -13,7 +13,8 @@ public sealed class OptimismKovanNetwork : Network
     public override string ShortName { get; } = "OpKovan";
     public override ulong? ChainId { get; } = 69;
     public override int? Order { get; } = 2;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "optimism-black.svg";
     public override bool IsDeprecated { get; } = true;
     public override NetworkType Type { get; } = NetworkType.Ethereum;
@@ -33,6 +34,7 @@ public sealed class OptimismKovanNetwork : Network
             DeploymentTxHash = "0x4918d73cafaf7044fa580a50cc327db65628ec218cfcea891183842e67110f18",
             DeployedAt = DateTime.Parse("Apr-17-2022 12:51:54 PM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -44,6 +46,7 @@ public sealed class OptimismKovanNetwork : Network
             DeploymentTxHash = "0x3ead90561a03152c65b7ed8c3d208e7796b9d9a7b415582cdfe44ad40d9eb89e",
             DeployedAt = DateTime.Parse("Apr-17-2022 01:00:41 PM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

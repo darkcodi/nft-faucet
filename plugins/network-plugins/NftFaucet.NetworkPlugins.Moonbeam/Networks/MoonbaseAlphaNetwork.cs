@@ -13,7 +13,8 @@ public sealed class MoonbaseAlphaNetwork : Network
     public override string ShortName { get; } = "MoonAlpha";
     public override ulong? ChainId { get; } = 1287;
     public override int? Order { get; } = 3;
-    public override string Currency { get; } = "DEV";
+    public override string MainCurrency { get; } = "DEV";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "moonbeam-black.svg";
     public override NetworkType Type { get; } = NetworkType.Ethereum;
     public override NetworkSubtype SubType { get; } = NetworkSubtype.Moonbase;
@@ -32,6 +33,7 @@ public sealed class MoonbaseAlphaNetwork : Network
             DeploymentTxHash = "0x9bb9cd82a83a708f395cf074ded75264c4fd31f6eeb64729b4fff1eeea2c5c08",
             DeployedAt = DateTime.Parse("Apr-17-2022 02:59:00 PM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -43,6 +45,7 @@ public sealed class MoonbaseAlphaNetwork : Network
             DeploymentTxHash = "0x5f6d1137b59dbb0c00655a2c798b66ef34e42844dd89bbe45eb76b37fa82f718",
             DeployedAt = DateTime.Parse("Apr-17-2022 03:01:36 PM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

@@ -10,7 +10,8 @@ public sealed class MoonriverNetwork : Network
     public override string ShortName { get; } = "Moonriver";
     public override ulong? ChainId { get; } = 1285;
     public override int? Order { get; } = 2;
-    public override string Currency { get; } = "MOVR";
+    public override string MainCurrency { get; } = "MOVR";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "moonriver.svg";
     public override bool IsSupported { get; } = false;
     public override bool IsTestnet { get; } = false;

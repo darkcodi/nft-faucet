@@ -13,7 +13,8 @@ public sealed class SepoliaNetwork : Network
     public override string ShortName { get; } = "Sepolia";
     public override ulong? ChainId { get; } = 11155111;
     public override int? Order { get; } = 7;
-    public override string Currency { get; } = "SEP";
+    public override string MainCurrency { get; } = "SEP";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "ethereum-gray.svg";
     public override NetworkType Type { get; } = NetworkType.Ethereum;
     public override NetworkSubtype SubType { get; } = NetworkSubtype.Ethereum;
@@ -32,6 +33,7 @@ public sealed class SepoliaNetwork : Network
             DeploymentTxHash = "0xfa17519ea84d95c346c6803d64ba71ab22455a0a9ffbe3803be6e7bd9cc8a371",
             DeployedAt = DateTime.Parse("Oct-03-2022 03:33:36 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -43,6 +45,7 @@ public sealed class SepoliaNetwork : Network
             DeploymentTxHash = "0x2991cffbd195514207b4d0880530690be351d2bdd03bb29d3442552225b0dd79",
             DeployedAt = DateTime.Parse("Oct-03-2022 03:36:36 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

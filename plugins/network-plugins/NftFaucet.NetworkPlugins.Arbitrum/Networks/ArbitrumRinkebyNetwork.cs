@@ -13,7 +13,8 @@ public sealed class ArbitrumRinkebyNetwork : Network
     public override string ShortName { get; } = "ArbRinkeby";
     public override ulong? ChainId { get; } = 421611;
     public override int? Order { get; } = 3;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "arbitrum-black.svg";
     public override NetworkType Type { get; } = NetworkType.Ethereum;
     public override NetworkSubtype SubType { get; } = NetworkSubtype.Arbitrum;
@@ -32,6 +33,7 @@ public sealed class ArbitrumRinkebyNetwork : Network
             DeploymentTxHash = "0x506e9c08cb360eb85b0b5d1e86615178ff1e4c0fab05297e725e9d227f45fe6b",
             DeployedAt = DateTime.Parse("Apr-17-2022 01:45:55 PM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -43,6 +45,7 @@ public sealed class ArbitrumRinkebyNetwork : Network
             DeploymentTxHash = "0xe62c31c70fd37a4b984b4b51d2ee5e08cd6bc53983200ca0041656f57f6dc8de",
             DeployedAt = DateTime.Parse("Apr-17-2022 01:49:41 PM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

@@ -10,7 +10,8 @@ public sealed class ArbitrumNovaNetwork : Network
     public override string ShortName { get; } = "ArbNova";
     public override ulong? ChainId { get; } = 42170;
     public override int? Order { get; } = 2;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "arbitrum-black.svg";
     public override bool IsSupported { get; } = false;
     public override NetworkType Type { get; } = NetworkType.Ethereum;

@@ -13,7 +13,8 @@ public sealed class RinkebyNetwork : Network
     public override string ShortName { get; } = "Rinkeby";
     public override ulong? ChainId { get; } = 4;
     public override int? Order { get; } = 3;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "ethereum-gray.svg";
     public override bool IsDeprecated { get; } = true;
     public override NetworkType Type { get; } = NetworkType.Ethereum;
@@ -33,6 +34,7 @@ public sealed class RinkebyNetwork : Network
             DeploymentTxHash = "0xc1db534202f68a169a463b5053de7011330d870c9c63dd69bf03dd72c0d99f8b",
             DeployedAt = DateTime.Parse("Apr-17-2022 10:20:34 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -44,6 +46,7 @@ public sealed class RinkebyNetwork : Network
             DeploymentTxHash = "0xa216e02c0978b1dc2ff2d33b981345861136cbe611dfc5c53500fd16da81654b",
             DeployedAt = DateTime.Parse("Apr-17-2022 10:40:06 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

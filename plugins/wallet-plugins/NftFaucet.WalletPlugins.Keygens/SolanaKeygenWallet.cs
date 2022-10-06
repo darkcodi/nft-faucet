@@ -92,7 +92,7 @@ public class SolanaKeygenWallet : Wallet
     public override Task<string> GetAddress()
         => Task.FromResult(Key?.Address);
 
-    public override async Task<Balance> GetBalance(INetwork network)
+    public override async Task<BigInteger?> GetBalance(INetwork network)
     {
         if (string.IsNullOrEmpty(Key?.Address))
             return null;
@@ -103,7 +103,7 @@ public class SolanaKeygenWallet : Wallet
             return null;
 
         var balance = new BigInteger(balanceResult.Result.Value);
-        return new Balance(balance, "lamport");
+        return balance;
     }
 
     public override Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)

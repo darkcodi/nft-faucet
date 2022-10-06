@@ -7,7 +7,8 @@ namespace NftFaucet.Plugins.Models.Abstraction;
 public interface INetwork : INamedEntity, IEntityWithOrder
 {
     public ulong? ChainId { get; }
-    public string Currency { get; }
+    public string MainCurrency { get; }
+    public string SmallestCurrency { get; }
     public bool IsTestnet { get; }
     public NetworkType Type { get; }
     public NetworkSubtype SubType { get; }

@@ -8,7 +8,8 @@ namespace NftFaucet.Plugins.Models;
 public abstract class Network : DefaultEntity, INetwork
 {
     public virtual ulong? ChainId { get; } = null;
-    public virtual string Currency { get; } = null;
+    public virtual string MainCurrency { get; } = null;
+    public virtual string SmallestCurrency { get; } = null;
     public virtual bool IsTestnet { get; } = true;
     public abstract NetworkType Type { get; }
     public abstract NetworkSubtype SubType { get; }

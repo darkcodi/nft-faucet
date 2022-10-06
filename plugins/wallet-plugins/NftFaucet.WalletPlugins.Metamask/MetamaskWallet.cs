@@ -1,3 +1,4 @@
+using System.Numerics;
 using Ethereum.MetaMask.Blazor;
 using Microsoft.Extensions.DependencyInjection;
 using NftFaucet.Domain.Function;
@@ -122,13 +123,13 @@ public class MetamaskWallet : Wallet
     public override async Task<string> GetAddress()
         => Address ?? await MetaMaskService.GetSelectedAccountAsync();
 
-    public override async Task<Balance> GetBalance(INetwork network)
+    public override async Task<BigInteger?> GetBalance(INetwork network)
     {
         if (!IsConfigured)
             return null;
 
         var balance = await MetaMaskService.GetBalanceAsync();
-        return new Balance(balance, "wei");
+        return balance;
     }
 
     public override Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)

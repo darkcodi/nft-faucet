@@ -10,7 +10,8 @@ public sealed class BscMainnetNetwork : Network
     public override string ShortName { get; } = "BSC";
     public override ulong? ChainId { get; } = 56;
     public override int? Order { get; } = 1;
-    public override string Currency { get; } = "BNB";
+    public override string MainCurrency { get; } = "BNB";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "bnb.svg";
     public override bool IsSupported { get; } = false;
     public override bool IsTestnet { get; } = false;

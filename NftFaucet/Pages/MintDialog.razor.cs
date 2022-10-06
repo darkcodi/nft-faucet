@@ -18,7 +18,7 @@ public partial class MintDialog : BasicComponent
     private MintingState State { get; set; } = MintingState.CheckingNetwork;
     private INetwork WalletNetwork { get; set; }
     private string SourceAddress { get; set; }
-    private Balance Balance { get; set; }
+    private BigInteger? Balance { get; set; }
     private string TransactionHash { get; set; }
     private string GetBalanceError { get; set; }
     private string SendTransactionError { get; set; }
@@ -96,13 +96,14 @@ public partial class MintDialog : BasicComponent
         });
         Balance = balanceResult.IsSuccess ? balanceResult.Value : null;
         GetBalanceError = balanceResult.IsFailure ? balanceResult.Error : null;
-        var amount = Balance?.Amount ?? BigInteger.Zero;
+        var amount = Balance ?? BigInteger.Zero;
         if (amount < BigInteger.Zero)
         {
             amount = BigInteger.Zero;
         }
+        var minAmount = new BigInteger(AppState.SelectedContract.MinBalanceRequired);
 
-        if (amount != BigInteger.Zero)
+        if (amount >= minAmount)
         {
             SendTransaction();
         }

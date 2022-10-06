@@ -81,7 +81,7 @@ public sealed class EthereumKeygenWallet : Wallet
     public override Task<string> GetAddress()
         => Task.FromResult(Key?.Address);
 
-    public override async Task<Balance> GetBalance(INetwork network)
+    public override async Task<BigInteger?> GetBalance(INetwork network)
     {
         if (string.IsNullOrEmpty(Key?.Address))
             return null;
@@ -89,7 +89,7 @@ public sealed class EthereumKeygenWallet : Wallet
         var web3 = new Web3(network.PublicRpcUrl.OriginalString);
         var hexBalance = await web3.Eth.GetBalance.SendRequestAsync(Key.Address);
         var balance = hexBalance.Value;
-        return new Balance(balance, "wei");
+        return balance;
     }
 
     public override Task<INetwork> GetNetwork(IReadOnlyCollection<INetwork> allKnownNetworks, INetwork selectedNetwork)

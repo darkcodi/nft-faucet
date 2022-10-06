@@ -47,7 +47,7 @@ else if (State == MintingState.CheckingNetwork)
             <text style="color: red;">
                 @if (Balance != null)
                 {
-                    @(Balance.Amount + " " + Balance.Currency)
+                    @($"{Balance.Value:n0} {AppState.SelectedNetwork.SmallestCurrency}")
                 }
                 else if (!string.IsNullOrEmpty(GetBalanceError))
                 {
@@ -57,6 +57,12 @@ else if (State == MintingState.CheckingNetwork)
                 {
                     @:&lt;unknown&gt;
                 }
+            </text>
+        </p>
+        <p>
+            <text style="font-weight: bold;">Minimum required balance: </text>
+            <text style="color: green;">
+                @($"{AppState.SelectedContract.MinBalanceRequired:n0} {AppState.SelectedNetwork.SmallestCurrency}")
             </text>
         </p>
         <div style="display: flex; justify-content: end;">

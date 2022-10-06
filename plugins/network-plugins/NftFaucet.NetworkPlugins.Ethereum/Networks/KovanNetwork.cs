@@ -13,7 +13,8 @@ public sealed class KovanNetwork : Network
     public override string ShortName { get; } = "Kovan";
     public override ulong? ChainId { get; } = 42;
     public override int? Order { get; } = 5;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "ethereum-gray.svg";
     public override bool IsDeprecated { get; } = true;
     public override NetworkType Type { get; } = NetworkType.Ethereum;
@@ -33,6 +34,7 @@ public sealed class KovanNetwork : Network
             DeploymentTxHash = "0x2e9e02701d8571d0af5910c25a16aca3520b5dd091507bde9347c5b2a760e8cb",
             DeployedAt = DateTime.Parse("Apr-17-2022 11:54:12 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -44,6 +46,7 @@ public sealed class KovanNetwork : Network
             DeploymentTxHash = "0xa095f2a30576a8bb38a49774fadc79c65d798c46999c367a74faf281950ba327",
             DeployedAt = DateTime.Parse("Apr-17-2022 11:56:24 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

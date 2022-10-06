@@ -10,7 +10,8 @@ public sealed class ArbitrumOneNetwork : Network
     public override string ShortName { get; } = "Arbitrum";
     public override ulong? ChainId { get; } = 42161;
     public override int? Order { get; } = 1;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "arbitrum.svg";
     public override bool IsSupported { get; } = false;
     public override bool IsTestnet { get; } = false;

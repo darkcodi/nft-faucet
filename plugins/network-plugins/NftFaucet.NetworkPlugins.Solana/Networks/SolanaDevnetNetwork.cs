@@ -26,6 +26,7 @@ public sealed class SolanaDevnetNetwork : SolanaNetwork
             DeploymentTxHash = null,
             DeployedAt = null,
             IsVerified = true,
+            MinBalanceRequired = MintingCost,
         },
     };
 }

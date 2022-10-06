@@ -13,7 +13,8 @@ public sealed class RopstenNetwork : Network
     public override string ShortName { get; } = "Ropsten";
     public override ulong? ChainId { get; } = 3;
     public override int? Order { get; } = 2;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "ethereum-gray.svg";
     public override bool IsDeprecated { get; } = true;
     public override NetworkType Type { get; } = NetworkType.Ethereum;
@@ -33,6 +34,7 @@ public sealed class RopstenNetwork : Network
             DeploymentTxHash = "0x6d17837aca212bc80302ab6b73bd6f39a8a168c588a5efc6eb10c0b7e89015cf",
             DeployedAt = DateTime.Parse("Apr-16-2022 06:07:30 PM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -44,6 +46,7 @@ public sealed class RopstenNetwork : Network
             DeploymentTxHash = "0xaf4f4932aeedbaa2f3bf96bb091ba35a15ffc4951b45b1ec521b0c63e11a602a",
             DeployedAt = DateTime.Parse("Apr-17-2022 09:28:58 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

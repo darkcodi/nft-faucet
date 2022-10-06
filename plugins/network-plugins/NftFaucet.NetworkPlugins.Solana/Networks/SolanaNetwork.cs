@@ -8,7 +8,10 @@ namespace NftFaucet.NetworkPlugins.Solana.Networks;
 
 public abstract class SolanaNetwork : Network
 {
-    public override string Currency { get; } = "SOL";
+    public const ulong MintingCost = 50000000;
+
+    public override string MainCurrency { get; } = "SOL";
+    public override string SmallestCurrency { get; } = "lamport";
     public override NetworkType Type { get; } = NetworkType.Solana;
     public override NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
     public override bool SupportsAirdrop { get; } = true;
@@ -16,7 +19,7 @@ public abstract class SolanaNetwork : Network
     public override async Task<Result> Airdrop(string address)
     {
         var client = ClientFactory.GetClient(PublicRpcUrl.OriginalString);
-        var airdropResult = await client.RequestAirdropAsync(address, 50000000);
+        var airdropResult = await client.RequestAirdropAsync(address, MintingCost);
         if (!airdropResult.WasSuccessful)
         {
             return Result.Failure("Failed to request airdrop: " + airdropResult.Reason);

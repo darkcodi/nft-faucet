@@ -27,7 +27,7 @@ public partial class NetworksPage : BasicComponent
             Properties = new[]
             {
                 model.ChainId != null ? new CardListItemProperty { Name = "ChainID", Value = model.ChainId?.ToString() } : null,
-                !string.IsNullOrEmpty(model.Currency) ? new CardListItemProperty { Name = "Currency", Value = model.Currency } : null,
+                !string.IsNullOrEmpty(model.MainCurrency) ? new CardListItemProperty { Name = "Currency", Value = model.MainCurrency } : null,
             }.Where(x => x != null).ToArray(),
             Badges = new[]
             {

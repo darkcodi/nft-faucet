@@ -10,7 +10,8 @@ public sealed class KilnNetwork : Network
     public override string ShortName { get; } = "Kiln";
     public override ulong? ChainId { get; } = 1337802;
     public override int? Order { get; } = 6;
-    public override string Currency { get; } = "ETH";
+    public override string MainCurrency { get; } = "ETH";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "ethereum-gray.svg";
     public override bool IsSupported { get; } = false;
     public override bool IsDeprecated { get; } = true;

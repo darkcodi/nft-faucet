@@ -9,7 +9,8 @@ public sealed class SolanaMainnetNetwork : Network
     public override string Name { get; } = "Solana Mainnet";
     public override string ShortName { get; } = "Solana";
     public override int? Order { get; } = 1;
-    public override string Currency { get; } = "SOL";
+    public override string MainCurrency { get; } = "SOL";
+    public override string SmallestCurrency { get; } = "lamport";
     public override string ImageName { get; } = "solana.svg";
     public override bool IsSupported { get; } = false;
     public override bool IsTestnet { get; } = false;

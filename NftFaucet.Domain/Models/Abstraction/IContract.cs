@@ -12,4 +12,5 @@ public interface IContract
     public string DeploymentTxHash { get; }
     public DateTime? DeployedAt { get; }
     public bool IsVerified { get; }
+    public ulong MinBalanceRequired { get; }
 }

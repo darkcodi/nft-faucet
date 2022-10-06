@@ -13,7 +13,8 @@ public sealed class BscTestnetNetwork : Network
     public override string ShortName { get; } = "BSC test";
     public override ulong? ChainId { get; } = 97;
     public override int? Order { get; } = 2;
-    public override string Currency { get; } = "tBNB";
+    public override string MainCurrency { get; } = "tBNB";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "bnb-black.svg";
     public override NetworkType Type { get; } = NetworkType.Ethereum;
     public override NetworkSubtype SubType { get; } = NetworkSubtype.Bsc;
@@ -32,6 +33,7 @@ public sealed class BscTestnetNetwork : Network
             DeploymentTxHash = "0x9c5bc988b48cac17c0215914ffd9e6c703b45b76073d495b9fb5dca7923566b4",
             DeployedAt = DateTime.Parse("Jul-21-2022 11:08:17 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -43,6 +45,7 @@ public sealed class BscTestnetNetwork : Network
             DeploymentTxHash = "0x1517f670d35159800c28c802ef62cb4d099e6e321737f130907fffc32f9c14cc",
             DeployedAt = DateTime.Parse("Jul-21-2022 11:25:14 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }

@@ -13,7 +13,8 @@ public sealed class PolygonMumbaiNetwork : Network
     public override string ShortName { get; } = "Mumbai";
     public override ulong? ChainId { get; } = 80001;
     public override int? Order { get; } = 2;
-    public override string Currency { get; } = "MATIC";
+    public override string MainCurrency { get; } = "MATIC";
+    public override string SmallestCurrency { get; } = "wei";
     public override string ImageName { get; } = "polygon-black.svg";
     public override NetworkType Type { get; } = NetworkType.Ethereum;
     public override NetworkSubtype SubType { get; } = NetworkSubtype.Polygon;
@@ -32,6 +33,7 @@ public sealed class PolygonMumbaiNetwork : Network
             DeploymentTxHash = "0xd12be7bb46208c61fc71774f2d1934abea7c4f159196ddbcb6ceb26b703a614f",
             DeployedAt = DateTime.Parse("Apr-16-2022 06:14:40 PM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
         new Contract
         {
@@ -43,6 +45,7 @@ public sealed class PolygonMumbaiNetwork : Network
             DeploymentTxHash = "0x996728d89d222c3af346d0e48c68d4ec9e5d73fa10c98f28ddfcd09b1a28ea59",
             DeployedAt = DateTime.Parse("Apr-17-2022 09:29:16 AM", CultureInfo.InvariantCulture),
             IsVerified = true,
+            MinBalanceRequired = 50000000000000,
         },
     };
 }
