@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
 using NftFaucet.Plugins.Models.Abstraction;
@@ -14,4 +15,6 @@ public abstract class Network : DefaultEntity, INetwork
     public abstract Uri PublicRpcUrl { get; }
     public abstract Uri ExplorerUrl { get; }
     public virtual IReadOnlyCollection<IContract> DeployedContracts { get; } = new List<IContract>();
+    public virtual bool SupportsAirdrop { get; } = false;
+    public virtual Task<Result> Airdrop(string address) => Task.FromResult(Result.Failure("Airdrop is not supported in this network"));
 }

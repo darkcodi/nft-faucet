@@ -60,7 +60,11 @@ else if (State == MintingState.CheckingNetwork)
             </text>
         </p>
         <div style="display: flex; justify-content: end;">
-            <RadzenButton Click="@(async (args) => await CheckNetwork())" Text="Try again" Disabled="@(!string.IsNullOrEmpty(ProgressBarText))" />
+            @if (AppState.SelectedNetwork.SupportsAirdrop)
+            {
+                <RadzenButton Click="@(async (args) => await RequestAirdrop())" Text="Request airdrop" Disabled="@(!string.IsNullOrEmpty(ProgressBarText))" Style="margin-right: 1rem;" />
+            }
+            <RadzenButton Click="@(async (args) => await CheckNetwork())" Text="Try again" Disabled="@(!string.IsNullOrEmpty(ProgressBarText))"/>
         </div>
     </RadzenContent>
 } else if (State == MintingState.SendingTransaction)

@@ -4,6 +4,7 @@ using NftFaucet.Domain.Models;
 using NftFaucet.Domain.Utils;
 using NftFaucet.Plugins.Models;
 using NftFaucet.Plugins.Models.Abstraction;
+using Radzen;
 
 #pragma warning disable CS4014
 
@@ -159,7 +160,29 @@ public partial class MintDialog : BasicComponent
         CheckingNetwork,
         CheckingAddress,
         CheckingBalance,
+        RequestingAirdrop,
         SendingTransaction,
         Done,
+    }
+
+    private async Task RequestAirdrop()
+    {
+        State = MintingState.RequestingAirdrop;
+        ProgressBarText = "Requesting airdrop...";
+        RefreshMediator.NotifyStateHasChangedSafe();
+
+        var result = await AppState.SelectedNetwork.Airdrop(AppState.UserStorage.DestinationAddress);
+        if (result.IsSuccess)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Airdrop succeeded");
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Airdrop failed", result.Error);
+        }
+
+        ProgressBarText = null;
+        RefreshMediator.NotifyStateHasChangedSafe();
+        CheckNetwork();
     }
 }

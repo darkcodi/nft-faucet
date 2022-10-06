@@ -1,20 +1,16 @@
 using NftFaucet.Domain.Models;
 using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
-using NftFaucet.Plugins.Models;
 
 namespace NftFaucet.NetworkPlugins.Solana.Networks;
 
-public sealed class SolanaDevnetNetwork : Network
+public sealed class SolanaDevnetNetwork : SolanaNetwork
 {
     public override Guid Id { get; } = Guid.Parse("da9f269a-b53e-492a-be07-b4aadc2aae83");
     public override string Name { get; } = "Solana Devnet";
     public override string ShortName { get; } = "SolDevnet";
     public override int? Order { get; } = 2;
-    public override string Currency { get; } = "SOL";
     public override string ImageName { get; } = "solana-black.svg";
-    public override NetworkType Type { get; } = NetworkType.Solana;
-    public override NetworkSubtype SubType { get; } = NetworkSubtype.Solana;
     public override Uri PublicRpcUrl { get; } = new Uri("https://api.devnet.solana.com");
     public override Uri ExplorerUrl { get; } = new Uri("https://explorer.solana.com/?cluster=devnet");
 

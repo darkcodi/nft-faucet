@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using NftFaucet.Domain.Models.Abstraction;
 using NftFaucet.Domain.Models.Enums;
 
@@ -13,4 +14,6 @@ public interface INetwork : INamedEntity, IEntityWithOrder
     public Uri PublicRpcUrl { get; }
     public Uri ExplorerUrl { get; }
     public IReadOnlyCollection<IContract> DeployedContracts { get; }
+    public bool SupportsAirdrop { get; }
+    public Task<Result> Airdrop(string address);
 }
