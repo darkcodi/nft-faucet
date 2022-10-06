@@ -120,6 +120,7 @@ public class SolanaKeygenWallet : Wallet
     {
         var client = ClientFactory.GetClient(mintRequest.Network.PublicRpcUrl.OriginalString);
         var rentExemption = await client.GetMinimumBalanceForRentExemptionAsync(TokenProgram.MintAccountDataSize);
+        var tokenAmount = Math.Max(1, (ulong) mintRequest.TokensAmount);
 
         var wallet = new Solnet.Wallet.Wallet(Key.MnemonicPhrase);
         var walletAddress = wallet.Account.PublicKey;
@@ -135,29 +136,18 @@ public class SolanaKeygenWallet : Wallet
             symbol = "SNFT",
             uri = mintRequest.UploadLocation.Location,
             creators = new List<Creator> { new Creator(wallet.Account.PublicKey, 100, true) },
-            sellerFeeBasisPoints = 924,
+            sellerFeeBasisPoints = 982,
         };
 
         var destinationPublicKey = new PublicKey(mintRequest.DestinationAddress);
+        var tokenBalanceAddress = AssociatedTokenAccountProgram.DeriveAssociatedTokenAccount(destinationPublicKey, mint);
 
         var instructions = new List<TransactionInstruction>();
 
         instructions.Add(SystemProgram.CreateAccount(walletAddress, mint, rentExemption.Result, TokenProgram.MintAccountDataSize, TokenProgram.ProgramIdKey));
         instructions.Add(TokenProgram.InitializeMint(mint, 0, walletAddress, walletAddress));
-        var tokenBalanceAddress = AssociatedTokenAccountProgram.DeriveAssociatedTokenAccount(destinationPublicKey, mint);
-        var tokenBalanceAddressInfo = await client.GetAccountInfoAsync(tokenBalanceAddress);
-        if (!tokenBalanceAddressInfo.WasSuccessful)
-        {
-            throw new Exception("GetAccountInfo failed: " + (tokenBalanceAddressInfo.Reason ?? "<reason is null>"));
-        }
-
-        var tokenBalanceAddressExists = tokenBalanceAddressInfo.Result.Value != null;
-        if (!tokenBalanceAddressExists)
-        {
-            instructions.Add(AssociatedTokenAccountProgram.CreateAssociatedTokenAccount(walletAddress, destinationPublicKey, mint));
-        }
-        instructions.Add(TokenProgram.MintTo(mint, tokenBalanceAddress, (ulong)mintRequest.TokensAmount, walletAddress));
-
+        instructions.Add(AssociatedTokenAccountProgram.CreateAssociatedTokenAccount(walletAddress, destinationPublicKey, mint));
+        instructions.Add(TokenProgram.MintTo(mint, tokenBalanceAddress, tokenAmount, walletAddress));
         instructions.Add(MetadataProgram.CreateMetadataAccount(
             metadataAddress,
             mint,
